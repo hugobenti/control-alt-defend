@@ -83,6 +83,17 @@ flowchart LR
   Check -->|no| Lose[Game over]
 ```
 
+Between levels, wins pay **keys**, which unlock new towers and new tower versions in the Upgrade lab (section 8):
+
+```mermaid
+flowchart LR
+  Play[Play a level] -->|win| Keys[Earn keys]
+  Keys --> Lab[Upgrade lab:<br/>unlock towers<br/>and versions]
+  Lab --> Next[Next level or replay]
+  Next --> Play
+  Play -->|lose| Next
+```
+
 ## 5. The board
 
 ### Grid and free movement
@@ -144,8 +155,16 @@ Carriers are the most urgent target in the game. They glow, show the file they h
 
 ## 7. Economy
 
-- The currency is **bits**. You start each level with a fixed amount and earn more for every virus destroyed.
-- Bits are spent on building, upgrading and unlocking (ransomware). They do not carry over between levels.
+There are two currencies:
+
+- **Bits** are spent inside a level. You start each level with a fixed amount and earn more for every virus
+  destroyed. Bits buy building, upgrading and unlocking towers locked by Ransomware. They do not carry over between
+  levels.
+- **Keys** (**Call:** name) are kept forever and spent only in the Upgrade lab (section 8). They are earned by winning
+  levels.
+
+Bits rules:
+
 - **Selling** a tower refunds part of everything spent on it (**Call:** 70%). Selling during a wave is allowed.
 - **Call:** calling the next wave early grants a small bonus of bits, scaled by how much build time was skipped.
 - No interest, no passive income. Apart from the early-wave bonus, kills are the only income during a level.
@@ -164,7 +183,10 @@ Carriers are the most urgent target in the game. They glow, show the file they h
   every enemy inside the area, hidden or not.
 - **Versions:** towers that can be upgraded go v1.0 → v2.0 → v3.0. Each version raises the tower's numbers; v3.0
   also adds the extra listed in the table. The version is drawn on the tower.
+- In a level you can only build towers you have unlocked in the Upgrade lab, and only upgrade a tower up to the
+  highest version you have unlocked for it there. Upgrading in a level still costs bits.
 - A tower can be sold or upgraded from its info panel, which also shows its stats and what the next version adds.
+  When the next version is still locked in the lab, the panel says so instead of offering the upgrade.
 
 ### Tower list
 
@@ -186,6 +208,25 @@ Design intent for the set:
 - **Debugger** rewards long, winding paths where one target stays in its beam.
 - **Honeypot** is a maze tool too: it buys time without changing the walls.
 
+### Upgrade lab
+
+**Decided:** an upgrade system outside the levels unlocks new towers and improves them by unlocking new upgrade
+levels.
+
+- The Upgrade lab is a screen reached from level select. Everything in it is bought with keys and kept forever.
+- Each tower has its own track: **unlock the tower**, then **unlock v2.0**, then **unlock v3.0**. Each step needs
+  the one before it. Firewall has only the unlock step.
+- **Call:** Firewall and Antivirus are unlocked at v1.0 from the start; every other tower and every version must be
+  bought.
+- **Call:** costs rise along each track, and stronger towers cost more to unlock (Patch is the most expensive).
+- **Call: earning keys.** Winning a level pays keys based on files kept, plus a bonus the first time you win it.
+  Replaying a won level pays again, so a stuck player can always grow stronger. Losing pays nothing.
+- **Call: free reset.** The lab has a reset button that refunds every key spent, so players can try other builds
+  without risk. Not available during a level.
+- Each item in the lab shows its cost, what it unlocks or changes, and which threat it helps against.
+- **Balance rule:** every level must be winnable by a player who won each earlier level once, without replaying.
+  Replaying makes levels easier; it is never required.
+
 ## 9. Levels and waves
 
 ### What a level is
@@ -201,8 +242,7 @@ A level defines:
 - **Ports:** how many, and where on the border.
 - **Files:** how many the Core holds at the start.
 - **Waves:** how many, and the composition of each (section "Waves" below).
-- **Starting bits** and which tower types are available (**Call:** new tower types unlock as levels introduce the
-  threats they answer).
+- **Starting bits.**
 
 Levels are data: adding a level means adding its definition, with no new game code. **Call:** a level definition is
 checked when the game loads; a map where a port has no route to the Core is rejected with a clear error.
@@ -211,11 +251,11 @@ checked when the game loads; a map where a port has no route to the Core is reje
 
 **Call:** the first campaign has three levels. More can be added later without changing the rules above.
 
-| Level               | Ports | Files | Waves | New threats introduced                     |
-| ------------------- | ----- | ----- | ----- | ------------------------------------------ |
-| 1. Home PC          | 2     | 8     | 20    | Bug, Worm, Spyware, Botnet, first Zero-Day |
-| 2. Company Server   | 3     | 10    | 25    | Trojan, Rootkit                            |
-| 3. Cloud Datacenter | 4     | 12    | 30    | Ransomware                                 |
+| Level               | Ports | Files | Waves | New threats introduced            |
+| ------------------- | ----- | ----- | ----- | --------------------------------- |
+| 1. Home PC          | 2     | 8     | 20    | Bug, Worm, Botnet, first Zero-Day |
+| 2. Company Server   | 3     | 10    | 25    | Spyware, Trojan, Rootkit          |
+| 3. Cloud Datacenter | 4     | 12    | 30    | Ransomware                        |
 
 - **Call:** every value in the table above.
 - Levels unlock in order. Finishing a level unlocks the next one. Any unlocked level can be replayed.
@@ -263,18 +303,20 @@ Notes:
 ### Screens
 
 1. **Title**: play, how to play, settings.
-2. **Level select**: the three levels, locked or unlocked, best star rating each.
-3. **Game**: board plus HUD.
-4. **Pause** overlay: resume, restart level, settings, quit to level select.
-5. **Result**: won or lost, files kept, stars, next level / retry / level select.
-6. **How to play**: one short screen with the rules from sections 5 to 8. The first level also shows brief
-   in-game hints the first time each new thing appears (first carrier, first Spyware…).
+2. **Level select**: the levels, locked or unlocked, best star rating each, and the way into the Upgrade lab.
+3. **Upgrade lab**: every tower's track with costs and what each step gives, keys available, reset button.
+4. **Game**: board plus HUD.
+5. **Pause** overlay: resume, restart level, settings, quit to level select.
+6. **Result**: won or lost, files kept, stars, keys earned, next level / retry / Upgrade lab / level select.
+7. **How to play**: one short screen with the rules from sections 5 to 8. In-game hints also appear briefly the
+   first time each new thing shows up (first carrier, first Spyware, first locked upgrade…).
 
 ### HUD
 
 - Files left (with leaked ones shown crossed out), bits, current wave / total, next-wave preview and countdown,
   start-wave-now button, speed and pause controls, sound toggle.
-- The build menu lists every tower with its cost; unaffordable towers are visibly disabled with the reason stated.
+- The build menu lists every tower unlocked in the Upgrade lab, with its cost; unaffordable towers are visibly
+  disabled with the reason stated.
 - Selecting a tower opens its info panel: version, stats, upgrade (with cost and what changes), sell (with refund).
 
 ### Mouse
@@ -320,6 +362,7 @@ The whole game can be played with the keyboard alone.
 Saved in the browser, per device:
 
 - Unlocked levels and the best result for each.
+- Keys held, and everything unlocked in the Upgrade lab.
 - Settings: sound on/off, default speed.
 
 **Call:** a level in progress is not saved; leaving it means restarting it.
@@ -327,7 +370,7 @@ Saved in the browser, per device:
 ## 14. Left to the builder
 
 - All numbers: grid sizes per level, health, speed, damage, ranges, costs, rewards, timers, wave compositions,
-  starting bits. Section 8 and 10 tables give the relative values to respect.
+  starting bits, key rewards, Upgrade lab costs. Section 8 and 10 tables give the relative values to respect.
 - Rendering approach for the board (for example Canvas 2D, SVG or DOM), as long as the board stays readable,
   meets section 11 and keeps the HUD and menus as accessible HTML.
 - Exact keyboard bindings.
@@ -336,13 +379,14 @@ Saved in the browser, per device:
 
 ## 15. Glossary
 
-| Term      | Meaning                                                            |
-| --------- | ------------------------------------------------------------------ |
-| Data Core | Your base; holds the files                                         |
-| File      | One life; can be stolen, dropped and leaked                        |
-| Carrier   | A virus holding a file                                             |
-| Leaked    | A file carried out through a port; permanently lost for the level  |
-| Port      | Entrance and exit on the board's edge                              |
-| Bits      | Currency                                                           |
-| Version   | Tower upgrade level (v1.0, v2.0, v3.0)                             |
-| Wave      | One authored group of enemies; waves are separated by build breaks |
+| Term      | Meaning                                                             |
+| --------- | ------------------------------------------------------------------- |
+| Data Core | Your base; holds the files                                          |
+| File      | One life; can be stolen, dropped and leaked                         |
+| Carrier   | A virus holding a file                                              |
+| Leaked    | A file carried out through a port; permanently lost for the level   |
+| Port      | Entrance and exit on the board's edge                               |
+| Bits      | Currency spent inside a level; does not carry over                  |
+| Keys      | Currency kept between levels; spent in the Upgrade lab              |
+| Version   | Tower upgrade level (v1.0, v2.0, v3.0); unlocked in the Upgrade lab |
+| Wave      | One authored group of enemies; waves are separated by build breaks  |
