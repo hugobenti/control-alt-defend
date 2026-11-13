@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/**
+ * Design tokens, declared once here. The light scheme is the `@theme static` block: Tailwind generates
+ * the utilities from it (`bg-surface`, `text-muted`, `outline-focus`…). The dark scheme overrides the
+ * same variables under `prefers-color-scheme: dark`, so components never branch on the scheme.
+ * `static` keeps every token on :root even when no utility uses it (server-rendered images read them
+ * through src/features/shared/theme/themeTokens.ts). Tailwind's default palette is removed, so raw
+ * classes such as `bg-zinc-200` generate no CSS. src/app/tokenContrast.test.ts checks WCAG 2.2 AA for
+ * both schemes and requires the dark block to override every color token.
+ */
+@theme static {
+  --color-*: initial;
+
+  /* Surfaces */
+  --color-bg: #f6f6f3;
+  --color-surface: #ffffff;
+  --color-line: #dedcd5;
+
+  /* Text */
+  --color-fg: #1b1b1f;
+  --color-muted: #575760;
+
+  /* Primary action, links and focus */
+  --color-accent: #2443c2;
+  --color-accent-hover: #1b339a;
+  --color-on-accent: #ffffff;
+  --color-focus: #2443c2;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Dark scheme: same token names, every color overridden. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #121214;
+    --color-surface: #1b1b1f;
+    --color-line: #2e2e33;
+    --color-fg: #ededea;
+    --color-muted: #a6a6ad;
+    --color-accent: #8aa2ff;
+    --color-accent-hover: #a9bbff;
+    --color-on-accent: #0d1333;
+    --color-focus: #a9bbff;
+
+    color-scheme: dark;
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

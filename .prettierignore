@@ -1,0 +1,9 @@
+pnpm-lock.yaml
+.next
+.next-*
+playwright-report
+test-results
+.superpowers
+.agents
+.claude
+skills-lock.json
