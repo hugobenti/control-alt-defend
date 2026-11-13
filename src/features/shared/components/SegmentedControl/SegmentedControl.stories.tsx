@@ -1,0 +1,58 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { type ComponentProps, useState } from "react";
+import { expect, fn, userEvent, within } from "storybook/test";
+
+import { SegmentedControl } from "./SegmentedControl";
+
+type TSpeed = "1" | "2" | "3";
+
+const options: { value: TSpeed; text: string }[] = [
+  { value: "1", text: "1x" },
+  { value: "2", text: "2x" },
+  { value: "3", text: "3x" },
+];
+
+const meta = {
+  title: "Components/SegmentedControl",
+  component: SegmentedControl<TSpeed>,
+  args: { label: "Game speed", options, value: "1", onChange: fn() },
+} satisfies Meta<typeof SegmentedControl<TSpeed>>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+function Demo(args: ComponentProps<typeof SegmentedControl<TSpeed>>) {
+  const [value, setValue] = useState<TSpeed>(args.value);
+  return (
+    <SegmentedControl
+      {...args}
+      value={value}
+      onChange={(next) => {
+        setValue(next);
+        args.onChange(next);
+      }}
+    />
+  );
+}
+
+export const Default: Story = {
+  render: (args) => <Demo {...args} />,
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole("group", { name: "Game speed" })).toBeInTheDocument();
+    await expect(canvas.getByRole("button", { name: "1x" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await userEvent.click(canvas.getByRole("button", { name: "2x" }));
+    await expect(args.onChange).toHaveBeenCalledWith("2");
+    await expect(canvas.getByRole("button", { name: "2x" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await expect(canvas.getByRole("button", { name: "1x" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+  },
+};
