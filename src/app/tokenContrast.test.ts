@@ -75,3 +75,8 @@ test.each(graphicPairs)("graphic %s on %s ≥ 3:1", (foreground, background) => 
 test("has no dark-scheme override block", () => {
   expect(css).not.toMatch(/prefers-color-scheme/);
 });
+
+test("sets color-scheme: dark and never light", () => {
+  expect(css).toMatch(/color-scheme:\s*dark/);
+  expect(css).not.toMatch(/color-scheme:\s*light/);
+});
