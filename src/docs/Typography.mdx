@@ -1,0 +1,42 @@
+import { Meta, Typeset } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+Chakra Petch names the board and actions; B612 keeps interface copy legible; B612 Mono gives figures and silkscreen labels a stable rhythm.
+
+## Display — Chakra Petch
+
+<Typeset
+  fontFamily="var(--font-display)"
+  fontSizes={[40, 18]}
+  fontWeight={600}
+  sampleText="Ctrl+Alt+Defend"
+/>
+
+## Body — B612
+
+<Typeset
+  fontFamily="var(--font-ui)"
+  fontSizes={[15]}
+  fontWeight={400}
+  sampleText="Build security programs into a maze and stop viruses from stealing your data."
+/>
+
+## Label — B612
+
+<Typeset fontFamily="var(--font-ui)" fontSizes={[11]} fontWeight={700} sampleText="WAVE STATUS" />
+
+## Numbers — B612 Mono
+
+<Typeset fontFamily="var(--font-num)" fontSizes={[18]} fontWeight={700} sampleText="99999 / 30" />
+
+## Silkscreen — B612 Mono
+
+<Typeset
+  fontFamily="var(--font-num)"
+  fontSizes={[10]}
+  fontWeight={400}
+  sampleText="KEEP OUT · REV 01"
+/>

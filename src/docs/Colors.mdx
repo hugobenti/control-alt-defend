@@ -1,0 +1,102 @@
+import { Meta, ColorPalette, ColorItem } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Colors" />
+
+# Colors
+
+Dark only. Board and interface colors set the terrain and reading hierarchy; game roles distinguish programs, threats, resources, and alerts.
+
+## Board and interface
+
+<ColorPalette>
+  <ColorItem title="bg" subtitle="page ground" colors={{ bg: "var(--color-bg)" }} />
+  <ColorItem
+    title="frame"
+    subtitle="board frame, tower pads"
+    colors={{ frame: "var(--color-frame)" }}
+  />
+  <ColorItem
+    title="board"
+    subtitle="play surface (solder mask)"
+    colors={{ board: "var(--color-board)" }}
+  />
+  <ColorItem
+    title="surface"
+    subtitle="header, side panel"
+    colors={{ surface: "var(--color-surface)" }}
+  />
+  <ColorItem
+    title="raised"
+    subtitle="cards, popovers, hover"
+    colors={{ raised: "var(--color-raised)" }}
+  />
+  <ColorItem
+    title="line"
+    subtitle="borders, grid dots, empty bars and pips"
+    colors={{ line: "var(--color-line)" }}
+  />
+  <ColorItem
+    title="fg"
+    subtitle="text, silkscreen labels, health fill"
+    colors={{ fg: "var(--color-fg)" }}
+  />
+  <ColorItem title="muted" subtitle="secondary text" colors={{ muted: "var(--color-muted)" }} />
+  <ColorItem
+    title="accent"
+    subtitle="primary button, focus ring"
+    colors={{ accent: "var(--color-accent)" }}
+  />
+  <ColorItem
+    title="accent-hover"
+    subtitle="primary button hover"
+    colors={{ "accent-hover": "var(--color-accent-hover)" }}
+  />
+  <ColorItem
+    title="on-accent"
+    subtitle="text on accent"
+    colors={{ "on-accent": "var(--color-on-accent)" }}
+  />
+  <ColorItem title="focus" subtitle="focus outline" colors={{ focus: "var(--color-focus)" }} />
+  <ColorItem
+    title="copper"
+    subtitle="pins, connectors"
+    colors={{ copper: "var(--color-copper)" }}
+  />
+  <ColorItem
+    title="copper-dim"
+    subtitle="traces, vias, keep-out hatch"
+    colors={{ "copper-dim": "var(--color-copper-dim)" }}
+  />
+</ColorPalette>
+
+## Game roles
+
+<ColorPalette>
+  <ColorItem
+    title="firewall"
+    subtitle="Firewall tower, boost marker and edge"
+    colors={{ firewall: "var(--color-firewall)" }}
+  />
+  <ColorItem
+    title="antivirus"
+    subtitle="Antivirus tower, shots"
+    colors={{ antivirus: "var(--color-antivirus)" }}
+  />
+  <ColorItem
+    title="debugger"
+    subtitle="Debugger tower, beams, upgrade gains"
+    colors={{ debugger: "var(--color-debugger)" }}
+  />
+  <ColorItem title="worm" subtitle="Worm" colors={{ worm: "var(--color-worm)" }} />
+  <ColorItem
+    title="rootkit"
+    subtitle="Rootkit, armor marker"
+    colors={{ rootkit: "var(--color-rootkit)" }}
+  />
+  <ColorItem title="data" subtitle="files, bits, costs" colors={{ data: "var(--color-data)" }} />
+  <ColorItem
+    title="danger"
+    subtitle="leaked files, refused placement, destructive text"
+    colors={{ danger: "var(--color-danger)" }}
+  />
+</ColorPalette>

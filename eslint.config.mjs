@@ -283,7 +283,17 @@ export default defineConfig([
     plugins: { presentation: presentationPlugin },
     rules: { "presentation/no-restricted-syntax": ["error", ...styleComposeRules] },
   },
+  // Stories and Storybook configuration are documentation and test harness, not production components.
+  {
+    files: ["**/*.stories.tsx", ".storybook/**"],
+    rules: {
+      "presentation/no-restricted-syntax": "off",
+      "no-restricted-syntax": "off",
+      "@typescript-eslint/naming-convention": "off",
+    },
+  },
   globalIgnores([
+    "storybook-static/**",
     ".next/**",
     ".next-*/**",
     "out/**",
