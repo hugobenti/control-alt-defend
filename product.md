@@ -219,8 +219,9 @@ levels.
 - **Call:** Firewall and Antivirus are unlocked at v1.0 from the start; every other tower and every version must be
   bought.
 - **Call:** costs rise along each track, and stronger towers cost more to unlock (Patch is the most expensive).
+- **Decided:** replaying a won level pays keys again, so a stuck player can always grow stronger.
 - **Call: earning keys.** Winning a level pays keys based on files kept, plus a bonus the first time you win it.
-  Replaying a won level pays again, so a stuck player can always grow stronger. Losing pays nothing.
+  Losing pays nothing.
 - **Call: free reset.** The lab has a reset button that refunds every key spent, so players can try other builds
   without risk. Not available during a level.
 - Each item in the lab shows its cost, what it unlocks or changes, and which threat it helps against.
