@@ -11,8 +11,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: site.description,
     start_url: "/",
     display: "standalone",
-    background_color: themeColor("light", "bg"),
-    theme_color: themeColor("light", "bg"),
+    background_color: themeColor("bg"),
+    theme_color: themeColor("bg"),
     icons: ICON_SIZES.map((size) => ({
       src: `/icon/${size}`,
       sizes: `${size}x${size}`,

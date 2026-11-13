@@ -8,6 +8,8 @@ Ctrl+Alt+Defend: tower defense game in the browser. Build security programs into
 
 The product spec is [`product.md`](./product.md): read it before building or changing any game behavior. When a change alters what the game does, update `product.md` in the same PR.
 
+Dark only, one palette; see product.md section 12. There is no light scheme and no `prefers-color-scheme` branch.
+
 <!-- BEGIN:hugo-rules -->
 <!-- House rules shared by every project from the setup-fe-project template. Project-specific rules go outside this block. -->
 

@@ -1,31 +1,50 @@
 @import "tailwindcss";
 
 /**
- * Design tokens, declared once here. The light scheme is the `@theme static` block: Tailwind generates
- * the utilities from it (`bg-surface`, `text-muted`, `outline-focus`…). The dark scheme overrides the
- * same variables under `prefers-color-scheme: dark`, so components never branch on the scheme.
+ * Design tokens, declared once here. Dark only, one palette (product.md section 12): Tailwind generates
+ * the utilities from the `@theme static` block (`bg-surface`, `text-muted`, `fill-copper`…).
  * `static` keeps every token on :root even when no utility uses it (server-rendered images read them
  * through src/features/shared/theme/themeTokens.ts). Tailwind's default palette is removed, so raw
- * classes such as `bg-zinc-200` generate no CSS. src/app/tokenContrast.test.ts checks WCAG 2.2 AA for
- * both schemes and requires the dark block to override every color token.
+ * classes such as `bg-zinc-200` generate no CSS. src/app/tokenContrast.test.ts pins the exact token list
+ * and checks WCAG 2.2 AA for every pair that carries text or graphics.
  */
 @theme static {
   --color-*: initial;
 
   /* Surfaces */
-  --color-bg: #f6f6f3;
-  --color-surface: #ffffff;
-  --color-line: #dedcd5;
+  --color-bg: #08130f;
+  --color-frame: #0b1a15;
+  --color-board: #0d1f19;
+  --color-surface: #11241e;
+  --color-raised: #173029;
+  --color-line: #24443a;
 
   /* Text */
-  --color-fg: #1b1b1f;
-  --color-muted: #575760;
+  --color-fg: #e7ede6;
+  --color-muted: #9db2a6;
 
-  /* Primary action, links and focus */
-  --color-accent: #2443c2;
-  --color-accent-hover: #1b339a;
-  --color-on-accent: #ffffff;
-  --color-focus: #2443c2;
+  /* Primary action and focus */
+  --color-accent: #45e3f2;
+  --color-accent-hover: #7deef8;
+  --color-on-accent: #08130f;
+  --color-focus: #45e3f2;
+
+  /* Board */
+  --color-copper: #c38a55;
+  --color-copper-dim: #5e4329;
+
+  /* Towers */
+  --color-firewall: #a9c4dc;
+  --color-antivirus: #45e3f2;
+  --color-debugger: #86f59e;
+
+  /* Viruses */
+  --color-worm: #ff5aa8;
+  --color-rootkit: #b58eff;
+
+  /* Resources and alerts */
+  --color-data: #ffd54a;
+  --color-danger: #ff6b6b;
 
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -33,24 +52,39 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-num);
 }
 
-/* Dark scheme: same token names, every color overridden. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #121214;
-    --color-surface: #1b1b1f;
-    --color-line: #2e2e33;
-    --color-fg: #ededea;
-    --color-muted: #a6a6ad;
-    --color-accent: #8aa2ff;
-    --color-accent-hover: #a9bbff;
-    --color-on-accent: #0d1333;
-    --color-focus: #a9bbff;
-
+@layer base {
+  html {
     color-scheme: dark;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 

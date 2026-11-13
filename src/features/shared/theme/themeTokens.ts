@@ -5,15 +5,14 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { readDarkColors, readThemeColors } from "@/features/shared/utils/colorContrast";
+import { readThemeColors } from "@/features/shared/utils/colorContrast";
 
 const css = readFileSync(join(process.cwd(), "src/app/globals.css"), "utf8");
-const light = readThemeColors(css);
-const schemes = { light, dark: { ...light, ...readDarkColors(css) } };
+const colors = readThemeColors(css);
 
-/** The value of `--color-<name>` in the given scheme. */
-export function themeColor(scheme: keyof typeof schemes, name: string): string {
-  const value = schemes[scheme][name];
+/** The value of `--color-<name>`. */
+export function themeColor(name: string): string {
+  const value = colors[name];
   if (!value) {
     // eslint-disable-next-line no-restricted-syntax -- developer error at build time, never shown to users
     throw new Error(`Missing color token --color-${name} in src/app/globals.css`);
