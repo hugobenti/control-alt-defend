@@ -85,11 +85,14 @@ flowchart LR
 
 ## 5. The board
 
-### Grid
+### Grid and free movement
 
+- **Decided:** towers sit on a grid; enemies do not. The grid exists only for building.
 - The board is a grid of square cells drawn as a dark circuit board with glowing traces.
 - **Call:** around 24 × 16 cells on the first level; exact sizes are set per level (section 9).
 - Every tower occupies exactly one cell (**Call**: keeps maze building simple and precise).
+- Distances in this document ("within 3 cells") are measured in cell widths, straight line, from the center of the
+  enemy or tower.
 
 ### Data Core
 
@@ -105,22 +108,27 @@ flowchart LR
 
 ### Pathing rules
 
-- Enemies move between cells in 8 directions and never cut a corner past a blocked cell (they can't squeeze
-  diagonally between two towers that touch at a corner).
+- **Decided:** enemies walk freely, not cell to cell. They move in any direction, take the direct line across open
+  space, and curve smoothly around towers instead of turning in right angles or 45° steps.
+- **Call:** enemies are smaller than a cell, so a one-cell gap between towers is always passable. Two towers that
+  touch at a corner form a closed wall; enemies can't slip between them.
+- **Call:** each enemy keeps a small personal offset from the ideal route, so a group spreads across the open
+  space instead of marching in single file. Enemies may overlap each other; they never push one another.
+- Enemies never pass through towers, the board border or the Core.
 - Viruses without a file walk the shortest open route from where they are to the Core.
 - A carrier walks the shortest open route to the nearest exit port (nearest by path length, not straight-line
   distance).
 - When the maze changes, every enemy on the board recalculates its route from its current position.
 - **Placement is refused** when the new tower would:
   - leave any port with no route to the Core, or
-  - sit on a cell an enemy or a dropped file currently occupies.
+  - overlap an enemy or a dropped file currently on the board.
 - While placing, the game shows the route viruses would take if the tower were built there, so you see the maze
   change before you commit.
 
 ## 6. Files: stealing, dropping, leaking
 
 - A virus that reaches the Core takes **one** file and becomes a **carrier**. A carrier never takes a second file.
-- When a carrier dies, its file **drops** on the cell where it died. A dropped file drifts slowly back to the Core
+- When a carrier dies, its file **drops** at the spot where it died. A dropped file drifts slowly back to the Core
   along the open route and rejoins the Core when it arrives.
 - Any virus without a file that touches a dropped file picks it up and becomes a carrier on the spot.
 - While the Core holds no files, viruses without a file walk toward the nearest dropped file. If no file is dropped
