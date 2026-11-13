@@ -1,10 +1,14 @@
 import { fileURLToPath } from "node:url";
 
-import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import react from "@vitejs/plugin-react";
 import { loadEnv } from "vite";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
+
+// Storybook imports next.config.ts during project setup, before per-project env reaches workers.
+// Next skips .env.local in test mode; Vite's test loader includes it.
+Object.assign(process.env, loadEnv("test", process.cwd(), ""));
+const { storybookTest } = await import("@storybook/addon-vitest/vitest-plugin");
 
 export default defineConfig({
   plugins: [react()],
@@ -19,8 +23,6 @@ export default defineConfig({
           environment: "jsdom",
           setupFiles: ["./vitest.setup.ts"],
           include: ["src/**/*.test.{ts,tsx}"],
-          // .env / .env.local, so modules that import src/env.ts validate like they do in Next.
-          env: loadEnv("test", process.cwd(), ""),
         },
       },
       {
@@ -30,7 +32,6 @@ export default defineConfig({
         test: {
           name: "storybook",
           setupFiles: ["./.storybook/vitest.setup.ts"],
-          env: loadEnv("test", process.cwd(), ""),
           browser: {
             enabled: true,
             headless: true,
