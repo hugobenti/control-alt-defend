@@ -38,6 +38,18 @@ What the tech theme adds:
 - A new player understands the rules within the first wave, without reading a manual.
 - Each enemy type forces a different answer, so the best build changes from level to level.
 
+### First release
+
+**Decided:** a small first version with three towers and two enemies. Everything else in this document stays the
+plan for later releases.
+
+- **Towers:** Firewall, Antivirus, Debugger.
+- **Enemies:** Worm, Rootkit.
+- **Call:** the three campaign levels keep their maps, ports and file counts; level 1 sends only Worms, level 2
+  introduces Rootkits, level 3 mixes both. Zero-Day and the other threats come in later releases.
+- Antivirus answers Worms (fast, many), Debugger answers Rootkits (armored), Firewall shapes the maze and makes both
+  stronger. Even the small version asks the player to choose what to build where.
+
 ### Non-goals (Call)
 
 - Multiplayer, accounts, online leaderboards, a backend of any kind.
@@ -192,7 +204,7 @@ Bits rules:
 
 | Tower      | Role                          | What it does (v1.0)                                                                                                                                                                                               | v3.0 extra (Call)                                             | Cost tier |
 | ---------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | --------- |
-| Firewall   | Maze wall                     | Blocks a cell. Does not attack. Cannot be upgraded.                                                                                                                                                               | none                                                          | Very low  |
+| Firewall   | Maze wall and booster         | Blocks a cell. Does not attack. **Decided:** from v2.0 it boosts the towers next to it; v3.0 boosts more (section "Firewall boost" below).                                                                        | Boost also adds range                                         | Very low  |
 | Antivirus  | Basic damage                  | Fires single projectiles at a steady rate. Medium range.                                                                                                                                                          | Projectiles pierce through to a second enemy behind the first | Low       |
 | Scanner    | Detection                     | Deals no damage. Makes Spyware in its range visible to every tower and exposes Trojans in its range early (section 10).                                                                                           | Enemies in its range take extra damage from all sources       | Medium    |
 | Quarantine | Crowd control and area damage | Slows every enemy in its range. From v2.0 (Call) it also deals light damage over time to every enemy in its range: the main answer to swarms.                                                                     | Enemies that enter its range are briefly frozen in place once | Medium    |
@@ -202,11 +214,22 @@ Bits rules:
 
 Design intent for the set:
 
-- **Firewall** exists so maze building is cheap; damage towers should not be the only walls.
+- **Firewall** exists so maze building is cheap; damage towers should not be the only walls. Its boost rewards
+  building tight clusters, which competes with spreading towers out for coverage.
 - **Scanner** is the hard counter to Spyware and the soft counter to Trojans. A board with no Scanner must be
   survivable but painful on levels where they appear.
 - **Debugger** rewards long, winding paths where one target stays in its beam.
 - **Honeypot** is a maze tool too: it buys time without changing the walls.
+
+### Firewall boost
+
+- **Decided:** a Firewall at v2.0 or v3.0 boosts the towers next to it.
+- **Call:** "next to" means the four cells sharing a side with the Firewall, not diagonals.
+- **Call:** v2.0 raises those towers' damage; v3.0 raises it more and also extends their range. Exact values are
+  the builder's.
+- **Call:** boosts don't stack. A tower next to several Firewalls takes only the strongest boost.
+- Firewalls never boost other Firewalls (they don't attack).
+- A boosted tower shows a small Firewall-colored marker, and its info card lists the boost and where it comes from.
 
 ### Upgrade lab
 
@@ -215,7 +238,7 @@ levels.
 
 - The Upgrade lab is a screen reached from level select. Everything in it is bought with keys and kept forever.
 - Each tower has its own track: **unlock the tower**, then **unlock v2.0**, then **unlock v3.0**. Each step needs
-  the one before it. Firewall has only the unlock step.
+  the one before it.
 - **Call:** Firewall and Antivirus are unlocked at v1.0 from the start; every other tower and every version must be
   bought.
 - **Call:** costs rise along each track, and stronger towers cost more to unlock (Patch is the most expensive).
@@ -350,10 +373,16 @@ The whole game can be played with the keyboard alone.
 ## 12. Look and sound
 
 - **Decided:** neon on a dark background, circuit-board grid, enemies that glitch when hit, terminal-style menus.
-- **Call:** monospace type for HUD numbers and menus; towers and enemies drawn as simple, bold geometric icons
-  that stay recognizable at small sizes.
-- **Call:** the game is designed for a dark look only. How the template's light and dark token schemes map to that
-  is left to the builder, as long as the contrast tests stay green.
+- **Decided (approved mockup):** the board is a circuit board seen from above: dark solder-mask green, copper traces
+  and pins, white silkscreen labels, real board parts (chips, capacitors, resistors, crystals) as obstacles, ports
+  drawn as edge connectors. Every color has one job: cyan, green and steel are the player's towers (Antivirus,
+  Debugger, Firewall), pink and violet are threats (Worm, Rootkit), yellow is data (files, bits, costs), red only
+  means loss or a refused action.
+- **Decided (approved mockup):** Chakra Petch for display and names, B612 for interface text, B612 Mono for numbers
+  and board labels.
+- Towers and enemies are simple, bold geometric icons that stay recognizable at small sizes.
+- **Call:** the game uses one dark palette; both of the template's color schemes resolve to it, so the contrast
+  tests keep checking it.
 - Each virus type has its own color and silhouette. Each tower's range circle uses its tower's color.
 - **Sound effects (Call):** short synth blips for firing, hits, deaths, file stolen, file leaked, wave start, level
   won and lost. Mutable, with the setting saved. No music.
