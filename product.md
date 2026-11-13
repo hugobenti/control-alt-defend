@@ -89,22 +89,23 @@ flowchart LR
 
 - **Decided:** towers sit on a grid; enemies do not. The grid exists only for building.
 - The board is a grid of square cells drawn as a dark circuit board with glowing traces.
-- **Call:** around 24 × 16 cells on the first level; exact sizes are set per level (section 9).
+- Board size is set per level (section 9). **Call:** around 24 × 16 cells on the first level.
 - Every tower occupies exactly one cell (**Call**: keeps maze building simple and precise).
 - Distances in this document ("within 3 cells") are measured in cell widths, straight line, from the center of the
   enemy or tower.
 
 ### Data Core
 
-- The base you defend, placed near the middle of the board, occupying a 2 × 2 block of cells.
-- It holds the level's **data files** (8 on the first level). Files are your lives. The Core shows how many files it
-  still holds, and each file is visible as a small icon on or around it.
+- The base you defend, occupying a 2 × 2 block of cells. Its position is set per level.
+- It holds the level's **data files**; how many depends on the level. Files are your lives. The Core shows how many
+  files it still holds, and each file is visible as a small icon on or around it.
 
 ### Ports
 
-- Viruses enter through **ports** on the edges of the board. Each port is a gap in the board's border.
+- Viruses enter through **ports** on the edges of the board. Each port is a gap in the board's border. How many
+  ports a level has, and where they are, is set per level.
 - Every port is both an entrance and an exit.
-- The Core cells, port cells and the cell directly inside each port can never be built on.
+- The Core cells, port cells, the cell directly inside each port and the level's obstacles can never be built on.
 
 ### Pathing rules
 
@@ -114,7 +115,7 @@ flowchart LR
   touch at a corner form a closed wall; enemies can't slip between them.
 - **Call:** each enemy keeps a small personal offset from the ideal route, so a group spreads across the open
   space instead of marching in single file. Enemies may overlap each other; they never push one another.
-- Enemies never pass through towers, the board border or the Core.
+- Enemies never pass through towers, obstacles, the board border or the Core.
 - Viruses without a file walk the shortest open route from where they are to the Core.
 - A carrier walks the shortest open route to the nearest exit port (nearest by path length, not straight-line
   distance).
@@ -187,7 +188,28 @@ Design intent for the set:
 
 ## 9. Levels and waves
 
+### What a level is
+
+**Decided:** the game is level based. Each level is its own map, with its own number of ports (entries) and its own
+number of data files to protect.
+
+A level defines:
+
+- **Map:** board size and shape, where the Core sits, and **Call:** fixed obstacles (circuit-board hardware such as
+  chips and capacitors) that block both building and walking. Obstacles make every map play differently before the
+  first tower is placed.
+- **Ports:** how many, and where on the border.
+- **Files:** how many the Core holds at the start.
+- **Waves:** how many, and the composition of each (section "Waves" below).
+- **Starting bits** and which tower types are available (**Call:** new tower types unlock as levels introduce the
+  threats they answer).
+
+Levels are data: adding a level means adding its definition, with no new game code. **Call:** a level definition is
+checked when the game loads; a map where a port has no route to the Core is rejected with a clear error.
+
 ### Campaign
+
+**Call:** the first campaign has three levels. More can be added later without changing the rules above.
 
 | Level               | Ports | Files | Waves | New threats introduced                     |
 | ------------------- | ----- | ----- | ----- | ------------------------------------------ |
@@ -195,8 +217,7 @@ Design intent for the set:
 | 2. Company Server   | 3     | 10    | 25    | Trojan, Rootkit                            |
 | 3. Cloud Datacenter | 4     | 12    | 30    | Ransomware                                 |
 
-- **Decided:** the three settings and the rule that each later level has more ports and more files.
-- **Call:** the port, file and wave counts above, and which threats each level introduces.
+- **Call:** every value in the table above.
 - Levels unlock in order. Finishing a level unlocks the next one. Any unlocked level can be replayed.
 - **Call:** each level ends with a result screen showing files kept and a 1 to 3 star rating: 3 stars for no files
   leaked, 2 for at least half kept, 1 for winning at all. The best result per level is saved.
