@@ -41,3 +41,39 @@ export const OpensAndClosesWithEscape: Story = {
     await expect(trigger).toHaveFocus();
   },
 };
+
+function RerenderDemo() {
+  const [open, setOpen] = useState(false);
+  const [ticks, setTicks] = useState(0);
+  return (
+    <div className="relative">
+      <button type="button" onClick={() => setOpen(true)}>
+        Open settings
+      </button>
+      <button type="button" onClick={() => setTicks(ticks + 1)}>
+        Tick {ticks}
+      </button>
+      <Popover label="Settings" open={open} onClose={() => setOpen(false)}>
+        <button type="button">First control</button>
+        <button type="button">Second control</button>
+      </Popover>
+    </div>
+  );
+}
+
+export const KeepsFocusAcrossRerenders: Story = {
+  render: () => <RerenderDemo />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Open settings" }));
+    const second = canvas.getByRole("button", { name: "Second control" });
+    second.focus();
+    await expect(second).toHaveFocus();
+    // Re-render the parent (new onClose identity) without moving focus.
+    canvas
+      .getByRole("button", { name: /Tick/ })
+      .dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await waitFor(() => expect(canvas.getByRole("button", { name: "Tick 1" })).toBeInTheDocument());
+    await expect(second).toHaveFocus();
+  },
+};
