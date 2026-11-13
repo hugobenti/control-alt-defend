@@ -4,7 +4,9 @@ Guide for AI coding agents (and humans) working in this repo. Read it before cha
 
 ## What this is
 
-Next.js Template: Next.js starter with strict TypeScript, token-based Tailwind, accessibility and AI agent rules built in
+Ctrl+Alt+Defend: tower defense game in the browser. Build security programs into a maze and stop viruses from stealing your data.
+
+The product spec is [`product.md`](./product.md): read it before building or changing any game behavior. When a change alters what the game does, update `product.md` in the same PR.
 
 <!-- BEGIN:hugo-rules -->
 <!-- House rules shared by every project from the setup-fe-project template. Project-specific rules go outside this block. -->

@@ -1,6 +1,6 @@
 import type { IHomeContent } from "./content.type";
 
 export const home: IHomeContent = {
-  h1: "Next.js Template",
-  lead: "Next.js starter with strict TypeScript, token-based Tailwind, accessibility and AI agent rules built in",
+  h1: "Ctrl+Alt+Defend",
+  lead: "Tower defense game in the browser: build security programs into a maze and stop viruses from stealing your data.",
 };

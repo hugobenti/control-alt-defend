@@ -1,9 +1,10 @@
-# Next.js Template
+# Ctrl+Alt+Defend
 
-Next.js starter with strict TypeScript, token-based Tailwind, accessibility and AI agent rules built in
+Tower defense game in the browser: build security programs into a maze and stop viruses from stealing your data.
 
-Next.js (App Router), React, TypeScript and Tailwind CSS. Rules for contributors and AI agents live in
-[`AGENTS.md`](./AGENTS.md); read it before changing anything.
+What the game is and how it plays: [`product.md`](./product.md). Next.js (App Router), React, TypeScript and
+Tailwind CSS. Rules for contributors and AI agents live in [`AGENTS.md`](./AGENTS.md); read it before changing
+anything.
 
 AI agents must use the skills vendored in `.agents/skills` (see "Required skills" in `AGENTS.md`).
 `next-dev-loop` needs `npm i -g agent-browser@latest`.

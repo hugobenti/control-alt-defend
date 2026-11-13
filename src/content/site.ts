@@ -3,11 +3,11 @@ import { env } from "@/env";
 import type { ISiteContent } from "./content.type";
 
 export const site: ISiteContent = {
-  name: "Next.js Template",
+  name: "Ctrl+Alt+Defend",
   description:
-    "Next.js starter with strict TypeScript, token-based Tailwind, accessibility and AI agent rules built in",
+    "Tower defense game in the browser: build security programs into a maze and stop viruses from stealing your data.",
   url: env.NEXT_PUBLIC_SITE_URL,
   author: "Hugo Bentivegna",
   lang: "en",
-  monogram: "N",
+  monogram: "C",
 };
