@@ -306,12 +306,26 @@
       },
       "body": { "displayName": "B612 interface", "purpose": "Controls, descriptions and stats." },
       "label": { "displayName": "B612 label", "purpose": "Compact uppercase panel headings." },
+      "stat-label": {
+        "displayName": "B612 stat label",
+        "purpose": "11px HUD counters' uppercase labels with 0.04em tracking."
+      },
+      "shortcut": {
+        "displayName": "B612 Mono shortcut",
+        "purpose": "11px keyboard shortcut caps."
+      },
       "number": {
         "displayName": "B612 Mono",
         "purpose": "Counts, versions, prices, shortcuts and board labels."
       }
     },
-    "shadows": [],
+    "shadows": [
+      {
+        "name": "popover-float",
+        "value": "0 16px 40px -12px rgba(0,0,0,0.8)",
+        "purpose": "Deep soft shadow distinguishing floating popovers from otherwise flat surfaces."
+      }
+    ],
     "motion": [
       {
         "name": "enemy-hit-glitch",
@@ -351,7 +365,7 @@
       "kind": "button",
       "description": "Outlined destructive action, distinct from neutral controls.",
       "html": "<button class=\"ds-button-danger\">Restart level</button>",
-      "css": ".ds-button-danger{height:34px;padding:0 12px;border:1px solid var(--color-danger,#ff6b6b);border-radius:6px;background:transparent;color:var(--color-danger,#ff6b6b);font:700 13px B612,sans-serif;cursor:pointer}.ds-button-danger:hover{background:var(--color-raised,#173029)}.ds-button-danger:focus-visible{outline:2px solid var(--color-focus,#45e3f2);outline-offset:2px}"
+      "css": ".ds-button-danger{height:34px;padding:0 12px;border:1px solid color-mix(in srgb,var(--color-danger,#ff6b6b) 40%,transparent);border-radius:6px;background:transparent;color:var(--color-danger,#ff6b6b);font:700 13px B612,sans-serif;cursor:pointer}.ds-button-danger:hover{background:var(--color-raised,#173029)}.ds-button-danger:focus-visible{outline:2px solid var(--color-focus,#45e3f2);outline-offset:2px}"
     },
     {
       "name": "Speed Segments",

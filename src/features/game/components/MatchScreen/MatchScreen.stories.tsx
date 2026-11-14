@@ -100,6 +100,9 @@ export const HomePcMidWave: Story = {
       within(board).getByRole("img", { name: "Antivirus v2.0, boosted, selected" }),
     ).toBeInTheDocument();
     await expect(
+      within(board).getByRole("img", { name: "Antivirus v2.0, boosted" }),
+    ).toBeInTheDocument();
+    await expect(
       within(board).getByRole("img", { name: "Dropped file drifting home" }),
     ).toBeInTheDocument();
     await expect(canvas.getByRole("heading", { name: "Build" })).toBeInTheDocument();

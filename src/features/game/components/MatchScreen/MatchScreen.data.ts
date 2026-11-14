@@ -67,7 +67,7 @@ export const towers = [
   { type: "firewall", c: 3, r: 0, version: 1 },
   { type: "firewall", c: 3, r: 1, version: 1 },
   { type: "debugger", c: 3, r: 2, version: 1 },
-  { type: "antivirus", c: 3, r: 3, version: 2, aimAt: { x: 90, y: 180 } },
+  { type: "antivirus", c: 3, r: 3, version: 2, aimAt: { x: 90, y: 180 }, boosted: true },
   { type: "firewall", c: 3, r: 4, version: 2 },
   { type: "firewall", c: 0, r: 6, version: 1 },
   { type: "firewall", c: 1, r: 6, version: 1 },
@@ -100,6 +100,7 @@ export const towers = [
 ] satisfies ITowerProps[];
 
 export const boostEdges = [
+  { from: { c: 3, r: 4 }, to: { c: 3, r: 3 } },
   { from: { c: 5, r: 6 }, to: { c: 4, r: 6 } },
   { from: { c: 5, r: 6 }, to: { c: 6, r: 6 } },
   { from: { c: 8, r: 6 }, to: { c: 7, r: 6 } },

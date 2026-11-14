@@ -38,6 +38,14 @@ typography:
     fontSize: "13px"
     fontWeight: 700
     letterSpacing: "0.06em"
+  stat-label:
+    fontFamily: "B612, sans-serif"
+    fontSize: "11px"
+    fontWeight: 700
+    letterSpacing: "0.04em"
+  shortcut:
+    fontFamily: "B612 Mono, monospace"
+    fontSize: "11px"
   number:
     fontFamily: "B612 Mono, monospace"
     fontSize: "12px"
@@ -47,7 +55,7 @@ rounded:
   md: "6px"
   lg: "10px"
   card: "12px"
-  frame: "14px"
+  story-frame: "14px"
 spacing:
   compact: "4px"
   tight: "6px"
@@ -65,11 +73,11 @@ components:
     backgroundColor: "{colors.accent-hover}"
     textColor: "{colors.on-accent}"
   button-ghost:
-    backgroundColor: "{colors.surface}"
+    backgroundColor: "transparent"
     textColor: "{colors.fg}"
     rounded: "{rounded.md}"
   build-item:
-    backgroundColor: "{colors.surface}"
+    backgroundColor: "transparent"
     textColor: "{colors.fg}"
     rounded: "{rounded.lg}"
     padding: "8px"
@@ -140,8 +148,9 @@ The 21 semantic tokens above are defined once in `src/app/globals.css`; use thei
 
 - **Display:** Chakra Petch, semibold (600), medium-large (18px), tight leading (1.1): tower names and prominent match text.
 - **Body:** B612, regular (400), compact (13px): stats, instructions and descriptions; build item names step up to 14px bold.
-- **Label:** B612, bold (700), compact (13px), tracked (0.06em), uppercase: side-panel headings.
-- **Number:** B612 Mono, regular or bold (400/700), compact (12px and up): prices, versions, timers, counters, keyboard shortcuts and board labels. Counters use tabular numerals.
+- **Panel label:** B612, bold (700), compact (13px), tracked (0.06em), uppercase: the MatchScreen story's side-panel headings.
+- **Stat label:** B612, bold (700), small (11px), tracked (0.04em), uppercase: Wave, Files and other HUD statistics.
+- **Number:** B612 Mono, regular or bold (400/700), compact (12px and up): prices, versions, timers, counters and board labels; keyboard shortcut caps are 11px. Counters use tabular numerals.
 
 **The Numbers Mean Numbers Rule.** Use the mono face for actual data and shortcuts, not to make all prose look technical.
 
@@ -151,11 +160,11 @@ The MatchScreen story composes a 1312px-wide framed reference surface: one top h
 
 ## Elevation & Depth
 
-Tonal layers and fine borders, not default box shadows, organize the playable board and the adjacent panel. A raised card is distinguished from the panel by its own surface token and thin line. Glowing board effects use the per-board SVG glow filter: shots, beams and boosted connections remain legible over dark solder mask. Do not turn the glow into a wash that obscures enemy health or files.
+Tonal layers and fine borders organize the playable board and adjacent panel; ordinary controls and the selected-tower card stay flat. Popovers alone float above these surfaces with a deep, soft shadow (`0 16px 40px -12px rgba(0,0,0,0.8)`). Glowing board effects use the per-board SVG glow filter: shots, beams and boosted connections remain legible over dark solder mask. Do not turn the glow into a wash that obscures enemy health or files.
 
 ## Shapes
 
-Controls use small corners (4px for shortcuts, 6px for buttons; 10px for build rows); the tower card rounds to 12px and the composed screen to 14px. Tower pads and chip bodies are geometric board parts. Each tower has a different silhouette; worms are segmented and rootkits are armored. Board obstacles are chips, capacitors, resistors and crystals, while ports are edge connectors. A range ring is dashed in its owner's tower color.
+Controls use small corners (4px for shortcuts, 6px for buttons; 10px for build rows); the tower card rounds to 12px. The 14px `story-frame` corner belongs only to the Storybook MatchScreen composition, not to the board's SVG frame. Tower pads and chip bodies are geometric board parts. Each tower has a different silhouette; worms are segmented and rootkits are armored. Board obstacles are chips, capacitors, resistors and crystals, while ports are edge connectors. A range ring is dashed in its owner's tower color.
 
 ## Components
 
