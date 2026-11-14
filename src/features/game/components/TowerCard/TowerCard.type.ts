@@ -7,6 +7,8 @@ export interface ITowerCardStat {
   value: string;
   /** The value after the next upgrade, shown as a gain. */
   next?: string;
+  /** `boost` colors the value as a Firewall boost. */
+  tone?: "boost";
 }
 
 interface ITowerCardUpgrade {
@@ -23,8 +25,6 @@ export interface ITowerCardProps {
   type: TTowerType;
   version: TVersion;
   stats: ITowerCardStat[];
-  /** Firewall boost this tower receives or gives, for example "+20% damage". */
-  boost?: string;
   upgrade: ITowerCardUpgrade;
   sellRefund: number;
   onUpgrade?: () => void;

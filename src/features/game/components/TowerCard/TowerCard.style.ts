@@ -17,7 +17,7 @@ export const towerCard = {
   statLabel: "text-muted",
   statValue: "m-0 text-right font-mono",
   gain: "text-debugger",
-  boost: "text-firewall",
+  tone: { boost: "text-firewall" },
   upgrade: "flex flex-col gap-2 border-t border-line pt-3",
   intro: "text-[13px] text-muted",
   introVersion: "text-fg",
@@ -28,7 +28,6 @@ export const towerCard = {
   },
   messageTitle: "text-fg",
   button: "flex-1 justify-center",
-  srOnly: "sr-only",
   actions: "flex gap-2",
   refund: "font-mono text-data",
 };

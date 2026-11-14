@@ -21,7 +21,8 @@ describe("tower card view model", () => {
     const result = view({});
     expect(result.canUpgrade).toBe(true);
     expect(result.upgradeDisabled).toBe(false);
-    expect(result.upgradeName).toBe("Upgrade to v3.0 · 120");
+    expect(result.upgradeText).toBe("Upgrade to v3.0 · 120");
+    expect(result.upgradeDescribedBy).toBeUndefined();
     expect(result.upgradeShortcut).toBe("U");
   });
 
@@ -32,7 +33,7 @@ describe("tower card view model", () => {
     expect(result.canUpgrade).toBe(true);
     expect(result.upgradeDisabled).toBe(true);
     expect(result.upgradeText).toBe("Need 38 more bits");
-    expect(result.upgradeName).toBe("Upgrade to v3.0");
+    expect(result.upgradeDescribedBy).toBe(result.reasonId);
     expect(result.upgradeShortcut).toBeUndefined();
   });
 
@@ -53,9 +54,16 @@ describe("tower card view model", () => {
     expect(result.messageIcon).toBe("check");
   });
 
-  it("prefixes next values with an arrow and adds the boost row", () => {
-    const result = view({ boost: "+20% damage" });
+  it("prefixes next values with an arrow and keeps the caller's row order and tone", () => {
+    const result = view({
+      stats: [
+        { label: "Damage", value: "12", next: "18" },
+        { label: "Firewall boost", value: "+20% damage", tone: "boost" },
+        { label: "Kills", value: "23" },
+      ],
+    });
+    expect(result.rows.map((row) => row.label)).toEqual(["Damage", "Firewall boost", "Kills"]);
     expect(result.rows[0]?.next).toBe("→ 18");
-    expect(result.boostRow).toEqual({ label: "Firewall boost", value: "+20% damage" });
+    expect(result.rows[1]?.tone).toBe("boost");
   });
 });

@@ -24,16 +24,15 @@ export const game: IGameContent = {
   enemy: (type, healthPercent, carrier) =>
     `${game.enemyNames[type]}, ${healthPercent}% ${game.enemyState.health}${type === "rootkit" ? `, ${game.enemyState.armored}` : ""}${carrier ? `, ${game.enemyState.carrier}` : ""}`,
   placement: { valid: "Valid placement", invalid: "Refused placement" },
+  needBits: (missingBits) => `Need ${missingBits} more bits`,
   build: {
     placingHint: "Click a cell · Esc cancels",
     lockedReason: "Unlock in the Upgrade lab",
-    needBits: (missingBits) => `Need ${missingBits} more bits`,
     cost: (bits) => `${bits} bits`,
   },
   card: {
     upgradeTo: (version) => `Upgrade to v${version}.0`,
     withCost: (label, bits) => `${label} · ${bits}`,
-    needBits: (missingBits) => `Need ${missingBits} more bits`,
     locked: (version) => `v${version}.0 is locked.`,
     lockedHint: "Unlock it in the Upgrade lab between levels.",
     max: "Max version reached.",
@@ -42,7 +41,9 @@ export const game: IGameContent = {
     sellKey: "S",
     sellRefund: (bits) => `+${bits}`,
     boost: "Firewall boost",
-    boosting: (towers) => `Boosting ${towers} towers`,
+    boostOwn: "Boost",
+    boostingLabel: "Boosting",
+    boosting: (towers) => `${towers} towers`,
     version: (version) => `v${version}.0`,
     next: (value) => `→ ${value}`,
   },

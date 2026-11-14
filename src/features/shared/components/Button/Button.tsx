@@ -24,7 +24,7 @@ export function Button({
     >
       {children}
       {shortcut !== undefined && (
-        <Kbd tone={variant === "primary" ? "onAccent" : "default"}>{shortcut}</Kbd>
+        <Kbd tone={variant === "primary" && !disabled ? "onAccent" : "default"}>{shortcut}</Kbd>
       )}
     </button>
   );

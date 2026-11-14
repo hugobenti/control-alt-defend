@@ -12,7 +12,7 @@ export function useBuildItem({ type, cost, state, missingBits = 0 }: IBuildItemP
   const subtitles = {
     available: game.towerRoles[type],
     placing: game.build.placingHint,
-    poor: game.build.needBits(missingBits),
+    poor: game.needBits(missingBits),
     locked: game.build.lockedReason,
   };
   return {

@@ -72,3 +72,15 @@ export const PrimaryShortcutIsReadable: Story = {
     await expect(kbdStyle.borderTopColor).not.toBe(kbdStyle.color);
   },
 };
+
+export const DisabledPrimaryShortcutIsReadable: Story = {
+  args: { shortcut: "N", disabled: true },
+  play: async ({ canvasElement }) => {
+    const button = within(canvasElement).getByRole("button", { name: /Start now/ });
+    const kbd = button.querySelector("kbd");
+    if (!kbd) throw new Error("shortcut hint missing");
+    const kbdStyle = getComputedStyle(kbd);
+    await expect(kbdStyle.color).not.toBe(getComputedStyle(button).backgroundColor);
+    await expect(kbdStyle.color).toBe(getComputedStyle(button).color);
+  },
+};

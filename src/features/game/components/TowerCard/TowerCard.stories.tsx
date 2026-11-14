@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
 
+import { game } from "@/content/game";
+
 import { TowerCard } from "./TowerCard";
 import type { ITowerCardStat } from "./TowerCard.type";
 
@@ -8,6 +10,7 @@ const antivirusStats: ITowerCardStat[] = [
   { label: "Damage", value: "12", next: "18" },
   { label: "Fire rate", value: "1.2 /s" },
   { label: "Range", value: "3.0", next: "3.5" },
+  { label: game.card.boost, value: "+20% damage", tone: "boost" },
   { label: "Targets", value: "Carriers first" },
   { label: "Kills", value: "23" },
 ];
@@ -20,7 +23,6 @@ const meta = {
     type: "antivirus",
     version: 2,
     stats: antivirusStats,
-    boost: "+20% damage",
     upgrade: { state: "available", cost: 120, nextVersion: 3, adds: piercing },
     sellRefund: 84,
     onUpgrade: fn(),
@@ -42,7 +44,7 @@ export const UpgradeAvailable: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("heading", { name: "Antivirus" })).toBeInTheDocument();
     await expect(canvas.getByText("Firewall boost")).toBeInTheDocument();
-    await userEvent.click(canvas.getByRole("button", { name: /Upgrade to v3.0 · 120/ }));
+    await userEvent.click(canvas.getByRole("button", { name: /Upgrade to v3\.0 · 120/ }));
     await expect(args.onUpgrade).toHaveBeenCalledTimes(1);
     await userEvent.click(canvas.getByRole("button", { name: /Sell/ }));
     await expect(args.onSell).toHaveBeenCalledTimes(1);
@@ -54,7 +56,7 @@ export const NotEnoughBits: Story = {
     upgrade: { state: "poor", cost: 120, missingBits: 38, nextVersion: 3, adds: piercing },
   },
   play: async ({ canvasElement, args }) => {
-    const button = within(canvasElement).getByRole("button", { name: "Upgrade to v3.0" });
+    const button = within(canvasElement).getByRole("button", { name: "Need 38 more bits" });
     await expect(button).toBeDisabled();
     await expect(button).toHaveAccessibleDescription("Need 38 more bits");
     await expect(args.onUpgrade).not.toHaveBeenCalled();
@@ -65,7 +67,6 @@ export const LockedInLab: Story = {
   args: {
     type: "debugger",
     version: 1,
-    boost: undefined,
     stats: [
       { label: "Damage", value: "4 → ramps to 30 /s" },
       { label: "Range", value: "2.5" },
@@ -90,7 +91,6 @@ export const MaxVersion: Story = {
   args: {
     type: "debugger",
     version: 3,
-    boost: undefined,
     stats: [
       { label: "Damage", value: "8 → ramps to 60 /s" },
       { label: "Range", value: "3.0" },
@@ -114,7 +114,8 @@ export const Firewall: Story = {
     version: 2,
     stats: [
       { label: "Blocks", value: "1 cell" },
-      { label: "Boosting", value: "3 towers" },
+      { label: game.card.boostOwn, value: "+20% damage", tone: "boost" },
+      { label: game.card.boostingLabel, value: game.card.boosting(3) },
     ],
     upgrade: {
       state: "available",
@@ -127,7 +128,9 @@ export const Firewall: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("heading", { name: "Firewall" })).toBeInTheDocument();
-    await expect(canvas.getByText("Boosting")).toBeInTheDocument();
+    await expect(canvas.getByText(game.card.boostingLabel)).toBeInTheDocument();
+    await expect(canvas.getByText(game.card.boostOwn)).toBeInTheDocument();
+    await expect(canvas.getByText(game.card.boosting(3))).toBeInTheDocument();
     await expect(canvas.getByText("+20% damage")).toBeInTheDocument();
   },
 };

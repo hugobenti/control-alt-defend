@@ -28,18 +28,12 @@ export function TowerCard(props: ITowerCardProps) {
         {view.rows.map((row) => (
           <div key={row.label} className={towerCard.row}>
             <dt className={towerCard.statLabel}>{row.label}</dt>
-            <dd className={towerCard.statValue}>
+            <dd className={cx(towerCard.statValue, row.tone && towerCard.tone[row.tone])}>
               {row.value}
               {row.next !== undefined && <span className={towerCard.gain}> {row.next}</span>}
             </dd>
           </div>
         ))}
-        {view.boostRow && (
-          <div className={towerCard.row}>
-            <dt className={towerCard.statLabel}>{view.boostRow.label}</dt>
-            <dd className={cx(towerCard.statValue, towerCard.boost)}>{view.boostRow.value}</dd>
-          </div>
-        )}
       </dl>
       <div className={towerCard.upgrade}>
         {view.showIntro && (
@@ -52,13 +46,10 @@ export function TowerCard(props: ITowerCardProps) {
             size="md"
             shortcut={view.upgradeShortcut}
             disabled={view.upgradeDisabled}
-            describedBy={view.upgradeDisabled ? view.reasonId : undefined}
+            describedBy={view.upgradeDescribedBy}
             onClick={onUpgrade}
           >
-            <span id={view.reasonId} aria-hidden="true">
-              {view.upgradeText}
-            </span>
-            <span className={towerCard.srOnly}>{view.upgradeName}</span>
+            <span id={view.reasonId}>{view.upgradeText}</span>
           </Button>
         )}
         {view.showMessage && (
