@@ -1,5 +1,5 @@
 export const filePips = {
-  base: "flex max-w-[152px] shrink-0 flex-wrap gap-[3px]",
+  base: "flex max-w-[152px] shrink-0 flex-wrap gap-0.5",
   pip: "h-5 w-4",
   summary: "sr-only",
   paper: "fill-data",
