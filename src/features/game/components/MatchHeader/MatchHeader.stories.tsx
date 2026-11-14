@@ -145,6 +145,11 @@ export const PausedWithSettings: Story = {
     await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
     const level = canvas.getByText("Home PC").parentElement as HTMLElement;
     await expect(level.scrollWidth).toBeLessThanOrEqual(level.clientWidth);
+    const pill = canvas.getByText("Paused");
+    const wave = pill.nextElementSibling as HTMLElement;
+    const gap = parseFloat(getComputedStyle(header).columnGap);
+    const slack = wave.getBoundingClientRect().left - pill.getBoundingClientRect().right - gap;
+    await expect(slack).toBeGreaterThanOrEqual(24);
   },
 };
 
