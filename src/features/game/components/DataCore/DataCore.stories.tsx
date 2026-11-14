@@ -27,9 +27,8 @@ export const Full: Story = {
 export const PartiallyEmpty: Story = {
   args: { filesInCore: 5 },
   play: async ({ canvasElement }) => {
-    await expect(
-      within(canvasElement).getByRole("img", { name: "Core, 5 of 8 files" }),
-    ).toBeInTheDocument();
+    const core = within(canvasElement).getByRole("img", { name: "Core, 5 of 8 files" });
+    await expect(core.querySelectorAll('g[transform="scale(0.75)"]')).toHaveLength(5);
   },
 };
 export const Empty: Story = {

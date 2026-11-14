@@ -40,7 +40,9 @@ export function DataCore(props: IDataCoreProps) {
       {layout.slots.map((slot, index) => (
         <g key={index} transform={slot.transform} aria-hidden="true">
           {slot.lit ? (
-            <FileToken state="inCore" />
+            <g transform={layout.fileTransform}>
+              <FileToken state="inCore" />
+            </g>
           ) : (
             <path d="M-3.8 -4.9h4.9l2.7 2.7v7.1h-7.6z" className={styles.empty} />
           )}

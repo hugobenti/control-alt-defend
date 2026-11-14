@@ -11,13 +11,13 @@ import { board } from "./Board.style";
 import type { IBoardProps } from "./Board.type";
 import { useBoard } from "./useBoard";
 
-export function Board({ map, children, className }: IBoardProps) {
+export function Board({ map, files, filesInCore, children, className }: IBoardProps) {
   const ids = useGameDefsIds();
-  const layout = useBoard(map, ids.dots);
+  const layout = useBoard(map, ids.dots, files, filesInCore);
   return (
     <GameDefsContext value={ids}>
       <svg
-        role="img"
+        role="group"
         aria-label={layout.label}
         viewBox={layout.viewBox}
         className={cx(board.base, className)}
@@ -56,7 +56,12 @@ export function Board({ map, children, className }: IBoardProps) {
             <Port key={port.id} port={port} cols={map.cols} rows={map.rows} />
           ))}
         </g>
-        <DataCore x={layout.core.x} y={layout.core.y} files={8} filesInCore={8} />
+        <DataCore
+          x={layout.core.x}
+          y={layout.core.y}
+          files={layout.files}
+          filesInCore={layout.filesInCore}
+        />
         {children}
       </svg>
     </GameDefsContext>

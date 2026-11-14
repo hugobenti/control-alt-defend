@@ -28,6 +28,5 @@ export interface IGameContent {
   coreLabel: string;
   core: (filesInCore: number, files: number) => string;
   port: (label: string) => string;
-  obstacle: Record<"chip" | "capacitor" | "resistor" | "crystal", string>;
   file: Record<"inCore" | "dropped", string>;
 }

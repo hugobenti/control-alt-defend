@@ -9,6 +9,6 @@ export const obstacle = {
   band: "fill-copper opacity-80",
   crystal: "fill-surface stroke-muted [stroke-width:1.6]",
   crystalInset: "fill-none stroke-muted/40",
-  label: "fill-muted font-mono text-[10px] tracking-[0.8px]",
+  label: "fill-fg font-mono text-[10px] tracking-[0.8px] opacity-70",
   chipText: "fill-muted font-mono text-[10px] tracking-[1px]",
 };
