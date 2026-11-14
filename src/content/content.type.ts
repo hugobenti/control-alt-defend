@@ -69,4 +69,43 @@ export interface IGameContent {
     version: (version: number) => string;
     next: (value: string) => string;
   };
+  files: {
+    states: Record<"safe" | "carried" | "dropped" | "leaked", string>;
+    summary: (counts: Record<"safe" | "carried" | "dropped" | "leaked", number>) => string;
+  };
+  header: {
+    label: string;
+    brand: { name: string; parts: [string, string, string]; separator: string };
+    level: (number: number) => string;
+    paused: string;
+    wave: string;
+    files: string;
+    bits: string;
+    next: {
+      label: string;
+      in: (time: string) => string;
+      startNow: string;
+      startKey: string;
+      earlyBonus: (bits: number) => string;
+      running: (wave: number) => string;
+      virusesLeft: (count: number) => string;
+      times: (count: number) => string;
+      chip: (type: "worm" | "rootkit", count: number) => string;
+    };
+    controls: {
+      pause: string;
+      resume: string;
+      speed: string;
+      speeds: Record<"1" | "2", string>;
+      sound: string;
+      settings: string;
+    };
+    settings: {
+      title: string;
+      sound: string;
+      defaultSpeed: string;
+      restart: string;
+      quit: string;
+    };
+  };
 }

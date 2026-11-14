@@ -49,7 +49,7 @@ function pairs(foregrounds: string[], backgrounds: string[]): Array<[string, str
 const textPairs = [
   ...pairs(["fg", "muted"], ["bg", "surface", "raised"]),
   ...pairs(["on-accent"], ["accent", "accent-hover"]),
-  ...pairs(["data", "danger", "debugger", "firewall"], ["surface", "raised"]),
+  ...pairs(["data", "danger", "debugger", "firewall", "antivirus"], ["surface", "raised"]),
 ];
 
 const graphicPairs = [
