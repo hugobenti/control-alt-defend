@@ -56,7 +56,8 @@ plan for later releases.
 - Monetization: ads, purchases, premium currency.
 - A level editor or user-made maps.
 - Music. Sound effects are in scope.
-- Phone layouts. Desktop is the target; tablets are nice to have where they work at no extra cost.
+- Phone layouts in the first playable. **Decided:** the game must also work on mobile later; that work is planned
+  separately and is not a focus yet. Desktop comes first.
 
 ### Anti-goals: it fails if…
 
@@ -72,8 +73,8 @@ plan for later releases.
   `AGENTS.md` rules apply in full: logic in hooks and pure modules, copy in `src/content`, token-only colors,
   accessibility checks in CI.
 - **Call:** fully client-side. Progress and settings are saved in the browser (`localStorage`). No server state.
-- **Call:** minimum supported viewport 1024 × 640. Below that the game shows a message asking for a larger window
-  instead of a broken layout.
+- **Call:** minimum supported viewport 1024 × 640 for now. No "window too small" message: mobile support is planned
+  instead (section 2, non-goals).
 - **Call:** the game simulation runs at a fixed time step, independent of frame rate, so the same inputs give the
   same result on any machine. This keeps balance testable and makes the 2× speed setting exact.
 
@@ -300,6 +301,45 @@ checked when the game loads; a map where a port has no route to the Core is reje
 ### Speed
 
 - Pause, 1× and 2× speed. Building and inspecting are allowed while paused.
+
+### Sandbox mode (first playable)
+
+**Decided:** before any campaign level, the game ships a sandbox for testing the mechanics. It is the only "level" in
+the first playable and lives at its own route (`/play`), reached from a home page that shows only the title and a
+Play button. Out of scope for the first playable: Upgrade lab, keys, store, level select, campaign levels, saved
+progress, sound playback, How to play.
+
+- **Decided:** the Home PC map (section "Campaign"), every tower of the first release (Firewall, Antivirus,
+  Debugger) available, every version upgradable in place (v1.0 → v3.0) with bits.
+- **Decided:** no waves. Enemies appear only from sandbox spawn controls: one button per enemy type (Worm, Rootkit),
+  a port picker (J1 / J2) and a count (1 / 5). Keyboard accessible like every HUD control.
+- **Call:** the header's wave area shows a sandbox state (a "Sandbox" badge and the number of viruses on the board)
+  instead of wave and next-wave information. The header takes that area as a slot so the campaign can put the wave
+  preview back.
+- **Decided:** bits start at a generous amount (**Call:** 1000); costs, upgrade costs, the 70% sell refund and kill
+  rewards work as in section 7; a sandbox "+1000 bits" button exists.
+- **Decided:** the Core holds 8 files. Steal, carry, drop, drift home, pick up and leak work as in section 6. When
+  all 8 have leaked the game shows a game-over overlay with Restart; Restart is also in the settings menu.
+- **Decided:** pause, 1× / 2×, settings popover. **Call:** the sound toggle is visual-only until sound effects exist;
+  "Quit" in settings returns to the title page.
+- **Decided:** keyboard play as in section 11. **Call (bindings):** arrows move the board cursor; `1` `2` `3` pick
+  Firewall / Antivirus / Debugger; `Enter` places or selects; `Escape` cancels or deselects; `U` upgrades; `S` sells;
+  `Space` pauses; `F` toggles speed; `W` / `R` spawn a Worm / Rootkit; `B` adds bits. The board lists them in its
+  accessible description.
+- **Call (pathing details):** routes come from an 8-direction distance field on the cell grid; a diagonal step is
+  only allowed when both cells it cuts between are open, which is what makes corner-touching towers a wall. Enemies
+  steer toward the farthest cell center on their route that they can see in a straight line (so they take direct
+  lines across open space and bend around towers) and turn at a limited rate.
+- **Decided:** no trapping. Placement is refused when it would cut a dropped file or a live enemy off from the Core,
+  so nothing can be walled into a pocket.
+- **Call:** viruses spawn at, and carriers leak at, the center of a port cell. Among several carriers a tower picks
+  the one closest to its exit. The Debugger beam deals its damage in pulses four times a second, each pulse a
+  separate hit for Rootkit armor; armor never reduces a hit below 1 damage. Worm halves may pick the dropped file
+  back up at once.
+- **Decided:** Rootkit armor 6 is fine: Antivirus v1.0 (10 damage) still chips Rootkits for 4 per hit, while the
+  Debugger remains the efficient answer.
+- **Call:** first balance numbers live in one data file (`src/features/game/logic/balance.data.ts`) and are listed
+  in the implementation plan `docs/superpowers/plans/2026-11-14-sandbox-game-logic.md`.
 
 ## 10. Enemies
 
