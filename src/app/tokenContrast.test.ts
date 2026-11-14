@@ -1,59 +1,82 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { describe, expect, test } from "vitest";
+import { expect, test } from "vitest";
 
-import {
-  contrastRatio,
-  readDarkColors,
-  readThemeColors,
-} from "@/features/shared/utils/colorContrast";
+import { contrastRatio, readThemeColors } from "@/features/shared/utils/colorContrast";
 
 const css = readFileSync(join(process.cwd(), "src/app/globals.css"), "utf8");
-const light = readThemeColors(css);
-const darkOverrides = readDarkColors(css);
-const schemes: Array<[string, Record<string, string>]> = [
-  ["light", light],
-  ["dark", { ...light, ...darkOverrides }],
+const tokens = readThemeColors(css);
+
+const TOKEN_NAMES = [
+  "accent",
+  "accent-hover",
+  "antivirus",
+  "bg",
+  "board",
+  "copper",
+  "copper-dim",
+  "danger",
+  "data",
+  "debugger",
+  "firewall",
+  "focus",
+  "fg",
+  "frame",
+  "line",
+  "muted",
+  "on-accent",
+  "raised",
+  "rootkit",
+  "surface",
+  "worm",
 ];
 
-// Text pairs need 4.5:1, UI pairs (focus rings, control borders, icons) 3:1. Add every new pair a
-// component uses.
-const textPairs: Array<[string, string]> = [
-  ["fg", "bg"],
-  ["fg", "surface"],
-  ["muted", "bg"],
-  ["muted", "surface"],
-  ["accent", "bg"],
-  ["accent", "surface"],
-  ["on-accent", "accent"],
-  ["on-accent", "accent-hover"],
-];
-
-const uiPairs: Array<[string, string]> = [
-  ["focus", "bg"],
-  ["focus", "surface"],
-];
-
-describe.each(schemes)("%s scheme tokens meet WCAG 2.2 AA", (_name, tokens) => {
-  function ratio(foreground: string, background: string): number {
-    const fg = tokens[foreground];
-    const bg = tokens[background];
-    if (!fg || !bg) {
-      throw new Error(`missing color token: ${!fg ? foreground : background}`);
-    }
-    return contrastRatio(fg, bg);
+function ratio(foreground: string, background: string): number {
+  const fg = tokens[foreground];
+  const bg = tokens[background];
+  if (!fg || !bg) {
+    throw new Error(`missing color token: ${!fg ? foreground : background}`);
   }
+  return contrastRatio(fg, bg);
+}
 
-  test.each(textPairs)("text %s on %s ≥ 4.5:1", (foreground, background) => {
-    expect(ratio(foreground, background)).toBeGreaterThanOrEqual(4.5);
-  });
+function pairs(foregrounds: string[], backgrounds: string[]): Array<[string, string]> {
+  return foregrounds.flatMap((fg) => backgrounds.map((bg): [string, string] => [fg, bg]));
+}
 
-  test.each(uiPairs)("UI %s on %s ≥ 3:1", (foreground, background) => {
-    expect(ratio(foreground, background)).toBeGreaterThanOrEqual(3);
-  });
+// Text pairs need 4.5:1, graphics (focus ring, game pieces) 3:1. Add every new pair a component uses.
+const textPairs = [
+  ...pairs(["fg", "muted"], ["bg", "surface", "raised"]),
+  ...pairs(["on-accent"], ["accent", "accent-hover"]),
+  ...pairs(["data", "danger", "debugger", "firewall"], ["surface", "raised"]),
+];
+
+const graphicPairs = [
+  ...pairs(["focus"], ["bg", "surface"]),
+  ...pairs(
+    ["copper", "firewall", "antivirus", "debugger", "worm", "rootkit", "data", "danger", "fg"],
+    ["board"],
+  ),
+];
+
+test("declares exactly the game palette", () => {
+  expect(Object.keys(tokens).sort()).toEqual([...TOKEN_NAMES].sort());
 });
 
-test("the dark scheme overrides every color token, so no light value leaks into it", () => {
-  expect(Object.keys(darkOverrides).sort()).toEqual(Object.keys(light).sort());
+test.each(textPairs)("text %s on %s ≥ 4.5:1", (foreground, background) => {
+  expect(ratio(foreground, background)).toBeGreaterThanOrEqual(4.5);
+});
+
+test.each(graphicPairs)("graphic %s on %s ≥ 3:1", (foreground, background) => {
+  expect(ratio(foreground, background)).toBeGreaterThanOrEqual(3);
+});
+
+test("has no dark-scheme override block", () => {
+  expect(css).not.toMatch(/prefers-color-scheme/);
+});
+
+test("sets color-scheme: dark and never light", () => {
+  expect(css).toMatch(/color-scheme:\s*dark/);
+  expect(css).not.toMatch(/color-scheme:\s*light/);
 });
