@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { computeDistanceField } from "./distanceField";
-import { buildStaticGrid, coreCells, withBlocked, withoutBlocked } from "./grid";
+import { buildStaticGrid, coreCells, discOverlapsCell, withBlocked, withoutBlocked } from "./grid";
 import { hasLineOfSight, moveToward, nextWaypoint, resolveCollision } from "./steering";
 import { tinyMap } from "./testMaps";
 
@@ -64,7 +64,9 @@ describe("steering", () => {
 
   it("pushes discs outside walls and board edges without moving free discs", () => {
     const grid = withBlocked(empty, [{ c: 2, r: 2 }]);
-    expect(resolveCollision(grid, { x: 85, y: 100 }, 10).x).toBe(70);
+    const pushed = resolveCollision(grid, { x: 85, y: 100 }, 10);
+    expect(pushed.x).toBeCloseTo(70, 4);
+    expect(discOverlapsCell(pushed, 10, { c: 2, r: 2 })).toBe(false);
     expect(resolveCollision(grid, { x: 20, y: 20 }, 10)).toEqual({ x: 20, y: 20 });
     expect(resolveCollision(grid, { x: 2, y: 100 }, 10).x).toBe(10);
   });
