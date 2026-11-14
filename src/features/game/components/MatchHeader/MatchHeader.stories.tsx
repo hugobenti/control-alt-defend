@@ -100,7 +100,7 @@ function SettingsDemo(args: IMatchHeaderProps) {
   );
 }
 
-export const PausedWithSettings: Story = {
+export const SettingsKeyboard: Story = {
   render: (args) => <SettingsDemo {...args} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -123,6 +123,28 @@ export const PausedWithSettings: Story = {
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(canvas.queryByRole("dialog")).toBeNull());
     await expect(gear).toHaveFocus();
+  },
+};
+
+export const PausedWithSettings: Story = {
+  args: { paused: true, settingsOpen: true },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole("banner", { name: "Match" });
+    const gear = canvas.getByRole("button", { name: "Settings" });
+    const dialog = canvas.getByRole("dialog", { name: "Settings" });
+    await expect(canvas.getByText("Paused")).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Resume" })).toBeVisible();
+    await expect(dialog).toBeVisible();
+    const box = dialog.getBoundingClientRect();
+    const gearBox = gear.getBoundingClientRect();
+    await expect(box.top).toBeGreaterThanOrEqual(gearBox.bottom);
+    await expect(Math.round(box.right)).toBe(Math.round(gearBox.right));
+    await expect(box.left).toBeGreaterThanOrEqual(0);
+    await expect(box.bottom).toBeLessThanOrEqual(window.innerHeight);
+    await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
+    const level = canvas.getByText("Home PC").parentElement as HTMLElement;
+    await expect(level.scrollWidth).toBeLessThanOrEqual(level.clientWidth);
   },
 };
 
@@ -168,6 +190,16 @@ export const LargeNumbers: Story = {
   play: async ({ canvasElement }) => {
     const header = within(canvasElement).getByRole("banner", { name: "Match" });
     await expect(within(header).getByText("99999")).toBeInTheDocument();
+    await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
+  },
+};
+
+export const PausedLargeNumbers: Story = {
+  ...LargeNumbers,
+  args: { ...LargeNumbers.args, paused: true },
+  play: async ({ canvasElement }) => {
+    const header = within(canvasElement).getByRole("banner", { name: "Match" });
+    await expect(within(header).getByText("Paused")).toBeVisible();
     await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
   },
 };

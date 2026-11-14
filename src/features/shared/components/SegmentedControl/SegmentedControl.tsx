@@ -19,7 +19,7 @@ export function SegmentedControl<T extends string>({
           aria-pressed={option.value === value}
           className={cx(
             segmentedControl.option,
-            option.value === value && segmentedControl.selected,
+            option.value === value ? segmentedControl.selected : segmentedControl.unselected,
           )}
           onClick={() => onChange(option.value)}
         >
