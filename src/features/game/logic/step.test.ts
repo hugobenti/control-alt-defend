@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { homePc } from "../level/homePc.data";
-import { createMatch } from "./match";
+import { applyCommand, createMatch } from "./match";
 import type { IMatchState } from "./match.type";
 import { runTicks, step } from "./step";
 
@@ -59,5 +59,36 @@ describe("simulation ticks", () => {
   it("returns the identical state for zero ticks", () => {
     const state = base();
     expect(runTicks(state, 0)).toBe(state);
+  });
+  it("replays an identical 600-tick combat script and matches two 300-tick batches", () => {
+    const scripted = () => {
+      let state = createMatch({ map: homePc, seed: 3, startBits: 1000, files: 8 });
+      state = applyCommand(state, { kind: "place", type: "antivirus", cell: { c: 6, r: 6 } });
+      state = applyCommand(state, { kind: "place", type: "debugger", cell: { c: 7, r: 4 } });
+      state = applyCommand(state, { kind: "place", type: "firewall", cell: { c: 6, r: 5 } });
+      const firewall = state.towers[2]!;
+      state = applyCommand(state, { kind: "upgrade", towerId: firewall.id });
+      state = applyCommand(state, { kind: "upgrade", towerId: firewall.id });
+      state = applyCommand(state, { kind: "spawn", type: "worm", portId: "J1", count: 5 });
+      return applyCommand(state, { kind: "spawn", type: "rootkit", portId: "J2", count: 2 });
+    };
+    const serialize = (state: IMatchState) =>
+      JSON.stringify({
+        ...state,
+        fields: {
+          toCore: [...state.fields.toCore],
+          toExit: [...state.fields.toExit],
+          toFile: Object.fromEntries(
+            Object.entries(state.fields.toFile).map(([id, field]) => [id, [...field]]),
+          ),
+        },
+      });
+    const start = scripted();
+    expect(start.towers).toHaveLength(3);
+    expect(start.pendingSpawns).toHaveLength(7);
+    const first = runTicks(start, 600);
+    expect(first.towers[0]!.kills + first.towers[1]!.kills).toBeGreaterThan(0);
+    expect(serialize(first)).toBe(serialize(runTicks(scripted(), 600)));
+    expect(serialize(first)).toBe(serialize(runTicks(runTicks(scripted(), 300), 300)));
   });
 });
