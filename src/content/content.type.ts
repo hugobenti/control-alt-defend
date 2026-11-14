@@ -21,3 +21,12 @@ export interface IHomeContent {
 export interface IStatusPagesContent {
   notFound: { metaTitle: string; h1: string; text: string; home: string };
 }
+
+/** Board labels and the names of rendered game pieces. */
+export interface IGameContent {
+  board: string;
+  coreLabel: string;
+  core: (filesInCore: number, files: number) => string;
+  port: (label: string) => string;
+  file: Record<"inCore" | "dropped", string>;
+}
