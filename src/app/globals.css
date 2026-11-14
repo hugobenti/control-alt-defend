@@ -57,6 +57,37 @@
   --font-mono: var(--font-num);
 }
 
+/**
+ * Enemy hit glitch: the two colour-shifted copies jitter sideways and flash (--glitch-shift,
+ * --glitch-opacity are set per element). Under reduced motion the copies are hidden and the whole
+ * enemy dips in opacity instead (glitch-fade).
+ */
+@keyframes glitch {
+  0%,
+  100% {
+    translate: 0 0;
+    opacity: 0;
+  }
+  20% {
+    translate: var(--glitch-shift) 0;
+    opacity: var(--glitch-opacity);
+  }
+  60% {
+    translate: calc(var(--glitch-shift) * -0.5) 0;
+    opacity: var(--glitch-opacity);
+  }
+}
+
+@keyframes glitch-fade {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.35;
+  }
+}
+
 @layer base {
   html {
     color-scheme: dark;
@@ -84,6 +115,11 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
+    }
+
+    /* The hit fade is the one animation that stays visible: a short opacity dip, nothing moves. */
+    [data-hit] {
+      animation-duration: 120ms !important;
     }
   }
 }

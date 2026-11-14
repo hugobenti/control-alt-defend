@@ -42,5 +42,8 @@ export interface IGameContent {
   boostEdge: string;
   shot: string;
   beam: string;
+  enemyNames: Record<"worm" | "rootkit", string>;
+  enemyState: Record<"carrier" | "armored" | "health", string>;
+  enemy: (type: "worm" | "rootkit", healthPercent: number, carrier: boolean) => string;
   placement: { valid: string; invalid: string };
 }
