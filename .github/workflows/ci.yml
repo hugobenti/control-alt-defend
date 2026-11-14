@@ -11,7 +11,7 @@ concurrency:
 
 # Every variable src/env.ts validates; the build fails without them.
 env:
-  NEXT_PUBLIC_SITE_URL: https://nextjs-template.vercel.app
+  NEXT_PUBLIC_SITE_URL: https://control-alt-defend.vercel.app
 
 jobs:
   # Job names are the required status checks in the `main` ruleset: rename them there too.

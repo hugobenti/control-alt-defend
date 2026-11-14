@@ -1,0 +1,2581 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ctrl+Alt+Defend · visual direction mockup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=B612:wght@400;700&family=B612+Mono:wght@400;700&family=Chakra+Petch:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ground: #08130f;
+        --board: #0d1f19;
+        --frame: #0b1a15;
+        --panel: #11241e;
+        --raised: #173029;
+        --rule: #24443a;
+        --copper: #c38a55;
+        --copper-dim: #5e4329;
+        --silk: #e7ede6;
+        --muted: #9db2a6;
+        --antivirus: #45e3f2;
+        --debugger: #86f59e;
+        --firewall: #a9c4dc;
+        --worm: #ff5aa8;
+        --rootkit: #b58eff;
+        --data: #ffd54a;
+        --danger: #ff6b6b;
+        --display: "Chakra Petch", sans-serif;
+        --ui: "B612", sans-serif;
+        --num: "B612 Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--ground);
+        color: var(--silk);
+        font: 15px/1.5 var(--ui);
+      }
+      body {
+        margin: 0;
+        padding: 40px 48px 96px;
+      }
+      ::selection {
+        background: var(--antivirus);
+        color: var(--ground);
+      }
+      :focus-visible {
+        outline: 2px solid var(--antivirus);
+        outline-offset: 2px;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--display);
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+      }
+      h1 {
+        font-size: 40px;
+        line-height: 1.1;
+      }
+      h2 {
+        font-size: 26px;
+        margin: 72px 0 8px;
+      }
+      h3 {
+        font-size: 17px;
+      }
+      p {
+        margin: 0;
+        text-wrap: pretty;
+      }
+      .lede {
+        max-width: 72ch;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+      .note {
+        max-width: 72ch;
+        color: var(--muted);
+        margin-bottom: 24px;
+      }
+      .num {
+        font-family: var(--num);
+        font-variant-numeric: tabular-nums;
+      }
+      kbd {
+        font-family: var(--num);
+        font-size: 11px;
+        color: var(--muted);
+        border: 1px solid var(--rule);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 0 5px;
+        line-height: 16px;
+        display: inline-block;
+      }
+      .icon {
+        width: 18px;
+        height: 18px;
+        flex: none;
+      }
+      .scope {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 28px;
+        max-width: 1100px;
+      }
+      .scope div {
+        border-top: 1px solid var(--rule);
+        padding-top: 12px;
+      }
+      .scope strong {
+        display: block;
+        font-family: var(--display);
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .scope span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* ===== match screen ===== */
+      .screen {
+        width: 1312px;
+        background: var(--ground);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-top: 20px;
+        box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+      }
+      .hud {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        height: 64px;
+        padding: 0 12px 0 20px;
+        background: var(--panel);
+        border-bottom: 1px solid var(--rule);
+      }
+      .brand {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+      .brand b {
+        color: var(--antivirus);
+        font-weight: 700;
+      }
+      .level {
+        color: var(--muted);
+        font-size: 13px;
+        white-space: nowrap;
+        border-left: 1px solid var(--rule);
+        padding-left: 16px;
+      }
+      .level strong {
+        color: var(--silk);
+        font-weight: 700;
+      }
+      .wave {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-left: auto;
+      }
+      .stat {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+      }
+      .stat small {
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .stat .num {
+        font-size: 18px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .next {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 4px 6px 4px 10px;
+        height: 40px;
+      }
+      .next .label {
+        font-size: 12px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .chips {
+        display: flex;
+        gap: 6px;
+      }
+      .chip {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        font-family: var(--num);
+        font-size: 12px;
+      }
+      .chip svg {
+        width: 22px;
+        height: 22px;
+      }
+      .btn {
+        font: 700 13px var(--ui);
+        color: var(--ground);
+        background: var(--antivirus);
+        border: 0;
+        border-radius: 6px;
+        height: 30px;
+        padding: 0 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .btn kbd {
+        color: var(--ground);
+        border-color: rgba(8, 19, 15, 0.35);
+      }
+      .btn:hover {
+        background: #7deef8;
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--silk);
+        border: 1px solid var(--rule);
+      }
+      .btn.ghost kbd {
+        color: var(--muted);
+        border-color: var(--rule);
+      }
+      .btn.ghost:hover {
+        background: var(--raised);
+      }
+      .btn[disabled] {
+        background: var(--raised);
+        color: var(--muted);
+        cursor: not-allowed;
+      }
+      .btn.danger {
+        background: transparent;
+        color: var(--danger);
+        border: 1px solid #5a2b2b;
+      }
+      .files {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .pips {
+        display: flex;
+        gap: 3px;
+      }
+      .pips svg {
+        width: 16px;
+        height: 20px;
+      }
+      .bits {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--data);
+      }
+      .bits .num {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border-left: 1px solid var(--rule);
+        padding-left: 14px;
+      }
+      .iconbtn {
+        width: 34px;
+        height: 34px;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--silk);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+      .iconbtn:hover {
+        background: var(--raised);
+      }
+      .iconbtn[aria-pressed="true"] {
+        background: var(--raised);
+        border-color: var(--rule);
+      }
+      .seg {
+        display: flex;
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        overflow: hidden;
+        height: 34px;
+      }
+      .seg button {
+        font: 700 12px var(--num);
+        color: var(--muted);
+        background: transparent;
+        border: 0;
+        padding: 0 9px;
+        cursor: pointer;
+      }
+      .seg button[aria-pressed="true"] {
+        background: var(--silk);
+        color: var(--ground);
+      }
+      .body {
+        display: grid;
+        grid-template-columns: 992px 1fr;
+      }
+      .boardwrap {
+        padding: 0;
+        background: var(--ground);
+      }
+      .boardwrap svg {
+        display: block;
+      }
+      .side {
+        border-left: 1px solid var(--rule);
+        background: var(--panel);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .side h3 {
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-family: var(--ui);
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      /* build menu */
+      .build {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .bitem {
+        display: grid;
+        grid-template-columns: 40px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 8px;
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        background: transparent;
+        color: var(--silk);
+        text-align: left;
+        font: inherit;
+        cursor: pointer;
+        width: 100%;
+      }
+      .bitem:hover {
+        background: var(--raised);
+      }
+      .bitem svg {
+        width: 40px;
+        height: 40px;
+      }
+      .bitem .name {
+        font-weight: 700;
+        font-size: 14px;
+        display: block;
+      }
+      .bitem .role {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .bitem .cost {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+      }
+      .bitem .cost .num {
+        color: var(--data);
+        font-weight: 700;
+      }
+      .bitem.placing {
+        border-color: var(--antivirus);
+        background: rgba(69, 227, 242, 0.07);
+      }
+      .bitem.poor .cost .num {
+        color: var(--muted);
+        text-decoration: line-through;
+      }
+      .bitem.poor .why,
+      .bitem.locked .why {
+        font-size: 12px;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .bitem.locked {
+        border-style: dashed;
+        cursor: default;
+      }
+      .bitem.locked svg.towerart {
+        opacity: 0.35;
+      }
+
+      /* tower card */
+      .card {
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        background: var(--raised);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .card-head {
+        display: grid;
+        grid-template-columns: 44px 1fr auto;
+        gap: 10px;
+        align-items: center;
+      }
+      .card-head svg {
+        width: 44px;
+        height: 44px;
+      }
+      .card-head .name {
+        font-family: var(--display);
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .card-head .role {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .ver {
+        font-family: var(--num);
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 4px;
+        padding: 2px 6px;
+        border: 1px solid currentColor;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4px 12px;
+        margin: 0;
+        font-size: 13px;
+      }
+      .stats dt {
+        color: var(--muted);
+      }
+      .stats dd {
+        margin: 0;
+        font-family: var(--num);
+        text-align: right;
+      }
+      .stats dd .up {
+        color: var(--debugger);
+      }
+      .upgrade {
+        border-top: 1px solid var(--rule);
+        padding-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .upgrade p {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .upgrade p strong {
+        color: var(--silk);
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+      }
+      .actions .btn {
+        flex: 1;
+        justify-content: center;
+        height: 34px;
+      }
+      .msg {
+        font-size: 13px;
+        color: var(--muted);
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      .msg svg {
+        margin-top: 1px;
+      }
+
+      /* sheets */
+      .sheet {
+        display: grid;
+        gap: 16px;
+      }
+      .cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .cols-5 {
+        grid-template-columns: repeat(5, 1fr);
+      }
+      .tile {
+        background: var(--board);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .tile svg.art {
+        width: 100%;
+        height: 140px;
+        display: block;
+      }
+      .tile .t {
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .tile .d {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .row-title {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 18px;
+        margin: 36px 0 12px;
+      }
+
+      /* palette */
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .sw {
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--panel);
+      }
+      .sw .chip-color {
+        height: 72px;
+      }
+      .sw .meta {
+        padding: 10px 12px 12px;
+      }
+      .sw .meta strong {
+        display: block;
+        font-size: 14px;
+      }
+      .sw .meta .num {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .sw .meta p {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .group-label {
+        font-family: var(--display);
+        font-size: 15px;
+        font-weight: 600;
+        margin: 28px 0 10px;
+        color: var(--muted);
+      }
+
+      /* type */
+      .type {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 20px 32px;
+        align-items: baseline;
+        border-top: 1px solid var(--rule);
+        padding-top: 20px;
+        max-width: 1100px;
+      }
+      .type .k {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .type .k strong {
+        color: var(--silk);
+        display: block;
+      }
+
+      /* header states */
+      .hud.mini {
+        width: max-content;
+        min-width: 1312px;
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+      }
+      .pill {
+        font-size: 12px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: var(--silk);
+        color: var(--ground);
+      }
+      .popover {
+        position: absolute;
+        left: 1020px;
+        top: 58px;
+        width: 280px;
+        background: var(--raised);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 14px;
+        box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.8);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .popover h3 {
+        font-size: 15px;
+      }
+      .setrow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+      }
+      .switch {
+        width: 40px;
+        height: 22px;
+        border-radius: 999px;
+        background: var(--antivirus);
+        position: relative;
+      }
+      .switch::after {
+        content: "";
+        position: absolute;
+        right: 3px;
+        top: 3px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--ground);
+      }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 10px;
+      }
+      .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===================== SHARED SVG SYMBOLS ===================== -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <filter id="glow-pink" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="2.2" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="glow-violet" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="2.2" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="2.6" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="0" cy="0" r="1.3" fill="#24443A" />
+          <circle cx="40" cy="0" r="1.3" fill="#24443A" />
+          <circle cx="0" cy="40" r="1.3" fill="#24443A" />
+          <circle cx="40" cy="40" r="1.3" fill="#24443A" />
+        </pattern>
+        <pattern
+          id="keepout"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
+          <rect width="8" height="8" fill="#0D1F19" />
+          <rect width="2" height="8" fill="#5E4329" opacity=".55" />
+        </pattern>
+        <pattern
+          id="invalid"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
+          <rect width="8" height="8" fill="#2A1416" />
+          <rect width="2.5" height="8" fill="#FF6B6B" opacity=".55" />
+        </pattern>
+
+        <!-- towers -->
+        <symbol id="tw-antivirus" viewBox="-20 -20 40 40" overflow="visible">
+          <rect
+            x="-17"
+            y="-17"
+            width="34"
+            height="34"
+            rx="6"
+            fill="#0A1A15"
+            stroke="#45E3F2"
+            stroke-opacity=".6"
+            stroke-width="1.5"
+          />
+          <circle r="10.5" fill="#0D2A2E" stroke="#45E3F2" stroke-width="2" />
+          <path
+            d="M0 -6.5 L5.5 -4 V1 C5.5 4.6 2.8 6.6 0 7.6 C-2.8 6.6 -5.5 4.6 -5.5 1 V-4 Z"
+            fill="#45E3F2"
+          />
+        </symbol>
+        <symbol id="tw-firewall" viewBox="-20 -20 40 40" overflow="visible">
+          <rect
+            x="-17"
+            y="-17"
+            width="34"
+            height="34"
+            rx="6"
+            fill="#0A1A15"
+            stroke="#A9C4DC"
+            stroke-opacity=".6"
+            stroke-width="1.5"
+          />
+          <g fill="#A9C4DC">
+            <rect x="-12" y="-10" width="11" height="5.5" rx="1" />
+            <rect x="1" y="-10" width="11" height="5.5" rx="1" />
+            <rect x="-12" y="-2.75" width="5" height="5.5" rx="1" />
+            <rect x="-5" y="-2.75" width="10" height="5.5" rx="1" />
+            <rect x="7" y="-2.75" width="5" height="5.5" rx="1" />
+            <rect x="-12" y="4.5" width="11" height="5.5" rx="1" />
+            <rect x="1" y="4.5" width="11" height="5.5" rx="1" />
+          </g>
+        </symbol>
+        <symbol id="tw-debugger" viewBox="-20 -20 40 40" overflow="visible">
+          <rect
+            x="-17"
+            y="-17"
+            width="34"
+            height="34"
+            rx="6"
+            fill="#0A1A15"
+            stroke="#86F59E"
+            stroke-opacity=".6"
+            stroke-width="1.5"
+          />
+          <path
+            d="M0 -11.5 L11.5 0 L0 11.5 L-11.5 0Z"
+            fill="#10291A"
+            stroke="#86F59E"
+            stroke-width="2"
+          />
+          <circle r="4" fill="#86F59E" />
+          <path
+            d="M0 -15 v3 M0 12 v3 M-15 0 h3 M12 0 h3"
+            stroke="#86F59E"
+            stroke-width="1.6"
+            stroke-linecap="round"
+          />
+        </symbol>
+
+        <!-- enemies -->
+        <symbol id="en-worm" viewBox="-20 -20 40 40" overflow="visible">
+          <g filter="url(#glow-pink)">
+            <circle cx="-11.5" cy="2.2" r="3.4" fill="#FF5AA8" opacity=".5" />
+            <circle cx="-6" cy="-1" r="4.3" fill="#FF5AA8" opacity=".75" />
+            <circle cx="0.3" cy="1" r="5" fill="#FF5AA8" />
+            <circle cx="7.6" cy="-0.4" r="6" fill="#FF5AA8" />
+          </g>
+          <rect x="9" y="-3.2" width="3.2" height="1.8" rx=".4" fill="#08130F" />
+          <rect x="9" y="0.6" width="3.2" height="1.8" rx=".4" fill="#08130F" />
+        </symbol>
+        <symbol id="en-rootkit" viewBox="-20 -20 40 40" overflow="visible">
+          <g filter="url(#glow-violet)">
+            <path
+              d="M0 -13.5 L11.7 -6.75 L11.7 6.75 L0 13.5 L-11.7 6.75 L-11.7 -6.75Z"
+              fill="#1B1236"
+              stroke="#B58EFF"
+              stroke-width="3.2"
+              stroke-linejoin="round"
+            />
+            <path d="M0 -6 L5.2 -3 L5.2 3 L0 6 L-5.2 3 L-5.2 -3Z" fill="#B58EFF" />
+          </g>
+          <path
+            d="M0 -6 V-12 M5.2 -3 L10.2 -5.9 M5.2 3 L10.2 5.9 M0 6 V12 M-5.2 3 L-10.2 5.9 M-5.2 -3 L-10.2 -5.9"
+            stroke="#B58EFF"
+            stroke-width="1.3"
+            opacity=".8"
+          />
+        </symbol>
+
+        <!-- file -->
+        <symbol id="file" viewBox="-6 -7.5 12 15" overflow="visible">
+          <path d="M-5 -6.5 H1.5 L5 -3 V6.5 H-5Z" fill="#FFD54A" />
+          <path d="M1.5 -6.5 V-3 H5" fill="none" stroke="#08130F" stroke-width="1.1" />
+          <path d="M-2.8 0 H2.8 M-2.8 2.8 H2.8" stroke="#08130F" stroke-width="1" opacity=".7" />
+        </symbol>
+
+        <!-- ui icons (24 grid, currentColor) -->
+        <symbol id="ic-pause" viewBox="0 0 24 24">
+          <rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" />
+          <rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" />
+        </symbol>
+        <symbol id="ic-play" viewBox="0 0 24 24">
+          <path d="M7 4.5 19 12 7 19.5Z" fill="currentColor" />
+        </symbol>
+        <symbol id="ic-sound" viewBox="0 0 24 24">
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+            <path d="M15.5 9a4.2 4.2 0 0 1 0 6" />
+            <path d="M18 6.5a8 8 0 0 1 0 11" />
+          </g>
+        </symbol>
+        <symbol id="ic-gear" viewBox="0 0 24 24">
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+            />
+            <circle cx="12" cy="12" r="3" />
+          </g>
+        </symbol>
+        <symbol id="ic-lock" viewBox="0 0 24 24">
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="5" y="11" width="14" height="10" rx="2" />
+            <path d="M8 11V7.5a4 4 0 0 1 8 0V11" />
+          </g>
+        </symbol>
+        <symbol id="ic-bits" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="6.5" y="6.5" width="11" height="11" rx="1.5" />
+            <path
+              d="M9.5 3v3.5M14.5 3v3.5M9.5 17.5V21M14.5 17.5V21M3 9.5h3.5M3 14.5h3.5M17.5 9.5H21M17.5 14.5H21"
+            />
+          </g>
+        </symbol>
+        <symbol id="ic-block" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="8.5" />
+            <path d="M6 18 18 6" />
+          </g>
+        </symbol>
+        <symbol id="ic-check" viewBox="0 0 24 24">
+          <path
+            d="M5 12.5 10 17.5 19 7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+        <symbol id="ic-forward" viewBox="0 0 24 24">
+          <path d="M5 5.5 13 12 5 18.5ZM13 5.5 21 12 13 18.5Z" fill="currentColor" />
+        </symbol>
+
+        <!-- file pips for the header -->
+        <symbol id="pip-safe" viewBox="0 0 16 20">
+          <path d="M2 2h8l4 4v12H2z" fill="#FFD54A" />
+          <path d="M10 2v4h4" fill="none" stroke="#11241E" stroke-width="1.3" />
+        </symbol>
+        <symbol id="pip-carried" viewBox="0 0 16 20">
+          <path
+            d="M2.75 2.75h7l3.5 3.5v11h-10.5z"
+            fill="none"
+            stroke="#FFD54A"
+            stroke-width="1.5"
+          />
+          <circle cx="8" cy="12" r="2.6" fill="#FF5AA8" />
+        </symbol>
+        <symbol id="pip-dropped" viewBox="0 0 16 20">
+          <path
+            d="M2.75 2.75h7l3.5 3.5v11h-10.5z"
+            fill="none"
+            stroke="#FFD54A"
+            stroke-width="1.5"
+            stroke-dasharray="2.2 1.8"
+          />
+        </symbol>
+        <symbol id="pip-leaked" viewBox="0 0 16 20">
+          <path
+            d="M2.75 2.75h7l3.5 3.5v11h-10.5z"
+            fill="none"
+            stroke="#FF6B6B"
+            stroke-width="1.5"
+          />
+          <path d="M4 16 13 5" stroke="#FF6B6B" stroke-width="1.8" stroke-linecap="round" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <h1>Ctrl+Alt+Defend: visual direction</h1>
+    <p class="lede">
+      Mockup for validation, not the build. The world is the inside of a computer seen from above: a
+      dark circuit board (solder mask, copper traces, white silkscreen labels) where the hardware is
+      the terrain, your security programs glow cyan and green, viruses glow pink and violet, and
+      your data glows yellow. Every color has one job, so the board reads at a glance. All numbers
+      shown (bits, damage, waves) are placeholders.
+    </p>
+
+    <div class="scope">
+      <div>
+        <strong>3 towers</strong
+        ><span
+          >Firewall (cheap wall; from v2.0 boosts the towers next to it), Antivirus (fast single
+          shots), Debugger (ramping beam, beats armor).</span
+        >
+      </div>
+      <div>
+        <strong>2 enemies</strong
+        ><span>Worm (fast, splits in two on death) and Rootkit (slow, armored).</span>
+      </div>
+      <div>
+        <strong>Why this set</strong
+        ><span
+          >Antivirus answers Worms, Debugger answers Rootkits, Firewall shapes the maze and makes
+          neighbors stronger.</span
+        >
+      </div>
+      <div>
+        <strong>Upgrade lab</strong
+        ><span
+          >Firewall and Antivirus start unlocked; Debugger and every v2.0 / v3.0 are bought with
+          keys.</span
+        >
+      </div>
+    </div>
+
+    <!-- ===================== MATCH SCREEN ===================== -->
+    <h2>Match screen</h2>
+    <p class="note">
+      Level 1, Home PC, mid-wave. A Worm carrying a file runs for port J2, a Debugger beam is
+      grinding through a Rootkit's armor, a file dropped by a dead Worm drifts home, and the
+      selected Antivirus shows its range and card.
+    </p>
+
+    <div class="screen">
+      <header class="hud" aria-label="Match">
+        <div class="brand">Ctrl<b>+</b>Alt<b>+</b>Defend</div>
+        <div class="level">Level 1 · <strong>Home PC</strong></div>
+        <div class="wave">
+          <div class="stat">
+            <small>Wave</small
+            ><span class="num">7<span style="color: var(--muted)"> / 20</span></span>
+          </div>
+          <div class="next">
+            <span class="label">Next</span>
+            <div class="chips">
+              <span class="chip"
+                ><svg viewBox="-20 -20 40 40">
+                  <use href="#en-worm" x="-20" y="-20" width="40" height="40" /></svg
+                >×6</span
+              >
+              <span class="chip"
+                ><svg viewBox="-20 -20 40 40">
+                  <use href="#en-rootkit" x="-20" y="-20" width="40" height="40" /></svg
+                >×2</span
+              >
+            </div>
+            <span class="label num">in 0:12</span>
+            <button class="btn">Start now <span class="num">+6</span><kbd>N</kbd></button>
+          </div>
+        </div>
+        <div class="files" title="5 in the core, 1 carried, 1 dropped, 1 leaked">
+          <div class="stat">
+            <small>Files</small
+            ><span class="num">7<span style="color: var(--muted)"> / 8</span></span>
+          </div>
+          <div class="pips">
+            <svg><use href="#pip-safe" /></svg><svg><use href="#pip-safe" /></svg
+            ><svg><use href="#pip-safe" /></svg><svg><use href="#pip-safe" /></svg
+            ><svg><use href="#pip-safe" /></svg><svg><use href="#pip-carried" /></svg
+            ><svg><use href="#pip-dropped" /></svg><svg><use href="#pip-leaked" /></svg>
+          </div>
+        </div>
+        <div class="bits">
+          <svg class="icon"><use href="#ic-bits" /></svg><span class="num">214</span>
+        </div>
+        <div class="controls">
+          <button class="iconbtn" aria-label="Pause">
+            <svg class="icon"><use href="#ic-pause" /></svg>
+          </button>
+          <div class="seg" role="group" aria-label="Speed">
+            <button aria-pressed="true">1×</button><button aria-pressed="false">2×</button>
+          </div>
+          <button class="iconbtn" aria-label="Sound on" aria-pressed="true">
+            <svg class="icon"><use href="#ic-sound" /></svg>
+          </button>
+          <button class="iconbtn" aria-label="Settings">
+            <svg class="icon"><use href="#ic-gear" /></svg>
+          </button>
+        </div>
+      </header>
+      <div class="body">
+        <div class="boardwrap">
+          <svg
+            id="board"
+            width="992"
+            height="672"
+            viewBox="-16 -16 992 672"
+            role="img"
+            aria-label="Board"
+          ></svg>
+        </div>
+        <aside class="side">
+          <div>
+            <h3>Build</h3>
+            <div class="build">
+              <button class="bitem">
+                <svg viewBox="-20 -20 40 40" class="towerart">
+                  <use href="#tw-firewall" x="-20" y="-20" width="40" height="40" /></svg
+                ><span
+                  ><span class="name">Firewall</span
+                  ><span class="role">Wall; boosts neighbors</span></span
+                ><span class="cost"><span class="num">10</span><kbd>1</kbd></span>
+              </button>
+              <button class="bitem">
+                <svg viewBox="-20 -20 40 40" class="towerart">
+                  <use href="#tw-antivirus" x="-20" y="-20" width="40" height="40" />
+                  <rect x="-1.8" y="-19" width="3.6" height="9" rx="1" fill="#45E3F2" /></svg
+                ><span
+                  ><span class="name">Antivirus</span
+                  ><span class="role">Fast single shots</span></span
+                ><span class="cost"><span class="num">40</span><kbd>2</kbd></span>
+              </button>
+              <button class="bitem">
+                <svg viewBox="-20 -20 40 40" class="towerart">
+                  <use href="#tw-debugger" x="-20" y="-20" width="40" height="40" /></svg
+                ><span
+                  ><span class="name">Debugger</span
+                  ><span class="role">Ramping beam, beats armor</span></span
+                ><span class="cost"><span class="num">90</span><kbd>3</kbd></span>
+              </button>
+            </div>
+          </div>
+          <div>
+            <h3>Selected</h3>
+            <div class="card" id="card-main"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <div class="legend">
+      <span
+        ><svg width="16" height="20"><use href="#pip-safe" /></svg>In the core</span
+      >
+      <span
+        ><svg width="16" height="20"><use href="#pip-carried" /></svg>Carried by a virus</span
+      >
+      <span
+        ><svg width="16" height="20"><use href="#pip-dropped" /></svg>Dropped, drifting home</span
+      >
+      <span
+        ><svg width="16" height="20"><use href="#pip-leaked" /></svg>Leaked, lost</span
+      >
+    </div>
+
+    <!-- ===================== PALETTE ===================== -->
+    <h2>Colors</h2>
+    <p class="note">
+      Dark only. Five families, each with one job: the board is terrain, cyan and green are yours,
+      pink and violet are threats, yellow is data you must protect. Red is reserved for loss and
+      invalid actions. Every text color passes WCAG AA on the panel color.
+    </p>
+
+    <div class="group-label">Board and interface</div>
+    <div class="swatches" id="sw-ui"></div>
+    <div class="group-label">Game roles</div>
+    <div class="swatches" id="sw-game"></div>
+
+    <!-- ===================== TYPE ===================== -->
+    <h2>Typography</h2>
+    <p class="note">
+      Two families. Chakra Petch is squared and chip-like, for names and headings. B612 was drawn
+      for aircraft cockpit screens: built to be read fast, small, on dark displays, which is what a
+      match HUD is. Its mono cut sets every number so counters don't jitter.
+    </p>
+    <div class="type">
+      <div class="k"><strong>Display</strong>Chakra Petch 600 · 40/44</div>
+      <div style="font: 600 40px/1.1 var(--display)">Ctrl+Alt+Defend</div>
+      <div class="k"><strong>Heading</strong>Chakra Petch 600 · 18/22</div>
+      <div style="font: 600 18px/1.2 var(--display)">Antivirus · Level 1 Home PC</div>
+      <div class="k"><strong>Body</strong>B612 400 · 15/22</div>
+      <div style="font: 400 15px/1.5 var(--ui); max-width: 62ch">
+        Viruses walk the shortest open route to the Core. Every tower you place changes that route.
+        A carrier that dies drops its file, and the file drifts home.
+      </div>
+      <div class="k"><strong>Label</strong>B612 700 · 11/14 caps +0.04em</div>
+      <div
+        style="
+          font: 700 11px/1.3 var(--ui);
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          color: var(--muted);
+        "
+      >
+        Wave · Files · Selected
+      </div>
+      <div class="k"><strong>Numbers</strong>B612 Mono 700 · 18/20 tabular</div>
+      <div style="font: 700 18px/1.2 var(--num); color: var(--data)">214 bits · 7 / 20 · 0:12</div>
+      <div class="k"><strong>Silkscreen</strong>B612 Mono 400 · 10 caps, on the board only</div>
+      <div
+        style="
+          font: 400 10px/1.2 var(--num);
+          letter-spacing: 0.08em;
+          color: var(--silk);
+          opacity: 0.75;
+        "
+      >
+        U1 BIOS · C2 · R1 · J1 PORT
+      </div>
+    </div>
+
+    <!-- ===================== ENEMIES ===================== -->
+    <h2>Enemies</h2>
+    <p class="note">
+      Threat colors only. Pink is fast and many; violet is slow and heavy. Hit feedback is a short
+      chromatic glitch (with reduced motion: a quick fade instead). Health bars sit above the virus;
+      Rootkit's bar carries a small armor plate. A carrier holds the yellow file above its body so
+      you can always find your data.
+    </p>
+    <div class="sheet cols-4" id="enemy-sheet"></div>
+
+    <!-- ===================== TOWERS ===================== -->
+    <h2>Towers</h2>
+    <p class="note">
+      One tower per cell, on a pad. The version shows as three pips along the bottom edge. Firewall
+      is a solid wall; from v2.0 it boosts every tower sharing a side with it, shown as a steel
+      chevron on the boosted tower and a bright edge where they touch. Antivirus turns its barrel
+      toward its target; Debugger is a fixed emitter whose beam thickens as it ramps.
+    </p>
+    <div class="sheet cols-4" id="tower-sheet"></div>
+    <div class="row-title">Build menu items</div>
+    <div class="sheet cols-4" id="build-sheet"></div>
+
+    <!-- ===================== MAP ===================== -->
+    <h2>Map pieces</h2>
+    <p class="note">
+      The hardware is the terrain. Obstacles are real board parts with silkscreen names, block both
+      walking and building, and differ per level. Ports are edge connectors; the hatched keep-out
+      strip inside each port can't be built on.
+    </p>
+    <div class="sheet cols-3" id="map-sheet"></div>
+    <div class="row-title">Placing a tower</div>
+    <div class="sheet cols-2" id="place-sheet"></div>
+
+    <!-- ===================== CARD ===================== -->
+    <h2>Tower info card</h2>
+    <p class="note">
+      Opens when a tower is selected. The upgrade block changes with the situation; Sell is always
+      there.
+    </p>
+    <div class="sheet cols-5" id="card-sheet"></div>
+
+    <!-- ===================== HEADER ===================== -->
+    <h2>Match header</h2>
+    <p class="note">
+      Same bar in every state. Left to right: where you are, what's coming, what you have left, what
+      you can spend, and the controls.
+    </p>
+    <div class="row-title">During a wave</div>
+    <div id="hud-wave"></div>
+    <div class="row-title">Paused, settings open</div>
+    <div id="hud-paused" style="position: relative; padding-bottom: 230px"></div>
+
+    <script>
+      const NS = "http://www.w3.org/2000/svg";
+      const COL = {
+        firewall: "#A9C4DC",
+        antivirus: "#45E3F2",
+        debugger: "#86F59E",
+        worm: "#FF5AA8",
+        rootkit: "#B58EFF",
+        data: "#FFD54A",
+        silk: "#E7EDE6",
+        muted: "#9DB2A6",
+        rule: "#24443A",
+        copper: "#C38A55",
+        copperDim: "#5E4329",
+        danger: "#FF6B6B",
+        ground: "#08130F",
+      };
+      const el = (tag, attrs = {}, parent) => {
+        const e = document.createElementNS(NS, tag);
+        for (const k in attrs) e.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(e);
+        return e;
+      };
+      const txt = (parent, x, y, s, attrs = {}) => {
+        const t = el(
+          "text",
+          {
+            x,
+            y,
+            "font-family": "B612 Mono",
+            "font-size": 10,
+            "letter-spacing": "0.8",
+            fill: COL.silk,
+            opacity: 0.72,
+            ...attrs,
+          },
+          parent,
+        );
+        t.textContent = s;
+        return t;
+      };
+      const C = (c) => c * 40 + 20;
+
+      function tower(
+        parent,
+        type,
+        x,
+        y,
+        { v = 1, aim = null, selected = false, boosted = false } = {},
+      ) {
+        const g = el("g", { transform: `translate(${x},${y})` }, parent);
+        el("use", { href: `#tw-${type}`, x: -20, y: -20, width: 40, height: 40 }, g);
+        if (type === "antivirus") {
+          const rot = aim ? (Math.atan2(aim[1] - y, aim[0] - x) * 180) / Math.PI + 90 : 0;
+          el(
+            "rect",
+            {
+              x: -1.8,
+              y: -19,
+              width: 3.6,
+              height: 9,
+              rx: 1,
+              fill: COL.antivirus,
+              transform: `rotate(${rot})`,
+            },
+            g,
+          );
+        }
+        for (let i = 0; i < 3; i++)
+          el(
+            "rect",
+            {
+              x: -9.5 + i * 7,
+              y: 12.2,
+              width: 5,
+              height: 2.4,
+              rx: 0.6,
+              fill: i < v ? COL[type] : COL.rule,
+            },
+            g,
+          );
+        if (boosted)
+          el(
+            "path",
+            {
+              d: "M9 -10.5 l3.5 -3.5 l3.5 3.5 M9 -6.5 l3.5 -3.5 l3.5 3.5",
+              fill: "none",
+              stroke: COL.firewall,
+              "stroke-width": 1.6,
+              "stroke-linecap": "round",
+              "stroke-linejoin": "round",
+            },
+            g,
+          );
+        if (selected) {
+          const s = COL.silk,
+            d = 21;
+          el(
+            "path",
+            {
+              d: `M${-d} ${-d + 7}V${-d}H${-d + 7} M${d - 7} ${-d}H${d}V${-d + 7} M${d} ${d - 7}V${d}H${d - 7} M${-d + 7} ${d}H${-d}V${d - 7}`,
+              fill: "none",
+              stroke: s,
+              "stroke-width": 2,
+            },
+            g,
+          );
+        }
+        return g;
+      }
+
+      function enemy(
+        parent,
+        type,
+        x,
+        y,
+        { angle = 0, hp = 1, carrier = false, hit = false, small = false, armor = false } = {},
+      ) {
+        const g = el("g", { transform: `translate(${x},${y})` }, parent);
+        const body = el("g", { transform: `rotate(${angle}) scale(${small ? 0.68 : 1})` }, g);
+        if (hit) {
+          el(
+            "use",
+            {
+              href: `#en-${type}`,
+              x: -22.5,
+              y: -20,
+              width: 40,
+              height: 40,
+              opacity: 0.55,
+              style: "filter: hue-rotate(160deg) saturate(1.6)",
+            },
+            body,
+          );
+          el(
+            "use",
+            {
+              href: `#en-${type}`,
+              x: -17.5,
+              y: -20,
+              width: 40,
+              height: 40,
+              opacity: 0.45,
+              style: "filter: brightness(1.6)",
+            },
+            body,
+          );
+        }
+        el(
+          "use",
+          {
+            href: `#en-${type}`,
+            x: -20,
+            y: -20,
+            width: 40,
+            height: 40,
+            ...(hit ? { "clip-path": "inset(0 0 0 0)" } : {}),
+          },
+          body,
+        );
+        if (hit) {
+          el(
+            "rect",
+            {
+              x: -14,
+              y: -3,
+              width: 28,
+              height: 2.2,
+              fill: COL.ground,
+              opacity: 0.9,
+              transform: `rotate(${angle})`,
+            },
+            g,
+          );
+        }
+        const w = small ? 16 : 24,
+          top = small ? -14 : -21;
+        if (carrier) {
+          el(
+            "circle",
+            {
+              r: small ? 11 : 16,
+              fill: "none",
+              stroke: COL.data,
+              "stroke-width": 1.5,
+              "stroke-dasharray": "3 3",
+              opacity: 0.9,
+            },
+            g,
+          );
+          el(
+            "use",
+            { href: "#file", x: -6, y: top - 18, width: 12, height: 15, filter: "url(#glow)" },
+            g,
+          );
+        }
+        el("rect", { x: -w / 2, y: top, width: w, height: 3, rx: 1, fill: COL.rule }, g);
+        el("rect", { x: -w / 2, y: top, width: w * hp, height: 3, rx: 1, fill: COL.silk }, g);
+        if (armor)
+          el(
+            "path",
+            { d: `M${w / 2 + 3} ${top - 1.5} h5 v3 l-2.5 2 l-2.5 -2z`, fill: COL.rootkit },
+            g,
+          );
+        return g;
+      }
+
+      function core(parent, x, y, lit, total = 8) {
+        const g = el("g", { transform: `translate(${x},${y})` }, parent);
+        for (let i = 0; i < 8; i++) {
+          const o = -30 + i * 8.6;
+          el("rect", { x: o - 1.6, y: -46, width: 3.2, height: 7, fill: COL.copper }, g);
+          el("rect", { x: o - 1.6, y: 39, width: 3.2, height: 7, fill: COL.copper }, g);
+          el("rect", { x: -46, y: o - 1.6, width: 7, height: 3.2, fill: COL.copper }, g);
+          el("rect", { x: 39, y: o - 1.6, width: 7, height: 3.2, fill: COL.copper }, g);
+        }
+        el(
+          "rect",
+          {
+            x: -39,
+            y: -39,
+            width: 78,
+            height: 78,
+            rx: 5,
+            fill: "#0A1411",
+            stroke: "#3A5A4E",
+            "stroke-width": 1.5,
+          },
+          g,
+        );
+        el(
+          "rect",
+          {
+            x: -29,
+            y: -29,
+            width: 58,
+            height: 58,
+            rx: 3,
+            fill: "#13261F",
+            stroke: COL.data,
+            "stroke-opacity": 0.35,
+          },
+          g,
+        );
+        el("circle", { cx: -33, cy: -33, r: 2, fill: "#3A5A4E" }, g);
+        const t = el(
+          "text",
+          {
+            x: 0,
+            y: -16,
+            "text-anchor": "middle",
+            "font-family": "Chakra Petch",
+            "font-weight": 700,
+            "font-size": 10,
+            "letter-spacing": "2",
+            fill: COL.silk,
+          },
+          g,
+        );
+        t.textContent = "CORE";
+        for (let i = 0; i < total; i++) {
+          const cx = -18 + (i % 4) * 12,
+            cy = -4 + Math.floor(i / 4) * 17;
+          if (i < lit)
+            el(
+              "use",
+              {
+                href: "#file",
+                x: cx - 4.5,
+                y: cy - 5.6,
+                width: 9,
+                height: 11.25,
+                filter: "url(#glow)",
+              },
+              g,
+            );
+          else
+            el(
+              "path",
+              {
+                d: `M${cx - 3.8} ${cy - 4.9}h4.9l2.7 2.7v7.1h-7.6z`,
+                fill: "none",
+                stroke: COL.data,
+                "stroke-opacity": 0.35,
+                "stroke-width": 1,
+              },
+              g,
+            );
+        }
+        return g;
+      }
+
+      function port(parent, side, y0, label) {
+        const g = el("g", {}, parent);
+        const x = side === "left" ? -16 : 960;
+        el("rect", { x, y: y0, width: 16, height: 80, fill: COL.ground }, g);
+        for (let i = 0; i < 7; i++)
+          el(
+            "rect",
+            {
+              x: x + 3,
+              y: y0 + 6 + i * 10.3,
+              width: 10,
+              height: 6,
+              rx: 1,
+              fill: "#D9A441",
+              opacity: 0.85,
+            },
+            g,
+          );
+        const kx = side === "left" ? 0 : 920;
+        el("rect", { x: kx, y: y0, width: 40, height: 80, fill: "url(#keepout)" }, g);
+        el(
+          "rect",
+          {
+            x: kx + 0.5,
+            y: y0 + 0.5,
+            width: 39,
+            height: 79,
+            fill: "none",
+            stroke: COL.copperDim,
+            "stroke-dasharray": "3 3",
+          },
+          g,
+        );
+        txt(g, side === "left" ? 4 : 914, y0 - 8, label + " PORT", {
+          "text-anchor": side === "left" ? "start" : "end",
+        });
+        return g;
+      }
+
+      function obstacle(parent, kind, c, r, w, h, label, chipText) {
+        const x = c * 40,
+          y = r * 40,
+          W = w * 40,
+          H = h * 40;
+        const g = el("g", {}, parent);
+        if (kind === "chip") {
+          const legs = Math.round(W / 10);
+          for (let i = 0; i < legs; i++) {
+            el(
+              "rect",
+              {
+                x: x + 6 + i * ((W - 12) / (legs - 1)) - 2,
+                y: y + 1,
+                width: 4,
+                height: 6,
+                fill: COL.copper,
+              },
+              g,
+            );
+            el(
+              "rect",
+              {
+                x: x + 6 + i * ((W - 12) / (legs - 1)) - 2,
+                y: y + H - 7,
+                width: 4,
+                height: 6,
+                fill: COL.copper,
+              },
+              g,
+            );
+          }
+          el(
+            "rect",
+            {
+              x: x + 3,
+              y: y + 6,
+              width: W - 6,
+              height: H - 12,
+              rx: 3,
+              fill: "#0A0F0D",
+              stroke: "#2E4A40",
+            },
+            g,
+          );
+          el("circle", { cx: x + 10, cy: y + 13, r: 2.2, fill: "#2E4A40" }, g);
+          const t = el(
+            "text",
+            {
+              x: x + W / 2,
+              y: y + H / 2 + 4,
+              "text-anchor": "middle",
+              "font-family": "B612 Mono",
+              "font-size": 10,
+              fill: COL.muted,
+              "letter-spacing": "1",
+            },
+            g,
+          );
+          t.textContent = chipText;
+          txt(g, x + 2, y - 4, label);
+        } else if (kind === "cap") {
+          el(
+            "circle",
+            {
+              cx: x + 20,
+              cy: y + 20,
+              r: 16,
+              fill: "#12241E",
+              stroke: COL.muted,
+              "stroke-width": 2,
+            },
+            g,
+          );
+          el(
+            "path",
+            {
+              d: `M${x + 20} ${y + 4} A16 16 0 0 1 ${x + 20} ${y + 36}`,
+              fill: "none",
+              stroke: COL.muted,
+              "stroke-width": 5,
+              opacity: 0.55,
+            },
+            g,
+          );
+          el(
+            "path",
+            {
+              d: `M${x + 12} ${y + 20}h8 M${x + 16} ${y + 16}v8`,
+              stroke: COL.muted,
+              "stroke-width": 1.4,
+            },
+            g,
+          );
+          txt(g, x + 2, y - 4, label);
+        } else if (kind === "res") {
+          el("rect", { x: x + 2, y: y + 17, width: 8, height: 6, fill: COL.copper }, g);
+          el("rect", { x: x + W - 10, y: y + 17, width: 8, height: 6, fill: COL.copper }, g);
+          el(
+            "rect",
+            {
+              x: x + 9,
+              y: y + 9,
+              width: W - 18,
+              height: 22,
+              rx: 6,
+              fill: "#2A2016",
+              stroke: "#6B5236",
+            },
+            g,
+          );
+          for (let i = 0; i < 3; i++)
+            el(
+              "rect",
+              {
+                x: x + 22 + i * 10,
+                y: y + 9,
+                width: 3.5,
+                height: 22,
+                fill: COL.copper,
+                opacity: 0.8,
+              },
+              g,
+            );
+          txt(g, x + 2, y + 2, label);
+        } else if (kind === "xtal") {
+          el(
+            "rect",
+            {
+              x: x + 4,
+              y: y + 8,
+              width: W - 8,
+              height: 24,
+              rx: 12,
+              fill: "#15261F",
+              stroke: COL.muted,
+              "stroke-width": 1.6,
+            },
+            g,
+          );
+          el(
+            "rect",
+            {
+              x: x + 10,
+              y: y + 13,
+              width: W - 20,
+              height: 14,
+              rx: 7,
+              fill: "none",
+              stroke: COL.muted,
+              "stroke-opacity": 0.4,
+            },
+            g,
+          );
+          txt(g, x + 2, y + 4, label);
+        }
+        return g;
+      }
+
+      function trace(parent, d, vias = []) {
+        el(
+          "path",
+          {
+            d,
+            fill: "none",
+            stroke: COL.copperDim,
+            "stroke-width": 2.5,
+            opacity: 0.8,
+            "stroke-linejoin": "round",
+            "stroke-linecap": "round",
+          },
+          parent,
+        );
+        vias.forEach(([x, y]) =>
+          el(
+            "circle",
+            { cx: x, cy: y, r: 4.5, fill: "#0D1F19", stroke: COL.copperDim, "stroke-width": 2.5 },
+            parent,
+          ),
+        );
+      }
+
+      function shot(parent, x, y, tx, ty) {
+        const a = (Math.atan2(ty - y, tx - x) * 180) / Math.PI;
+        const g = el("g", { transform: `translate(${x},${y}) rotate(${a})` }, parent);
+        el(
+          "line",
+          {
+            x1: -16,
+            y1: 0,
+            x2: 0,
+            y2: 0,
+            stroke: COL.antivirus,
+            "stroke-width": 2,
+            opacity: 0.35,
+            "stroke-linecap": "round",
+          },
+          g,
+        );
+        el(
+          "rect",
+          { x: -4, y: -1.8, width: 8, height: 3.6, rx: 1.8, fill: "#C9F8FD", filter: "url(#glow)" },
+          g,
+        );
+      }
+
+      function beam(parent, x, y, tx, ty, ramp = 1) {
+        el(
+          "line",
+          {
+            x1: x,
+            y1: y,
+            x2: tx,
+            y2: ty,
+            stroke: COL.debugger,
+            "stroke-width": 2 + ramp * 3,
+            opacity: 0.35,
+            filter: "url(#glow)",
+            "stroke-linecap": "round",
+          },
+          parent,
+        );
+        el(
+          "line",
+          {
+            x1: x,
+            y1: y,
+            x2: tx,
+            y2: ty,
+            stroke: "#E9FFEE",
+            "stroke-width": 1.3 + ramp,
+            "stroke-linecap": "round",
+          },
+          parent,
+        );
+        el(
+          "circle",
+          { cx: tx, cy: ty, r: 3 + ramp * 2, fill: "#E9FFEE", opacity: 0.8, filter: "url(#glow)" },
+          parent,
+        );
+      }
+
+      function boardBase(svg, w, h, pad = 16) {
+        el(
+          "rect",
+          { x: -pad, y: -pad, width: w + pad * 2, height: h + pad * 2, rx: 12, fill: "#0B1A15" },
+          svg,
+        );
+        el("rect", { x: 0, y: 0, width: w, height: h, fill: "#0D1F19" }, svg);
+        el("rect", { x: 0, y: 0, width: w, height: h, fill: "url(#dots)" }, svg);
+      }
+
+      /* ---------- main board ---------- */
+      (function () {
+        const svg = document.getElementById("board");
+        boardBase(svg, 960, 640);
+        const L = {
+          traces: el("g", {}, svg),
+          obs: el("g", {}, svg),
+          ports: el("g", {}, svg),
+          core: el("g", {}, svg),
+          fx0: el("g", {}, svg),
+          towers: el("g", {}, svg),
+          en: el("g", {}, svg),
+          fx: el("g", {}, svg),
+        };
+        trace(L.traces, "M440 296 H412 L372 256 V180 L332 140 H250", [[250, 140]]);
+        trace(L.traces, "M440 344 H404 L344 404 V470 L304 510 H150", [[150, 510]]);
+        trace(L.traces, "M520 296 H556 L596 256 V196 L626 166", [[626, 166]]);
+        trace(L.traces, "M520 344 H584 L644 404 H760 L800 364 V300", [[800, 300]]);
+        trace(L.traces, "M496 280 V220 L536 180 V60 L576 20 H700", [[700, 20]]);
+        trace(L.traces, "M464 360 V420 L424 460 V600", [[424, 600]]);
+        trace(L.traces, "M504 360 V420 L544 460 H690 L720 430", [[720, 430]]);
+        trace(L.traces, "M80 560 H240 L280 600 H380", [
+          [80, 560],
+          [380, 600],
+        ]);
+
+        obstacle(L.obs, "chip", 4, 9, 3, 2, "U1", "BIOS");
+        obstacle(L.obs, "chip", 16, 2, 2, 2, "U2", "RAM");
+        obstacle(L.obs, "cap", 8, 3, 1, 1, "C1");
+        obstacle(L.obs, "cap", 20, 7, 1, 1, "C2");
+        obstacle(L.obs, "res", 18, 14, 2, 1, "R1");
+        obstacle(L.obs, "xtal", 5, 13, 2, 1, "Y1");
+        obstacle(L.obs, "chip", 10, 12, 2, 3, "U3", "NET");
+
+        port(L.ports, "left", 80, "J1");
+        port(L.ports, "right", 480, "J2");
+        core(L.core, 480, 320, 5);
+
+        // range of selected tower
+        el(
+          "circle",
+          {
+            cx: C(7),
+            cy: C(6),
+            r: 120,
+            fill: COL.antivirus,
+            "fill-opacity": 0.06,
+            stroke: COL.antivirus,
+            "stroke-opacity": 0.55,
+            "stroke-dasharray": "5 5",
+          },
+          L.fx0,
+        );
+
+        // dropped file drifting home
+        el(
+          "path",
+          {
+            d: `M380 252 Q392 290 432 306`,
+            fill: "none",
+            stroke: COL.data,
+            "stroke-width": 1.5,
+            "stroke-dasharray": "2 4",
+            opacity: 0.7,
+          },
+          L.fx0,
+        );
+        el(
+          "use",
+          { href: "#file", x: 374, y: 243, width: 12, height: 15, filter: "url(#glow)" },
+          L.fx0,
+        );
+
+        const T = [
+          ["firewall", 3, 0, 1],
+          ["firewall", 3, 1, 1],
+          ["debugger", 3, 2, 1],
+          ["antivirus", 3, 3, 2],
+          ["firewall", 3, 4, 2],
+          ["firewall", 0, 6, 1],
+          ["firewall", 1, 6, 1],
+          ["firewall", 2, 6, 1],
+          ["antivirus", 3, 6, 2],
+          ["debugger", 4, 6, 2],
+          ["firewall", 5, 6, 3],
+          ["antivirus", 6, 6, 1],
+          ["antivirus", 7, 6, 2, true],
+          ["firewall", 8, 6, 2],
+          ["firewall", 15, 11, 1],
+          ["antivirus", 16, 11, 1],
+          ["debugger", 17, 11, 3],
+          ["firewall", 18, 11, 2],
+          ["antivirus", 19, 11, 3],
+          ["firewall", 20, 11, 1],
+          ["firewall", 21, 11, 1],
+          ["antivirus", 22, 11, 2],
+          ["firewall", 23, 11, 1],
+          ["debugger", 13, 9, 2],
+          ["antivirus", 15, 8, 1],
+        ];
+        const targets = {
+          "7,6": [330, 222],
+          "3,3": [90, 180],
+          "3,6": [210, 222],
+          "19,11": [842, 520],
+          "16,11": [700, 520],
+          "22,11": [842, 520],
+          "15,8": [580, 440],
+          "6,6": [238, 216],
+        };
+        const at = new Map(T.map((t) => [`${t[1]},${t[2]}`, t]));
+        const boosted = new Set();
+        T.filter((t) => t[0] === "firewall" && t[3] >= 2).forEach(([, c, r]) => {
+          [
+            [1, 0],
+            [-1, 0],
+            [0, 1],
+            [0, -1],
+          ].forEach(([dc, dr]) => {
+            const n = at.get(`${c + dc},${r + dr}`);
+            if (!n || n[0] === "firewall") return;
+            boosted.add(`${n[1]},${n[2]}`);
+            const mx = (C(c) + C(n[1])) / 2,
+              my = (C(r) + C(n[2])) / 2;
+            const vert = dc !== 0;
+            el(
+              "line",
+              {
+                x1: vert ? mx : mx - 10,
+                y1: vert ? my - 10 : my,
+                x2: vert ? mx : mx + 10,
+                y2: vert ? my + 10 : my,
+                stroke: COL.firewall,
+                "stroke-width": 3,
+                "stroke-linecap": "round",
+                filter: "url(#glow)",
+              },
+              L.fx0,
+            );
+          });
+        });
+        T.forEach(([type, c, r, v, sel]) =>
+          tower(L.towers, type, C(c), C(r), {
+            v,
+            aim: targets[`${c},${r}`] || null,
+            selected: !!sel,
+            boosted: boosted.has(`${c},${r}`),
+          }),
+        );
+
+        // enemies
+        enemy(L.en, "worm", 30, 140, { angle: 0, hp: 1 });
+        enemy(L.en, "worm", 90, 182, { angle: 90, hp: 0.8 });
+        enemy(L.en, "worm", 210, 222, { angle: 0, hp: 0.55, small: true });
+        enemy(L.en, "worm", 238, 214, { angle: -8, hp: 0.4, small: true });
+        enemy(L.en, "worm", 330, 222, { angle: 0, hp: 0.3, hit: true });
+        enemy(L.en, "rootkit", 580, 440, { angle: -90, hp: 0.62, armor: true });
+        enemy(L.en, "rootkit", 700, 520, { angle: 180, hp: 1, armor: true });
+        enemy(L.en, "worm", 842, 520, { angle: 0, hp: 0.6, carrier: true });
+
+        shot(L.fx, 314, 242, 330, 222);
+        shot(L.fx, 820, 486, 842, 520);
+        beam(L.fx, C(13), C(9), 576, 438, 0.8);
+        // Debugger in row 11 ramping on the far rootkit
+        beam(L.fx, C(17), C(11), 704, 512, 0.25);
+      })();
+
+      /* ---------- tower card ---------- */
+      function towerArt(type, v) {
+        const s = `<svg viewBox="-20 -20 40 40"><use href="#tw-${type}" x="-20" y="-20" width="40" height="40"/>${type === "antivirus" ? '<rect x="-1.8" y="-19" width="3.6" height="9" rx="1" fill="#45E3F2"/>' : ""}${[0, 1, 2].map((i) => `<rect x="${-9.5 + i * 7}" y="12.2" width="5" height="2.4" rx=".6" fill="${i < v ? COL[type] : COL.rule}"/>`).join("")}</svg>`;
+        return s;
+      }
+      function card({ type, v, stats, upgrade, sell }) {
+        const name = { firewall: "Firewall", antivirus: "Antivirus", debugger: "Debugger" }[type];
+        const role = {
+          firewall: "Wall; boosts towers next to it",
+          antivirus: "Fast single shots",
+          debugger: "Ramping beam, beats armor",
+        }[type];
+        return `
+  <div class="card-head">${towerArt(type, v)}<div><div class="name">${name}</div><div class="role">${role}</div></div><span class="ver" style="color:${COL[type]}">v${v}.0</span></div>
+  <dl class="stats">${stats.map(([k, val]) => `<dt>${k}</dt><dd>${val}</dd>`).join("")}</dl>
+  <div class="upgrade">${upgrade}</div>
+  <div class="actions"><button class="btn ghost">Sell <span class="num" style="color:var(--data)">+${sell}</span><kbd>S</kbd></button></div>`;
+      }
+      const avStats = [
+        ["Damage", '12 <span class="up">→ 18</span>'],
+        ["Fire rate", "1.2 /s"],
+        ["Range", '3.0 <span class="up">→ 3.5</span>'],
+        ["Firewall boost", '<span style="color:var(--firewall)">+20% damage</span>'],
+        ["Targets", "Carriers first"],
+        ["Kills", "23"],
+      ];
+      const upOK = `<p><strong>v3.0</strong> adds piercing: each shot also hits the virus behind.</p><button class="btn" style="height:34px;justify-content:center">Upgrade to v3.0 · <span class="num">120</span><kbd>U</kbd></button>`;
+      document.getElementById("card-main").innerHTML = card({
+        type: "antivirus",
+        v: 2,
+        stats: avStats,
+        upgrade: upOK,
+        sell: 84,
+      });
+
+      const cards = [
+        [
+          "Upgrade available",
+          "Next version unlocked in the lab and you have the bits.",
+          { type: "antivirus", v: 2, stats: avStats, upgrade: upOK, sell: 84 },
+        ],
+        [
+          "Not enough bits",
+          "Unlocked, but you can't pay yet. The button says how much is missing.",
+          {
+            type: "antivirus",
+            v: 2,
+            stats: avStats,
+            upgrade: `<p><strong>v3.0</strong> adds piercing: each shot also hits the virus behind.</p><button class="btn" disabled style="height:34px;justify-content:center">Need <span class="num">38</span> more bits</button>`,
+            sell: 84,
+          },
+        ],
+        [
+          "Locked in the Upgrade lab",
+          "The version exists but hasn't been bought with keys.",
+          {
+            type: "debugger",
+            v: 1,
+            stats: [
+              ["Damage", "4 → ramps to 30 /s"],
+              ["Range", "2.5"],
+              ["Ramp time", "3 s"],
+              ["Targets", "Carriers first"],
+              ["Kills", "6"],
+            ],
+            upgrade: `<div class="msg"><svg class="icon"><use href="#ic-lock"/></svg><span><strong style="color:var(--silk)">v2.0 is locked.</strong> Unlock it in the Upgrade lab between levels.</span></div>`,
+            sell: 63,
+          },
+        ],
+        [
+          "Max version",
+          "Nothing left to upgrade.",
+          {
+            type: "debugger",
+            v: 3,
+            stats: [
+              ["Damage", "8 → ramps to 60 /s"],
+              ["Range", "3.0"],
+              ["Ramp time", "2 s"],
+              ["Chains to", "1 more virus"],
+              ["Kills", "41"],
+            ],
+            upgrade: `<div class="msg"><svg class="icon" style="color:var(--debugger)"><use href="#ic-check"/></svg><span>Max version reached.</span></div>`,
+            sell: 238,
+          },
+        ],
+        [
+          "Firewall",
+          "Lists its boost and how many towers get it.",
+          {
+            type: "firewall",
+            v: 2,
+            stats: [
+              ["Blocks", "1 cell"],
+              ["Boost", '<span style="color:var(--firewall)">+20% damage</span>'],
+              ["Boosting", "3 towers"],
+            ],
+            upgrade: `<p><strong>v3.0</strong> raises the boost to +40% damage and adds +0.5 range.</p><button class="btn" style="height:34px;justify-content:center">Upgrade to v3.0 · <span class="num">60</span><kbd>U</kbd></button>`,
+            sell: 21,
+          },
+        ],
+      ];
+      document.getElementById("card-sheet").innerHTML = cards
+        .map(
+          ([t, d, c]) =>
+            `<div><div class="tile" style="background:var(--panel);margin-bottom:10px"><div class="t">${t}</div><div class="d">${d}</div></div><div class="card">${card(c)}</div></div>`,
+        )
+        .join("");
+
+      /* ---------- small art tiles ---------- */
+      function tile(sheetId, title, desc, draw, vb = "-60 -40 120 80") {
+        const wrap = document.createElement("div");
+        wrap.className = "tile";
+        const svg = el("svg", { class: "art", viewBox: vb });
+        wrap.appendChild(svg);
+        el("rect", { x: -400, y: -400, width: 800, height: 800, fill: "url(#dots)" }, svg);
+        draw(svg);
+        wrap.insertAdjacentHTML(
+          "beforeend",
+          `<div class="t">${title}</div><div class="d">${desc}</div>`,
+        );
+        document.getElementById(sheetId).appendChild(wrap);
+      }
+      tile("enemy-sheet", "Worm", "Fast, low health. Pink, segmented, moves head first.", (s) =>
+        enemy(s, "worm", 0, 6, { hp: 1 }),
+      );
+      tile(
+        "enemy-sheet",
+        "Worm · split",
+        "On death it splits into two smaller worms that don't split again.",
+        (s) => {
+          enemy(s, "worm", -16, 4, { hp: 0.5, small: true, angle: -12 });
+          enemy(s, "worm", 16, 10, { hp: 0.5, small: true, angle: 10 });
+        },
+      );
+      tile("enemy-sheet", "Worm · hit", "Short chromatic glitch on every hit.", (s) =>
+        enemy(s, "worm", 0, 6, { hp: 0.35, hit: true }),
+      );
+      tile("enemy-sheet", "Worm · carrier", "Holds a file. Towers target carriers first.", (s) =>
+        enemy(s, "worm", 0, 14, { hp: 0.7, carrier: true }),
+      );
+      tile(
+        "enemy-sheet",
+        "Rootkit",
+        "Slow, very high health, armored: weak hits barely scratch it.",
+        (s) => enemy(s, "rootkit", 0, 6, { hp: 1, armor: true }),
+      );
+      tile(
+        "enemy-sheet",
+        "Rootkit · under beam",
+        "The Debugger's ramped beam is what gets through the armor.",
+        (s) => {
+          tower(s, "debugger", -40, 6, { v: 2 });
+          beam(s, -40, 6, 14, 6, 0.9);
+          enemy(s, "rootkit", 22, 6, { hp: 0.45, armor: true });
+        },
+      );
+      tile("enemy-sheet", "Rootkit · carrier", "Same file marker on every enemy type.", (s) =>
+        enemy(s, "rootkit", 0, 14, { hp: 0.8, armor: true, carrier: true }),
+      );
+      tile(
+        "enemy-sheet",
+        "Health bars",
+        "White fill on a dark track. Violet plate marks armor.",
+        (s) => {
+          enemy(s, "worm", -26, 8, { hp: 0.25 });
+          enemy(s, "rootkit", 26, 8, { hp: 0.85, armor: true });
+        },
+      );
+
+      [1, 2, 3].forEach((v) =>
+        tile(
+          "tower-sheet",
+          `Firewall v${v}.0`,
+          v === 3
+            ? "Bigger boost, adds range to its neighbors."
+            : v === 2
+              ? "Boosts damage of towers sharing a side."
+              : "Just a wall. Starts unlocked.",
+          (s) => {
+            tower(s, "firewall", -20, 0, { v });
+            if (v > 1) {
+              el(
+                "line",
+                {
+                  x1: 0,
+                  y1: -10,
+                  x2: 0,
+                  y2: 10,
+                  stroke: COL.firewall,
+                  "stroke-width": 3,
+                  "stroke-linecap": "round",
+                  filter: "url(#glow)",
+                },
+                s,
+              );
+              tower(s, "antivirus", 20, 0, { v: 1, boosted: true });
+            }
+          },
+        ),
+      );
+      tile(
+        "tower-sheet",
+        "Boosted tower",
+        "Steel chevrons: this tower gets a Firewall boost. Its card says how much.",
+        (s) => {
+          tower(s, "firewall", -20, 0, { v: 2 });
+          el(
+            "line",
+            {
+              x1: 0,
+              y1: -10,
+              x2: 0,
+              y2: 10,
+              stroke: COL.firewall,
+              "stroke-width": 3,
+              "stroke-linecap": "round",
+              filter: "url(#glow)",
+            },
+            s,
+          );
+          tower(s, "debugger", 20, 0, { v: 2, boosted: true });
+          tower(s, "firewall", 20, -40, { v: 1 });
+        },
+      );
+      [1, 2, 3].forEach((v) =>
+        tile(
+          "tower-sheet",
+          `Antivirus v${v}.0`,
+          v === 3
+            ? "Adds piercing shots."
+            : v === 2
+              ? "More damage and range."
+              : "Starts unlocked.",
+          (s) => {
+            tower(s, "antivirus", 0, 0, { v, aim: [30, -30] });
+            if (v > 1) shot(s, 20, -20, 34, -34);
+          },
+        ),
+      );
+      tile("tower-sheet", "Antivirus · selected", "Silkscreen corners and the range ring.", (s) => {
+        el(
+          "circle",
+          {
+            cx: 0,
+            cy: 0,
+            r: 34,
+            fill: COL.antivirus,
+            "fill-opacity": 0.06,
+            stroke: COL.antivirus,
+            "stroke-opacity": 0.55,
+            "stroke-dasharray": "4 4",
+          },
+          s,
+        );
+        tower(s, "antivirus", 0, 0, { v: 2, selected: true });
+      });
+      [1, 2, 3].forEach((v) =>
+        tile(
+          "tower-sheet",
+          `Debugger v${v}.0`,
+          v === 3
+            ? "Beam chains to one more virus."
+            : v === 2
+              ? "Ramps faster, longer range."
+              : "Unlocked in the Upgrade lab.",
+          (s) => {
+            tower(s, "debugger", -24, 0, { v });
+            beam(s, -24, 0, 30, 0, v / 3);
+            if (v === 3) beam(s, 30, 0, 48, -22, 0.2);
+          },
+        ),
+      );
+      tile("tower-sheet", "Debugger · selected", "Range ring takes the tower's own color.", (s) => {
+        el(
+          "circle",
+          {
+            cx: 0,
+            cy: 0,
+            r: 30,
+            fill: COL.debugger,
+            "fill-opacity": 0.06,
+            stroke: COL.debugger,
+            "stroke-opacity": 0.55,
+            "stroke-dasharray": "4 4",
+          },
+          s,
+        );
+        tower(s, "debugger", 0, 0, { v: 1, selected: true });
+      });
+
+      const build = [
+        [
+          "Available",
+          "Ready to place.",
+          `<button class="bitem">${towerArt("firewall", 1).replace("<svg", '<svg class="towerart"')}<span><span class="name">Firewall</span><span class="role">Wall; boosts neighbors</span></span><span class="cost"><span class="num">10</span><kbd>1</kbd></span></button>`,
+        ],
+        [
+          "Placing",
+          "Picked; the board shows the ghost.",
+          `<button class="bitem placing">${towerArt("antivirus", 1).replace("<svg", '<svg class="towerart"')}<span><span class="name">Antivirus</span><span class="role">Click a cell · Esc cancels</span></span><span class="cost"><span class="num">40</span><kbd>2</kbd></span></button>`,
+        ],
+        [
+          "Not enough bits",
+          "Disabled, with the reason.",
+          `<button class="bitem poor" disabled>${towerArt("debugger", 1).replace("<svg", '<svg class="towerart"')}<span><span class="name">Debugger</span><span class="why">Need <span class="num">12</span> more bits</span></span><span class="cost"><span class="num">90</span><kbd>3</kbd></span></button>`,
+        ],
+        [
+          "Locked in lab",
+          "Not bought with keys yet.",
+          `<div class="bitem locked">${towerArt("debugger", 1).replace("<svg", '<svg class="towerart"')}<span><span class="name">Debugger</span><span class="why"><svg class="icon" style="width:14px;height:14px"><use href="#ic-lock"/></svg>Unlock in the Upgrade lab</span></span><span></span></div>`,
+        ],
+      ];
+      document.getElementById("build-sheet").innerHTML = build
+        .map(
+          ([t, d, h]) =>
+            `<div class="tile" style="background:var(--panel)"><div class="t">${t}</div><div class="d">${d}</div>${h}</div>`,
+        )
+        .join("");
+
+      tile(
+        "map-sheet",
+        "Data Core",
+        "Holds the level's files. Lit = still home, outline = taken.",
+        (s) => core(s, 0, 0, 5),
+        "-60 -55 120 110",
+      );
+      tile(
+        "map-sheet",
+        "Port",
+        "Edge connector: entrance and exit. Hatched keep-out inside.",
+        (s) => {
+          el("rect", { x: -60, y: -40, width: 30, height: 80, fill: "#0B1A15" }, s);
+          el("g", { transform: "translate(-30,-40)" }, s);
+          const g = el("g", { transform: "translate(-44,-40)" }, s);
+          port(g, "left", 0, "J1");
+        },
+        "-60 -55 120 110",
+      );
+      tile(
+        "map-sheet",
+        "Chips",
+        "Big blockers. Silkscreen name per level: BIOS, RAM, NET.",
+        (s) => {
+          obstacle(s, "chip", -1.4, -0.9, 3, 2, "U1", "BIOS");
+        },
+        "-70 -55 140 110",
+      );
+      tile(
+        "map-sheet",
+        "Small parts",
+        "Capacitor, resistor, crystal: one- and two-cell blockers.",
+        (s) => {
+          obstacle(s, "cap", -1.5, -1.1, 1, 1, "C1");
+          obstacle(s, "res", -0.1, -1.1, 2, 1, "R1");
+          obstacle(s, "xtal", -1, 0.35, 2, 1, "Y1");
+        },
+        "-70 -60 140 120",
+      );
+      tile(
+        "map-sheet",
+        "Copper traces",
+        "Decoration only: under everything, never block.",
+        (s) =>
+          trace(s, "M-60 20 H-20 L10 -10 H60", [
+            [-60, 20],
+            [60, -10],
+          ]),
+        "-70 -40 140 80",
+      );
+      tile(
+        "map-sheet",
+        "Dropped file",
+        "Left where a carrier died; drifts back to the Core.",
+        (s) => {
+          el(
+            "path",
+            {
+              d: "M-20 0 Q10 -20 40 -6",
+              fill: "none",
+              stroke: COL.data,
+              "stroke-width": 1.5,
+              "stroke-dasharray": "2 4",
+              opacity: 0.7,
+            },
+            s,
+          );
+          el(
+            "use",
+            { href: "#file", x: -27, y: -8, width: 13, height: 16, filter: "url(#glow)" },
+            s,
+          );
+        },
+      );
+
+      function placeTile(valid) {
+        const wrap = document.createElement("div");
+        wrap.className = "tile";
+        const svg = el("svg", { class: "art", viewBox: "-8 -8 496 256", style: "height:260px" });
+        wrap.appendChild(svg);
+        boardBase(svg, 480, 240, 8);
+        // two existing towers forming a gap
+        [
+          [4, 0],
+          [4, 1],
+          [4, 2],
+          [4, 4],
+          [4, 5],
+        ].forEach(([c, r]) => tower(svg, "antivirus", C(c), C(r), { v: 1 }));
+        const gc = 4,
+          gr = 3;
+        if (valid) {
+          el(
+            "path",
+            {
+              d: "M0 140 H205 Q222 140 222 118 Q222 100 240 100 H282 Q300 100 300 118 Q300 140 318 140 H480",
+              fill: "none",
+              stroke: COL.silk,
+              "stroke-width": 2,
+              "stroke-dasharray": "6 6",
+              opacity: 0.6,
+            },
+            svg,
+          );
+          el(
+            "circle",
+            {
+              cx: C(6),
+              cy: C(3),
+              r: 120,
+              fill: COL.antivirus,
+              "fill-opacity": 0.05,
+              stroke: COL.antivirus,
+              "stroke-opacity": 0.5,
+              "stroke-dasharray": "5 5",
+            },
+            svg,
+          );
+          const g = tower(svg, "antivirus", C(6), C(3), { v: 1 });
+          g.setAttribute("opacity", "0.55");
+          el(
+            "rect",
+            {
+              x: 241,
+              y: 121,
+              width: 38,
+              height: 38,
+              rx: 6,
+              fill: "none",
+              stroke: COL.silk,
+              "stroke-width": 1.5,
+            },
+            svg,
+          );
+          const ok = el("g", { transform: "translate(278,122)" }, svg);
+          el("circle", { r: 8, fill: COL.silk }, ok);
+          el(
+            "use",
+            { href: "#ic-check", x: -6, y: -6, width: 12, height: 12, color: COL.ground },
+            ok,
+          );
+        } else {
+          el(
+            "path",
+            {
+              d: "M0 140 H480",
+              fill: "none",
+              stroke: COL.silk,
+              "stroke-width": 2,
+              "stroke-dasharray": "6 6",
+              opacity: 0.3,
+            },
+            svg,
+          );
+          el(
+            "rect",
+            {
+              x: gc * 40 + 1,
+              y: gr * 40 + 1,
+              width: 38,
+              height: 38,
+              rx: 6,
+              fill: "url(#invalid)",
+              stroke: COL.danger,
+              "stroke-width": 1.5,
+            },
+            svg,
+          );
+          el(
+            "use",
+            {
+              href: "#ic-block",
+              x: gc * 40 + 8,
+              y: gr * 40 + 8,
+              width: 24,
+              height: 24,
+              color: COL.danger,
+            },
+            svg,
+          );
+          const tip = el("g", { transform: "translate(212,190)" }, svg);
+          el(
+            "rect",
+            {
+              x: 0,
+              y: 0,
+              width: 250,
+              height: 30,
+              rx: 6,
+              fill: "#2A1416",
+              stroke: COL.danger,
+              "stroke-opacity": 0.6,
+            },
+            tip,
+          );
+          const t = el(
+            "text",
+            { x: 12, y: 19, "font-family": "B612", "font-size": 12, fill: COL.silk },
+            tip,
+          );
+          t.textContent = "Blocks the only route from J1";
+        }
+        wrap.insertAdjacentHTML(
+          "beforeend",
+          valid
+            ? `<div class="t">Valid placement</div><div class="d">Ghost tower, its range, and the route viruses would take after you place it (dashed).</div>`
+            : `<div class="t">Refused placement</div><div class="d">Hatched red cell plus a blocked icon and a reason. Color is never the only signal.</div>`,
+        );
+        document.getElementById("place-sheet").appendChild(wrap);
+      }
+      placeTile(true);
+      placeTile(false);
+
+      /* ---------- palette ---------- */
+      const ui = [
+        ["Ground", "#08130F", "Page background around the board."],
+        ["Board", "#0D1F19", "Solder mask: the play surface."],
+        ["Panel", "#11241E", "Header, side panel."],
+        ["Raised", "#173029", "Cards, popovers, hover."],
+        ["Rule", "#24443A", "Borders, grid dots, empty bars."],
+        ["Silkscreen", "#E7EDE6", "Main text and labels. 13.9:1 on Panel."],
+        ["Muted", "#9DB2A6", "Secondary text. 7.0:1 on Panel."],
+        ["Copper", "#C38A55", "Pins, connectors, traces (dim: #5E4329)."],
+      ];
+      const game = [
+        ["Antivirus", "#45E3F2", "Antivirus towers, shots, focus ring, primary button."],
+        ["Firewall", "#A9C4DC", "Firewall walls, boost marker and boost edges."],
+        ["Debugger", "#86F59E", "Debugger towers and beams; upgrade gains."],
+        ["Worm", "#FF5AA8", "Worm bodies and their glow."],
+        ["Rootkit", "#B58EFF", "Rootkit shells, armor marker."],
+        ["Data", "#FFD54A", "Files, bits, costs. Only things you protect or spend."],
+        ["Danger", "#FF6B6B", "Leaked files, refused placement. Nothing else."],
+      ];
+      const sw = (list) =>
+        list
+          .map(
+            ([n, h, d]) =>
+              `<div class="sw"><div class="chip-color" style="background:${h}"></div><div class="meta"><strong>${n}</strong><span class="num">${h}</span><p>${d}</p></div></div>`,
+          )
+          .join("");
+      document.getElementById("sw-ui").innerHTML = sw(ui);
+      document.getElementById("sw-game").innerHTML = sw(game);
+
+      /* ---------- header states ---------- */
+      const hudSrc = document.querySelector(".screen .hud").outerHTML;
+      document.getElementById("hud-wave").innerHTML = hudSrc.replace(
+        'class="hud"',
+        'class="hud mini"',
+      );
+      const w = document.querySelector("#hud-wave .next");
+      w.innerHTML = `<span class="label">Wave 7 running</span><span class="label num" style="color:var(--silk)">9 viruses left</span>`;
+      document.getElementById("hud-paused").innerHTML = hudSrc.replace(
+        'class="hud"',
+        'class="hud mini"',
+      );
+      const p = document.getElementById("hud-paused");
+      p.querySelector(".controls .iconbtn").outerHTML =
+        `<button class="iconbtn" aria-label="Resume" aria-pressed="true"><svg class="icon"><use href="#ic-play"/></svg></button>`;
+      p.querySelector(".level").insertAdjacentHTML("afterend", '<span class="pill">Paused</span>');
+      const gear = p.querySelectorAll(".controls .iconbtn")[2];
+      gear.setAttribute("aria-pressed", "true");
+      p.insertAdjacentHTML(
+        "beforeend",
+        `<div class="popover" role="dialog" aria-label="Settings"><h3>Settings</h3>
+<div class="setrow"><span>Sound effects</span><span class="switch" aria-hidden="true"></span></div>
+<div class="setrow"><span>Default speed</span><div class="seg"><button aria-pressed="true">1×</button><button aria-pressed="false">2×</button></div></div>
+<div style="border-top:1px solid var(--rule);padding-top:12px;display:flex;flex-direction:column;gap:8px">
+<button class="btn ghost" style="justify-content:center;height:34px">Restart level</button>
+<button class="btn danger" style="justify-content:center;height:34px">Quit to level select</button></div></div>`,
+      );
+    </script>
+  </body>
+</html>
