@@ -4,7 +4,14 @@ import type { IGameDefsProps } from "./GameDefs.type";
 export function GameDefs({ ids }: IGameDefsProps) {
   return (
     <defs aria-hidden="true">
-      <filter id={ids.glow} x="-80%" y="-80%" width="260%" height="260%">
+      <filter
+        id={ids.glow}
+        filterUnits="userSpaceOnUse"
+        x="-100"
+        y="-100"
+        width="1200"
+        height="900"
+      >
         <feGaussianBlur stdDeviation="2.6" result="blur" />
         <feMerge>
           <feMergeNode in="blur" />
