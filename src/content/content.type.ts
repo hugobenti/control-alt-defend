@@ -46,4 +46,27 @@ export interface IGameContent {
   enemyState: Record<"carrier" | "armored" | "health", string>;
   enemy: (type: "worm" | "rootkit", healthPercent: number, carrier: boolean) => string;
   placement: { valid: string; invalid: string };
+  needBits: (missingBits: number) => string;
+  build: {
+    placingHint: string;
+    lockedReason: string;
+    cost: (bits: number) => string;
+  };
+  card: {
+    upgradeTo: (version: number) => string;
+    withCost: (label: string, bits: number) => string;
+    locked: (version: number) => string;
+    lockedHint: string;
+    max: string;
+    sell: string;
+    upgradeKey: string;
+    sellKey: string;
+    sellRefund: (bits: number) => string;
+    boost: string;
+    boostOwn: string;
+    boostingLabel: string;
+    boosting: (towers: number) => string;
+    version: (version: number) => string;
+    next: (value: string) => string;
+  };
 }
