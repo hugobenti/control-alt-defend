@@ -13,10 +13,12 @@ export function Button({
   describedBy,
   onClick,
   className,
+  ref,
 }: IButtonProps) {
   return (
     <button
       type="button"
+      ref={ref}
       className={cx(button.base, button.variant[variant], button.size[size], className)}
       disabled={disabled}
       aria-describedby={describedBy}

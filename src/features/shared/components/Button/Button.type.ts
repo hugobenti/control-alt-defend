@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 
 import type { button } from "./Button.style";
 
@@ -12,4 +12,5 @@ export interface IButtonProps {
   describedBy?: string;
   onClick?: () => void;
   className?: string;
+  ref?: Ref<HTMLButtonElement>;
 }
