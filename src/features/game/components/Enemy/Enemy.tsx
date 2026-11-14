@@ -5,7 +5,7 @@ import type { IEnemyProps } from "./Enemy.type";
 import { useEnemy } from "./useEnemy";
 
 export function Enemy(props: IEnemyProps) {
-  const { type, carrier, hit } = props;
+  const { type, carrier, hit, bare } = props;
   const defs = useGameDefs();
   const view = useEnemy(props, defs?.glow);
   return (
@@ -64,23 +64,27 @@ export function Enemy(props: IEnemyProps) {
           </g>
         </>
       )}
-      <rect
-        x={view.barX}
-        y={view.barY}
-        width={view.trackWidth}
-        height="3"
-        rx="1"
-        className={styles.track}
-      />
-      <rect
-        x={view.barX}
-        y={view.barY}
-        width={view.barWidth}
-        height="3"
-        rx="1"
-        className={styles.fill}
-      />
-      {view.armored && <path d={view.armorPath} className={styles.armor} />}
+      {!bare && (
+        <>
+          <rect
+            x={view.barX}
+            y={view.barY}
+            width={view.trackWidth}
+            height="3"
+            rx="1"
+            className={styles.track}
+          />
+          <rect
+            x={view.barX}
+            y={view.barY}
+            width={view.barWidth}
+            height="3"
+            rx="1"
+            className={styles.fill}
+          />
+          {view.armored && <path d={view.armorPath} className={styles.armor} />}
+        </>
+      )}
     </g>
   );
 }

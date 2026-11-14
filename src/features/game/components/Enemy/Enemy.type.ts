@@ -12,6 +12,8 @@ export interface IEnemyProps {
   small?: boolean;
   carrier?: boolean;
   hit?: boolean;
+  /** Draws the body only, without the health bar or armor marker (for icons). */
+  bare?: boolean;
 }
 
 export type TEnemyLayerKind = "ghostShift" | "ghostLight" | "main";
