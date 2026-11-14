@@ -65,7 +65,7 @@ export const PressedLooksSelected: Story = {
     const other = getComputedStyle(canvas.getByRole("button", { name: "2x" }));
     await expect(pressed.backgroundColor).not.toBe(other.backgroundColor);
     await expect(pressed.color).not.toBe(other.color);
-    await expect(other.backgroundColor).toBe("rgba(0, 0, 0, 0)");
+    await expect(Number.parseFloat(other.backgroundColor.split(",")[3] ?? "1")).toBe(0);
     await expect(getComputedStyle(canvas.getByRole("button", { name: "2x" })).borderLeftWidth).toBe(
       "0px",
     );
