@@ -19,5 +19,9 @@ export const game: IGameContent = {
   boostEdge: "Firewall boost connection",
   shot: "Antivirus shot",
   beam: "Debugger beam",
+  enemyNames: { worm: "Worm", rootkit: "Rootkit" },
+  enemyState: { carrier: "carrying a file", armored: "armored", health: "health" },
+  enemy: (type, healthPercent, carrier) =>
+    `${game.enemyNames[type]}, ${healthPercent}% ${game.enemyState.health}${type === "rootkit" ? `, ${game.enemyState.armored}` : ""}${carrier ? `, ${game.enemyState.carrier}` : ""}`,
   placement: { valid: "Valid placement", invalid: "Refused placement" },
 };
