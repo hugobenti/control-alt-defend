@@ -1,7 +1,7 @@
 import { describe, expect, expectTypeOf, it } from "vitest";
 
 import { homePc } from "../level/homePc.data";
-import { cellIndex } from "./grid";
+import { cellIndex, withBlocked } from "./grid";
 import { applyCommand, createMatch, recomputeFields } from "./match";
 import type {
   IBeamState,
@@ -15,6 +15,7 @@ import type {
   TFileStatus,
   TMatchStatus,
 } from "./match.type";
+import { tinyMap } from "./testMaps";
 
 const options: IMatchOptions = { map: homePc, seed: 1, startBits: 1000, files: 8 };
 const cell = { c: 6, r: 6 };
@@ -73,6 +74,66 @@ describe("match", () => {
     expect(refused.events.at(-1)).toEqual({ kind: "refused", reason: "occupied" });
     const poor = applyCommand({ ...start, bits: 10 }, { kind: "place", type: "antivirus", cell });
     expect(poor.events).toEqual([{ kind: "refused", reason: "notEnoughBits" }]);
+  });
+
+  it("uses a small worm's actual radius when refusing enemy overlap", () => {
+    const start = createMatch(options);
+    const worm: IEnemyState = {
+      id: 10,
+      type: "worm",
+      small: true,
+      pos: { x: 235, y: 260 },
+      heading: 0,
+      health: 12,
+      maxHealth: 12,
+      carrying: null,
+      offset: { x: 0, y: 0 },
+      hitUntilTick: 0,
+      touchedEmptyCore: false,
+      goal: "core",
+    };
+    const command = { kind: "place" as const, type: "antivirus" as const, cell };
+    const overlap = applyCommand({ ...start, enemies: [worm] }, command);
+    expect(overlap.events.at(-1)).toEqual({ kind: "refused", reason: "overlapsEnemy" });
+    expect(overlap.towers).toBe(start.towers);
+    const clear = applyCommand(
+      { ...start, enemies: [{ ...worm, pos: { x: 230, y: 260 } }] },
+      command,
+    );
+    expect(clear.events.at(-1)).toMatchObject({ kind: "placed" });
+  });
+
+  it("refuses a dropped file whose disc overlaps the placement cell", () => {
+    const start = createMatch(options);
+    const files: IFileState[] = [
+      { ...start.files[0]!, status: "dropped", pos: { x: 237, y: 260 } },
+      ...start.files.slice(1),
+    ];
+    const result = applyCommand({ ...start, files }, { kind: "place", type: "firewall", cell });
+    expect(result.events.at(-1)).toEqual({ kind: "refused", reason: "overlapsFile" });
+    expect(result.towers).toBe(start.towers);
+  });
+
+  it("refuses a placement that seals a pocket around a dropped file", () => {
+    const start = createMatch({ map: tinyMap, seed: 1, startBits: 1000, files: 1 });
+    const grid = withBlocked(start.grid, [
+      { c: 1, r: 3 },
+      { c: 3, r: 3 },
+      { c: 1, r: 4 },
+      { c: 3, r: 4 },
+      { c: 1, r: 5 },
+      { c: 2, r: 5 },
+      { c: 3, r: 5 },
+    ]);
+    const files: IFileState[] = [
+      { ...start.files[0]!, status: "dropped", pos: { x: 100, y: 180 } },
+    ];
+    const result = applyCommand(
+      { ...start, grid, files },
+      { kind: "place", type: "firewall", cell: { c: 2, r: 3 } },
+    );
+    expect(result.events.at(-1)).toEqual({ kind: "refused", reason: "trapsPiece" });
+    expect(result.towers).toBe(start.towers);
   });
 
   it("upgrades twice, refuses the fourth version, and sells for seventy percent", () => {

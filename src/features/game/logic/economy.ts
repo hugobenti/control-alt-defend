@@ -11,5 +11,5 @@ export function upgradeCost(type: TTowerType, from: TVersion): number | null {
 }
 
 export function sellRefund(spent: number): number {
-  return Math.floor(spent * balance.economy.sellRefund);
+  return Math.floor((spent * Math.round(balance.economy.sellRefund * 100)) / 100);
 }

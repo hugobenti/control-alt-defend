@@ -13,5 +13,6 @@ describe("economy", () => {
   it("rounds selling refunds down", () => {
     expect(sellRefund(150)).toBe(105);
     expect(sellRefund(21)).toBe(14);
+    expect(sellRefund(90)).toBe(63);
   });
 });
