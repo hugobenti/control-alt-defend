@@ -71,3 +71,19 @@ export const PressedLooksSelected: Story = {
     );
   },
 };
+
+export const KeyboardFocusNotClipped: Story = {
+  render: (args) => <Demo {...args} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.tab();
+    const option = canvas.getByRole("button", { name: "1x" });
+    await expect(option).toHaveFocus();
+    const group = canvas.getByRole("group", { name: "Game speed" });
+    await expect(getComputedStyle(group).overflow).toBe("hidden");
+    const style = getComputedStyle(option);
+    await expect(style.outlineStyle).toBe("solid");
+    const extent = Number.parseFloat(style.outlineWidth) + Number.parseFloat(style.outlineOffset);
+    await expect(extent).toBeLessThanOrEqual(0);
+  },
+};

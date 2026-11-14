@@ -1,4 +1,4 @@
-import type { TFileState } from "../FilePips/FilePips.type";
+import type { TFileState } from "../../logic/matchHud.type";
 import type { INextWaveProps } from "../NextWave/NextWave.type";
 import type { TGameSpeed } from "../SettingsMenu/SettingsMenu.type";
 

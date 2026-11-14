@@ -6,9 +6,6 @@ import { BoostEdge } from "../BoostEdge/BoostEdge";
 import { RangeRing } from "../RangeRing/RangeRing";
 import { Tower } from "./Tower";
 import { towerStoryMap } from "./Tower.stories.data";
-import type { TVersion } from "./Tower.type";
-
-const boostingVersion: TVersion = 2;
 
 const meta = {
   title: "Game/Tower",
@@ -26,7 +23,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const FirewallV1: Story = { args: { type: "firewall", version: 1 } };
-export const FirewallV2: Story = { args: { type: "firewall", version: boostingVersion } };
+export const FirewallV2: Story = { args: { type: "firewall", version: 2 } };
 export const FirewallV3: Story = { args: { type: "firewall", version: 3 } };
 export const AntivirusV1: Story = {};
 export const AntivirusV2: Story = { args: { version: 2 } };

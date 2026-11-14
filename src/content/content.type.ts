@@ -32,7 +32,7 @@ export interface IGameContent {
   file: Record<"inCore" | "dropped", string>;
   towerNames: Record<"firewall" | "antivirus" | "debugger", string>;
   towerRoles: Record<"firewall" | "antivirus" | "debugger", string>;
-  towerState: { selected: string; boosted: string; version: string };
+  towerState: { selected: string; boosted: string };
   tower: (
     type: "firewall" | "antivirus" | "debugger",
     version: 1 | 2 | 3,
@@ -41,8 +41,6 @@ export interface IGameContent {
   ) => string;
   range: (type: "firewall" | "antivirus" | "debugger") => string;
   boostEdge: string;
-  shot: string;
-  beam: string;
   enemyNames: Record<"worm" | "rootkit", string>;
   enemyState: Record<"carrier" | "armored" | "health", string>;
   enemy: (type: "worm" | "rootkit", healthPercent: number, carrier: boolean) => string;
@@ -71,7 +69,6 @@ export interface IGameContent {
     next: (value: string) => string;
   };
   files: {
-    states: Record<"safe" | "carried" | "dropped" | "leaked", string>;
     summary: (counts: Record<"safe" | "carried" | "dropped" | "leaked", number>) => string;
   };
   header: {

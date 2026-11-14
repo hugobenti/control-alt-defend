@@ -10,6 +10,7 @@ import { useSettingsMenu } from "./useSettingsMenu";
 
 /** Positioned against the nearest relative ancestor: wrap the trigger and the menu together. */
 export function SettingsMenu({
+  id,
   open,
   onClose,
   sound,
@@ -23,6 +24,7 @@ export function SettingsMenu({
   const view = useSettingsMenu();
   return (
     <Popover
+      id={id}
       label={view.title}
       open={open}
       onClose={onClose}

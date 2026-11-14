@@ -54,7 +54,7 @@ const boundaryRules = FEATURES.map((from) => ({
 const RAW_PALETTE_CLASS =
   /(?:^|[\s:])(?:bg|text|border(?:-[xytrblse])?|divide|outline|ring(?:-offset)?|fill|stroke|from|via|to|placeholder|caret|accent|decoration|shadow|inset-shadow|drop-shadow)-(?:white|black|(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|mist|mauve|olive|taupe)-(?:50|[1-9]00|950))(?:\/\d+)?(?=$|\s)/;
 const RAW_COLOR =
-  /#(?:[0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{3,4})(?![\w-])|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color-mix)\(/i;
+  /#(?:[0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{3,4})(?![\w-])|(?<![a-z0-9])(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color-mix)\(/i;
 
 const designTokensPlugin = {
   rules: {

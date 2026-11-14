@@ -322,7 +322,7 @@
     "shadows": [
       {
         "name": "popover-float",
-        "value": "0 16px 40px -12px rgba(0,0,0,0.8)",
+        "value": "0 16px 40px -12px rgb(0 0 0 / 0.8)",
         "purpose": "Deep soft shadow distinguishing floating popovers from otherwise flat surfaces."
       }
     ],

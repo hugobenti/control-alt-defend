@@ -1,4 +1,4 @@
-export type TFileState = "safe" | "carried" | "dropped" | "leaked";
+import type { TFileState } from "../../logic/matchHud.type";
 
 export interface IFilePipsProps {
   files: TFileState[];

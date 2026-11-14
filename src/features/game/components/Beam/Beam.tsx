@@ -1,5 +1,3 @@
-import { game } from "@/content/game";
-
 import { useGameDefs } from "../GameDefs/useGameDefs";
 import { beam as styles } from "./Beam.style";
 import type { IBeamProps } from "./Beam.type";
@@ -10,7 +8,7 @@ export function Beam(props: IBeamProps) {
   const defs = useGameDefs();
   const { haloWidth, coreWidth, impactRadius, filter } = useBeam(props, defs?.glow);
   return (
-    <g role="img" aria-label={game.beam}>
+    <g aria-hidden="true">
       <line
         x1={from.x}
         y1={from.y}

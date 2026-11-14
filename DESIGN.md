@@ -160,7 +160,7 @@ The MatchScreen story composes a 1312px-wide framed reference surface: one top h
 
 ## Elevation & Depth
 
-Tonal layers and fine borders organize the playable board and adjacent panel; ordinary controls and the selected-tower card stay flat. Popovers alone float above these surfaces with a deep, soft shadow (`0 16px 40px -12px rgba(0,0,0,0.8)`). Glowing board effects use the per-board SVG glow filter: shots, beams and boosted connections remain legible over dark solder mask. Do not turn the glow into a wash that obscures enemy health or files.
+Tonal layers and fine borders organize the playable board and adjacent panel; ordinary controls and the selected-tower card stay flat. Popovers alone float above these surfaces with a deep, soft shadow (`shadow-popover`: `0 16px 40px -12px rgb(0 0 0 / 0.8)`). Glowing board effects use the per-board SVG glow filter: shots, beams and boosted connections remain legible over dark solder mask. Do not turn the glow into a wash that obscures enemy health or files.
 
 ## Shapes
 
