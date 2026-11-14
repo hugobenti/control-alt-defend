@@ -230,6 +230,8 @@ Design intent for the set:
 - **Call:** boosts don't stack. A tower next to several Firewalls takes only the strongest boost.
 - Firewalls never boost other Firewalls (they don't attack).
 - A boosted tower shows a small Firewall-colored marker, and its info card lists the boost and where it comes from.
+- The board shows a short Firewall-colored line on the shared edge between a boosting Firewall and its
+  boosted neighbor. Diagonal or non-adjacent cells never show a boost connection.
 
 ### Upgrade lab
 

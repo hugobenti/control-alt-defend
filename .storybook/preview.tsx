@@ -17,7 +17,7 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <div
-        className={`${display.variable} ${ui.variable} ${num.variable} bg-bg p-6 font-sans text-fg`}
+        className={`${display.variable} ${ui.variable} ${num.variable} min-h-screen bg-bg p-6 font-sans text-fg`}
       >
         <Story />
       </div>

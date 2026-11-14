@@ -29,4 +29,18 @@ export interface IGameContent {
   core: (filesInCore: number, files: number) => string;
   port: (label: string) => string;
   file: Record<"inCore" | "dropped", string>;
+  towerNames: Record<"firewall" | "antivirus" | "debugger", string>;
+  towerRoles: Record<"firewall" | "antivirus" | "debugger", string>;
+  towerState: { selected: string; boosted: string; version: string };
+  tower: (
+    type: "firewall" | "antivirus" | "debugger",
+    version: 1 | 2 | 3,
+    boosted: boolean,
+    selected: boolean,
+  ) => string;
+  range: (type: "firewall" | "antivirus" | "debugger") => string;
+  boostEdge: string;
+  shot: string;
+  beam: string;
+  placement: { valid: string; invalid: string };
 }

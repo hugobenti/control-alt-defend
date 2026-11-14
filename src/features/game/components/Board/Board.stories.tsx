@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
 
 import { homePc } from "../../level/homePc.data";
+import { Tower } from "../Tower/Tower";
 import { Board } from "./Board";
 
 const meta = { title: "Game/Board", component: Board, args: { map: homePc } } satisfies Meta<
@@ -41,17 +42,13 @@ export const MidGame: Story = {
   args: {
     files: 8,
     filesInCore: 5,
-    children: (
-      <g role="img" aria-label="Friendly tower">
-        <circle r="8" />
-      </g>
-    ),
+    children: <Tower type="antivirus" version={2} c={7} r={6} />,
   },
   play: async ({ canvasElement }) => {
     const board = within(canvasElement).getByRole("group", { name: "Home PC board" });
     await expect(
       within(board).getByRole("img", { name: "Core, 5 of 8 files" }),
     ).toBeInTheDocument();
-    await expect(within(board).getByRole("img", { name: "Friendly tower" })).toBeInTheDocument();
+    await expect(within(board).getByRole("img", { name: "Antivirus v2.0" })).toBeInTheDocument();
   },
 };
