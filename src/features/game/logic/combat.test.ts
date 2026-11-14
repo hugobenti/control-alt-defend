@@ -136,15 +136,20 @@ describe("combat", () => {
     expect(state.beams[0]!.ramp).toBe(1);
   });
 
-  it("resets beam target and ramp after a kill", () => {
+  it("resets a ramped Debugger beam on the tick its target dies", () => {
     const initial = place(base(), "debugger");
-    let state = stepCombat({
-      ...initial,
-      enemies: [enemy(10, { x: 300, y: 260 }, { small: true, health: 8 })],
-    });
+    let state = parked(
+      {
+        ...initial,
+        enemies: [enemy(10, { x: 300, y: 260 }, { type: "rootkit", health: 320, maxHealth: 320 })],
+      },
+      31,
+    );
+    expect(state.towers[0]).toMatchObject({ beamTargetId: 10, beamTicks: 30 });
+    state = parked({ ...state, enemies: [{ ...state.enemies[0]!, health: 6 }] }, 15);
     expect(state.enemies).toEqual([]);
     expect(state.towers[0]).toMatchObject({ beamTargetId: null, beamTicks: 0, kills: 1 });
-    state = stepCombat({ ...state, tick: 1, enemies: [enemy(11, { x: 300, y: 260 })] });
+    state = stepCombat({ ...state, enemies: [enemy(11, { x: 300, y: 260 })] });
     expect(state.beams[0]!.ramp).toBe(0);
   });
 
