@@ -1,0 +1,427 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-14T01:17:32Z",
+  "title": "Design System: Ctrl+Alt+Defend",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Ground",
+        "tonalRamp": [
+          "oklch(15% 0.02 155)",
+          "oklch(25% 0.025 155)",
+          "oklch(35% 0.03 155)",
+          "oklch(45% 0.03 155)",
+          "oklch(55% 0.025 155)",
+          "oklch(68% 0.02 155)",
+          "oklch(82% 0.015 155)",
+          "oklch(95% 0.008 155)"
+        ]
+      },
+      "frame": {
+        "role": "neutral",
+        "displayName": "Board frame",
+        "tonalRamp": [
+          "oklch(15% 0.02 155)",
+          "oklch(25% 0.025 155)",
+          "oklch(35% 0.03 155)",
+          "oklch(45% 0.03 155)",
+          "oklch(55% 0.025 155)",
+          "oklch(68% 0.02 155)",
+          "oklch(82% 0.015 155)",
+          "oklch(95% 0.008 155)"
+        ]
+      },
+      "board": {
+        "role": "neutral",
+        "displayName": "Solder mask",
+        "tonalRamp": [
+          "oklch(15% 0.02 155)",
+          "oklch(25% 0.025 155)",
+          "oklch(35% 0.03 155)",
+          "oklch(45% 0.03 155)",
+          "oklch(55% 0.025 155)",
+          "oklch(68% 0.02 155)",
+          "oklch(82% 0.015 155)",
+          "oklch(95% 0.008 155)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Panel",
+        "tonalRamp": [
+          "oklch(15% 0.02 155)",
+          "oklch(25% 0.025 155)",
+          "oklch(35% 0.03 155)",
+          "oklch(45% 0.03 155)",
+          "oklch(55% 0.025 155)",
+          "oklch(68% 0.02 155)",
+          "oklch(82% 0.015 155)",
+          "oklch(95% 0.008 155)"
+        ]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Raised panel",
+        "tonalRamp": [
+          "oklch(15% 0.02 155)",
+          "oklch(25% 0.025 155)",
+          "oklch(35% 0.03 155)",
+          "oklch(45% 0.03 155)",
+          "oklch(55% 0.025 155)",
+          "oklch(68% 0.02 155)",
+          "oklch(82% 0.015 155)",
+          "oklch(95% 0.008 155)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Circuit rule",
+        "tonalRamp": [
+          "oklch(15% 0.02 155)",
+          "oklch(25% 0.025 155)",
+          "oklch(35% 0.03 155)",
+          "oklch(45% 0.03 155)",
+          "oklch(55% 0.025 155)",
+          "oklch(68% 0.02 155)",
+          "oklch(82% 0.015 155)",
+          "oklch(95% 0.008 155)"
+        ]
+      },
+      "fg": {
+        "role": "neutral",
+        "displayName": "Silkscreen",
+        "tonalRamp": [
+          "oklch(15% 0.008 125)",
+          "oklch(25% 0.01 125)",
+          "oklch(35% 0.01 125)",
+          "oklch(45% 0.01 125)",
+          "oklch(55% 0.01 125)",
+          "oklch(68% 0.01 125)",
+          "oklch(82% 0.008 125)",
+          "oklch(95% 0.005 125)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Secondary print",
+        "tonalRamp": [
+          "oklch(15% 0.02 155)",
+          "oklch(25% 0.025 155)",
+          "oklch(35% 0.03 155)",
+          "oklch(45% 0.03 155)",
+          "oklch(55% 0.025 155)",
+          "oklch(68% 0.02 155)",
+          "oklch(82% 0.015 155)",
+          "oklch(95% 0.008 155)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Signal cyan",
+        "tonalRamp": [
+          "oklch(15% 0.03 200)",
+          "oklch(25% 0.07 200)",
+          "oklch(35% 0.11 200)",
+          "oklch(45% 0.14 200)",
+          "oklch(55% 0.15 200)",
+          "oklch(68% 0.14 200)",
+          "oklch(82% 0.09 200)",
+          "oklch(95% 0.025 200)"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Signal cyan hover",
+        "tonalRamp": [
+          "oklch(15% 0.03 200)",
+          "oklch(25% 0.07 200)",
+          "oklch(35% 0.11 200)",
+          "oklch(45% 0.14 200)",
+          "oklch(55% 0.15 200)",
+          "oklch(68% 0.14 200)",
+          "oklch(82% 0.09 200)",
+          "oklch(95% 0.025 200)"
+        ]
+      },
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "On-signal ground",
+        "tonalRamp": [
+          "oklch(15% 0.02 155)",
+          "oklch(25% 0.025 155)",
+          "oklch(35% 0.03 155)",
+          "oklch(45% 0.03 155)",
+          "oklch(55% 0.025 155)",
+          "oklch(68% 0.02 155)",
+          "oklch(82% 0.015 155)",
+          "oklch(95% 0.008 155)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Keyboard focus",
+        "tonalRamp": [
+          "oklch(15% 0.03 200)",
+          "oklch(25% 0.07 200)",
+          "oklch(35% 0.11 200)",
+          "oklch(45% 0.14 200)",
+          "oklch(55% 0.15 200)",
+          "oklch(68% 0.14 200)",
+          "oklch(82% 0.09 200)",
+          "oklch(95% 0.025 200)"
+        ]
+      },
+      "copper": {
+        "role": "secondary",
+        "displayName": "Copper pin",
+        "tonalRamp": [
+          "oklch(15% 0.025 65)",
+          "oklch(25% 0.055 65)",
+          "oklch(35% 0.085 65)",
+          "oklch(45% 0.105 65)",
+          "oklch(55% 0.115 65)",
+          "oklch(68% 0.1 65)",
+          "oklch(82% 0.06 65)",
+          "oklch(95% 0.015 65)"
+        ]
+      },
+      "copper-dim": {
+        "role": "secondary",
+        "displayName": "Dim copper trace",
+        "tonalRamp": [
+          "oklch(15% 0.025 65)",
+          "oklch(25% 0.055 65)",
+          "oklch(35% 0.085 65)",
+          "oklch(45% 0.105 65)",
+          "oklch(55% 0.115 65)",
+          "oklch(68% 0.1 65)",
+          "oklch(82% 0.06 65)",
+          "oklch(95% 0.015 65)"
+        ]
+      },
+      "firewall": {
+        "role": "secondary",
+        "displayName": "Firewall steel",
+        "tonalRamp": [
+          "oklch(15% 0.015 245)",
+          "oklch(25% 0.025 245)",
+          "oklch(35% 0.035 245)",
+          "oklch(45% 0.045 245)",
+          "oklch(55% 0.055 245)",
+          "oklch(68% 0.055 245)",
+          "oklch(82% 0.035 245)",
+          "oklch(95% 0.01 245)"
+        ]
+      },
+      "antivirus": {
+        "role": "primary",
+        "displayName": "Antivirus cyan",
+        "tonalRamp": [
+          "oklch(15% 0.03 200)",
+          "oklch(25% 0.07 200)",
+          "oklch(35% 0.11 200)",
+          "oklch(45% 0.14 200)",
+          "oklch(55% 0.15 200)",
+          "oklch(68% 0.14 200)",
+          "oklch(82% 0.09 200)",
+          "oklch(95% 0.025 200)"
+        ]
+      },
+      "debugger": {
+        "role": "secondary",
+        "displayName": "Debugger green",
+        "tonalRamp": [
+          "oklch(15% 0.025 145)",
+          "oklch(25% 0.065 145)",
+          "oklch(35% 0.1 145)",
+          "oklch(45% 0.135 145)",
+          "oklch(55% 0.17 145)",
+          "oklch(68% 0.16 145)",
+          "oklch(82% 0.1 145)",
+          "oklch(95% 0.025 145)"
+        ]
+      },
+      "worm": {
+        "role": "tertiary",
+        "displayName": "Worm pink",
+        "tonalRamp": [
+          "oklch(15% 0.035 355)",
+          "oklch(25% 0.08 355)",
+          "oklch(35% 0.13 355)",
+          "oklch(45% 0.18 355)",
+          "oklch(55% 0.22 355)",
+          "oklch(68% 0.2 355)",
+          "oklch(82% 0.1 355)",
+          "oklch(95% 0.025 355)"
+        ]
+      },
+      "rootkit": {
+        "role": "tertiary",
+        "displayName": "Rootkit violet",
+        "tonalRamp": [
+          "oklch(15% 0.035 295)",
+          "oklch(25% 0.075 295)",
+          "oklch(35% 0.12 295)",
+          "oklch(45% 0.17 295)",
+          "oklch(55% 0.19 295)",
+          "oklch(68% 0.15 295)",
+          "oklch(82% 0.09 295)",
+          "oklch(95% 0.02 295)"
+        ]
+      },
+      "data": {
+        "role": "tertiary",
+        "displayName": "Data yellow",
+        "tonalRamp": [
+          "oklch(15% 0.03 95)",
+          "oklch(25% 0.07 95)",
+          "oklch(35% 0.11 95)",
+          "oklch(45% 0.14 95)",
+          "oklch(55% 0.16 95)",
+          "oklch(68% 0.17 95)",
+          "oklch(82% 0.12 95)",
+          "oklch(95% 0.03 95)"
+        ]
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Danger red",
+        "tonalRamp": [
+          "oklch(15% 0.035 25)",
+          "oklch(25% 0.08 25)",
+          "oklch(35% 0.13 25)",
+          "oklch(45% 0.18 25)",
+          "oklch(55% 0.2 25)",
+          "oklch(68% 0.17 25)",
+          "oklch(82% 0.095 25)",
+          "oklch(95% 0.025 25)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Chakra Petch display",
+        "purpose": "Tower names and prominent HUD labels."
+      },
+      "body": { "displayName": "B612 interface", "purpose": "Controls, descriptions and stats." },
+      "label": { "displayName": "B612 label", "purpose": "Compact uppercase panel headings." },
+      "stat-label": {
+        "displayName": "B612 stat label",
+        "purpose": "11px HUD counters' uppercase labels with 0.04em tracking."
+      },
+      "shortcut": {
+        "displayName": "B612 Mono shortcut",
+        "purpose": "11px keyboard shortcut caps."
+      },
+      "number": {
+        "displayName": "B612 Mono",
+        "purpose": "Counts, versions, prices, shortcuts and board labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "popover-float",
+        "value": "0 16px 40px -12px rgba(0,0,0,0.8)",
+        "purpose": "Deep soft shadow distinguishing floating popovers from otherwise flat surfaces."
+      }
+    ],
+    "motion": [
+      {
+        "name": "enemy-hit-glitch",
+        "value": "240ms linear",
+        "purpose": "Two transient shifted copies identify a hit without concealing the enemy."
+      },
+      {
+        "name": "enemy-hit-reduced",
+        "value": "120ms linear opacity fade",
+        "purpose": "Reduced-motion replacement; no displacement."
+      }
+    ],
+    "breakpoints": [
+      { "name": "desktop-game-minimum", "value": "1024px" },
+      { "name": "match-reference-width", "value": "1312px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Cyan primary action with a visible keyboard outline.",
+      "html": "<button class=\"ds-button-primary\">Start now</button>",
+      "css": ".ds-button-primary{height:30px;padding:0 10px;border:0;border-radius:6px;background:var(--color-accent,#45e3f2);color:var(--color-on-accent,#08130f);font:700 13px B612,sans-serif;cursor:pointer}.ds-button-primary:hover{background:var(--color-accent-hover,#7deef8)}.ds-button-primary:focus-visible{outline:2px solid var(--color-focus,#45e3f2);outline-offset:2px}.ds-button-primary:disabled{background:var(--color-raised,#173029);color:var(--color-muted,#9db2a6);cursor:not-allowed}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Outlined neutral action used alongside primary controls.",
+      "html": "<button class=\"ds-button-ghost\">Sell</button>",
+      "css": ".ds-button-ghost{height:34px;padding:0 12px;border:1px solid var(--color-line,#24443a);border-radius:6px;background:transparent;color:var(--color-fg,#e7ede6);font:700 13px B612,sans-serif;cursor:pointer}.ds-button-ghost:hover{background:var(--color-raised,#173029)}.ds-button-ghost:focus-visible{outline:2px solid var(--color-focus,#45e3f2);outline-offset:2px}"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "description": "Outlined destructive action, distinct from neutral controls.",
+      "html": "<button class=\"ds-button-danger\">Restart level</button>",
+      "css": ".ds-button-danger{height:34px;padding:0 12px;border:1px solid color-mix(in srgb,var(--color-danger,#ff6b6b) 40%,transparent);border-radius:6px;background:transparent;color:var(--color-danger,#ff6b6b);font:700 13px B612,sans-serif;cursor:pointer}.ds-button-danger:hover{background:var(--color-raised,#173029)}.ds-button-danger:focus-visible{outline:2px solid var(--color-focus,#45e3f2);outline-offset:2px}"
+    },
+    {
+      "name": "Speed Segments",
+      "kind": "nav",
+      "description": "Two-state match speed control; pressed state is not conveyed by color alone.",
+      "html": "<div class=\"ds-speed\" role=\"group\" aria-label=\"Speed\"><button aria-pressed=\"true\">1×</button><button aria-pressed=\"false\">2×</button></div>",
+      "css": ".ds-speed{display:inline-flex;overflow:hidden;height:34px;border:1px solid var(--color-line,#24443a);border-radius:6px}.ds-speed button{padding:0 9px;border:0;background:transparent;color:var(--color-muted,#9db2a6);font:700 12px 'B612 Mono',monospace;cursor:pointer}.ds-speed button[aria-pressed=true]{background:var(--color-fg,#e7ede6);color:var(--color-bg,#08130f)}.ds-speed button:hover:not([aria-pressed=true]){background:var(--color-raised,#173029)}.ds-speed button:focus-visible{outline:2px solid var(--color-focus,#45e3f2);outline-offset:-2px}"
+    },
+    {
+      "name": "Build Choice",
+      "kind": "button",
+      "refersTo": "build-item",
+      "description": "Tower purchase choice with role, bit cost and keyboard shortcut.",
+      "html": "<button class=\"ds-build-item\" aria-describedby=\"ds-build-role\"><svg class=\"ds-build-symbol\" viewBox=\"-20 -20 40 40\" aria-hidden=\"true\"><rect x=\"-17\" y=\"-17\" width=\"34\" height=\"34\" rx=\"6\" fill=\"var(--color-frame,#0b1a15)\" stroke=\"var(--color-firewall,#a9c4dc)\"/><g fill=\"var(--color-firewall,#a9c4dc)\"><rect x=\"-12\" y=\"-10\" width=\"11\" height=\"5.5\" rx=\"1\"/><rect x=\"1\" y=\"-10\" width=\"11\" height=\"5.5\" rx=\"1\"/><rect x=\"-12\" y=\"-2.75\" width=\"5\" height=\"5.5\" rx=\"1\"/><rect x=\"-5\" y=\"-2.75\" width=\"10\" height=\"5.5\" rx=\"1\"/><rect x=\"7\" y=\"-2.75\" width=\"5\" height=\"5.5\" rx=\"1\"/><rect x=\"-12\" y=\"4.5\" width=\"11\" height=\"5.5\" rx=\"1\"/><rect x=\"1\" y=\"4.5\" width=\"11\" height=\"5.5\" rx=\"1\"/></g></svg><span><strong>Firewall</strong><small id=\"ds-build-role\">Wall; boosts towers next to it</small></span><span class=\"ds-build-cost\">10 <kbd>1</kbd></span></button>",
+      "css": ".ds-build-item{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:10px;width:100%;padding:8px;border:1px solid var(--color-line,#24443a);border-radius:10px;background:transparent;color:var(--color-fg,#e7ede6);text-align:left;font:400 13px B612,sans-serif;cursor:pointer}.ds-build-item:hover{background:var(--color-raised,#173029)}.ds-build-item:focus-visible{outline:2px solid var(--color-focus,#45e3f2);outline-offset:2px}.ds-build-item:disabled{opacity:.65;cursor:not-allowed}.ds-build-item[aria-pressed=true]{border-color:var(--color-antivirus,#45e3f2);background:var(--color-raised,#173029)}.ds-build-symbol{display:block;width:40px;height:40px}.ds-build-item strong,.ds-build-item small{display:block}.ds-build-item small{color:var(--color-muted,#9db2a6)}.ds-build-cost{color:var(--color-data,#ffd54a);font:700 12px 'B612 Mono',monospace}.ds-build-cost kbd{margin-left:5px;color:var(--color-muted,#9db2a6)}"
+    },
+    {
+      "name": "Tower Information Card",
+      "kind": "card",
+      "refersTo": "tower-card",
+      "description": "Raised selected-tower panel: version, statistics and upgrade action.",
+      "html": "<article class=\"ds-tower-card\"><header><h3>Antivirus <small>v2.0</small></h3><p>Fast single shots</p></header><dl><dt>Damage</dt><dd>12 → 18</dd><dt>Range</dt><dd>3.0 → 3.5</dd></dl><button>Upgrade to v3.0 · 120</button></article>",
+      "css": ".ds-tower-card{display:flex;flex-direction:column;gap:12px;padding:14px;border:1px solid var(--color-line,#24443a);border-radius:12px;background:var(--color-raised,#173029);color:var(--color-fg,#e7ede6);font:400 13px B612,sans-serif}.ds-tower-card h3{margin:0;font:600 18px/1.1 'Chakra Petch',sans-serif}.ds-tower-card h3 small{margin-left:8px;color:var(--color-antivirus,#45e3f2);font:700 12px 'B612 Mono',monospace}.ds-tower-card p{margin:3px 0 0;color:var(--color-muted,#9db2a6)}.ds-tower-card dl{display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin:0}.ds-tower-card dt{color:var(--color-muted,#9db2a6)}.ds-tower-card dd{margin:0;font-family:'B612 Mono',monospace}.ds-tower-card button{height:34px;border:0;border-radius:6px;background:var(--color-accent,#45e3f2);color:var(--color-on-accent,#08130f);font:700 13px B612,sans-serif;cursor:pointer}.ds-tower-card button:hover{background:var(--color-accent-hover,#7deef8)}.ds-tower-card button:focus-visible{outline:2px solid var(--color-focus,#45e3f2);outline-offset:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Playable Circuit Board",
+    "overview": "The game is an overhead circuit board: a dark solder-mask surface, copper traces and connectors, silkscreen labels, and recognizable electronic parts. The interface is a compact instrument panel around it, not a separate visual world. Opposing silhouettes and purpose-specific colors make threats, defenses, and stolen files readable without a tooltip. This documents the visual foundations and their Storybook states, not a claim that the full game simulation is built.",
+    "keyCharacteristics": [
+      "One dark palette; no light-mode variation.",
+      "Color describes game role before it decorates.",
+      "Crisp vector geometry, small type with deliberate hierarchy, and restrained hit feedback.",
+      "Storybook (`pnpm storybook`) is the living reference for every built component and the composed MatchScreen."
+    ],
+    "rules": [
+      {
+        "name": "The Signal Ownership Rule",
+        "body": "Player towers, enemies, data and failure keep their separate semantic colors; a subtle fill uses the same token with opacity, not a new near-match color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Numbers Mean Numbers Rule",
+        "body": "Use the mono face for actual data and shortcuts, not to make all prose look technical.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do take color, shape and typography from the actual tokens and component state stories in Storybook.",
+      "Do keep player, enemy and file silhouettes legible at board scale; label meaningful SVG pieces with `role=\"img\"` and a content-sourced `aria-label`, and hide decorative circuitry from assistive technology.",
+      "Do preserve a visible keyboard focus outline and explain disabled actions to assistive technology. WCAG 2.2 AA contrast applies to UI and text.",
+      "Do honor reduced motion: on hit replace the glitch with the short opacity fade and move nothing else."
+    ],
+    "donts": [
+      "Don't introduce a second color scheme or hard-code new near-match palette colors in components.",
+      "Don't make particles, beams or glow obscure movement, health or the data files.",
+      "Don't treat color alone as the signal for a carrier, a refused placement or a locked action."
+    ]
+  }
+}

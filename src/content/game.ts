@@ -2,6 +2,7 @@ import type { IGameContent } from "./content.type";
 
 export const game: IGameContent = {
   board: "Home PC board",
+  screen: { build: "Build", selected: "Selected", levelName: "Home PC" },
   coreLabel: "CORE",
   core: (filesInCore, files) => `Core, ${filesInCore} of ${files} files`,
   port: (label) => `${label} PORT`,

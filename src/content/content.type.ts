@@ -25,6 +25,7 @@ export interface IStatusPagesContent {
 /** Board labels and the names of rendered game pieces. */
 export interface IGameContent {
   board: string;
+  screen: { build: string; selected: string; levelName: string };
   coreLabel: string;
   core: (filesInCore: number, files: number) => string;
   port: (label: string) => string;
