@@ -53,7 +53,7 @@ const textPairs = [
 ];
 
 const graphicPairs = [
-  ...pairs(["focus"], ["bg", "surface"]),
+  ...pairs(["focus"], ["bg", "surface", "raised"]),
   ...pairs(
     ["copper", "firewall", "antivirus", "debugger", "worm", "rootkit", "data", "danger", "fg"],
     ["board"],
