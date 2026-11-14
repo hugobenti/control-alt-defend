@@ -10,6 +10,10 @@ The product spec is [`product.md`](./product.md): read it before building or cha
 
 Dark only, one palette; see product.md section 12. There is no light scheme and no `prefers-color-scheme` branch.
 
+## Storybook
+
+Run `pnpm storybook` to browse foundations and component states; `pnpm test:stories` runs Chromium interaction and accessibility checks. `pnpm storybook:build` builds static docs, and `pnpm verify` includes both checks. Every component gets a `X.stories.tsx` next to it, with one story per documented state. Stories and `.storybook` configuration are exempt from the presentation-only and copy/types lint rules, but retain accessibility and token-color checks.
+
 <!-- BEGIN:hugo-rules -->
 <!-- House rules shared by every project from the setup-fe-project template. Project-specific rules go outside this block. -->
 

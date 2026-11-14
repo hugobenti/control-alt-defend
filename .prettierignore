@@ -3,6 +3,7 @@ pnpm-lock.yaml
 .next-*
 playwright-report
 test-results
+storybook-static
 .superpowers
 .agents
 .claude
