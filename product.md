@@ -56,7 +56,8 @@ plan for later releases.
 - Monetization: ads, purchases, premium currency.
 - A level editor or user-made maps.
 - Music. Sound effects are in scope.
-- Phone layouts. Desktop is the target; tablets are nice to have where they work at no extra cost.
+- Phone layouts in the first playable. **Decided:** the game must also work on mobile later; that work is planned
+  separately and is not a focus yet. Desktop comes first.
 
 ### Anti-goals: it fails if…
 
@@ -72,8 +73,8 @@ plan for later releases.
   `AGENTS.md` rules apply in full: logic in hooks and pure modules, copy in `src/content`, token-only colors,
   accessibility checks in CI.
 - **Call:** fully client-side. Progress and settings are saved in the browser (`localStorage`). No server state.
-- **Call:** minimum supported viewport 1024 × 640. Below that the game shows a message asking for a larger window
-  instead of a broken layout.
+- **Call:** minimum supported viewport 1024 × 640 for now. No "window too small" message: mobile support is planned
+  instead (section 2, non-goals).
 - **Call:** the game simulation runs at a fixed time step, independent of frame rate, so the same inputs give the
   same result on any machine. This keeps balance testable and makes the 2× speed setting exact.
 
@@ -328,12 +329,15 @@ progress, sound playback, How to play.
 - **Call (pathing details):** routes come from an 8-direction distance field on the cell grid; a diagonal step is
   only allowed when both cells it cuts between are open, which is what makes corner-touching towers a wall. Enemies
   steer toward the farthest cell center on their route that they can see in a straight line (so they take direct
-  lines across open space and bend around towers) and turn at a limited rate. Placement is also refused when it
-  would cut a dropped file or a live enemy off from the Core, so nothing can be walled into a pocket.
+  lines across open space and bend around towers) and turn at a limited rate.
+- **Decided:** no trapping. Placement is refused when it would cut a dropped file or a live enemy off from the Core,
+  so nothing can be walled into a pocket.
 - **Call:** viruses spawn at, and carriers leak at, the center of a port cell. Among several carriers a tower picks
   the one closest to its exit. The Debugger beam deals its damage in pulses four times a second, each pulse a
   separate hit for Rootkit armor; armor never reduces a hit below 1 damage. Worm halves may pick the dropped file
   back up at once.
+- **Decided:** Rootkit armor 6 is fine: Antivirus v1.0 (10 damage) still chips Rootkits for 4 per hit, while the
+  Debugger remains the efficient answer.
 - **Call:** first balance numbers live in one data file (`src/features/game/logic/balance.data.ts`) and are listed
   in the implementation plan `docs/superpowers/plans/2026-11-14-sandbox-game-logic.md`.
 

@@ -53,8 +53,9 @@ playable)" under section 9, which records the scope and Calls for this plan. `DE
   anything outside its arguments, never mutates its input. The same `IMatchOptions.seed` and command sequence must yield
   a deep-equal state.
 - Out of scope (do not build): Upgrade lab, keys, store, level select, campaign levels, waves, saved progress, sound
-  playback, the "window too small" message, How to play. The sound toggle in Settings is visual-only (Call: a boolean in
-  the screen hook that nothing reads).
+  playback, mobile/touch layouts (Hugo: the game must work on mobile later, planned separately; no "window too small"
+  message in the meantime), How to play. The sound toggle in Settings is visual-only (Call: a boolean in the screen
+  hook that nothing reads).
 
 ## Review Focus
 
@@ -65,7 +66,8 @@ playable)" under section 9, which records the scope and Calls for this plan. `DE
    refuse the placement; and whenever a piece appears inside a wall anyway (worm halves spawning beside a tower) it must
    be pushed out, never stuck. Task 1 pins the disc-vs-rect refusal; Task 3 pins `resolveCollision`; Task 4 pins halves.
 3. **Pocket sealed around a dropped file or a live enemy.** A placement that keeps every port connected but walls off
-   a dropped file or an enemy from the Core would leave an unreachable file forever. Call: refuse it (`"trapsPiece"`).
+   a dropped file or an enemy from the Core would leave an unreachable file forever. Decided (Hugo: no traps): refuse
+   it (`"trapsPiece"`).
    Task 1 pins it; Task 4 pins that a carrier killed while pressed against a wall drops its file in an open cell.
 4. **Frame-rate dependence at 2× and after a hidden tab.** Two 8.3 ms frames and one 16.7 ms frame must run the same
    ticks; a 5 s gap must not run 300 ticks in one frame. Task 5 pins `ticksToRun`; Task 4 pins determinism of a 600-tick
