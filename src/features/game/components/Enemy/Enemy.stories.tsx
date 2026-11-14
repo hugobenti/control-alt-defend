@@ -6,9 +6,6 @@ import { Board } from "../Board/Board";
 import { Tower } from "../Tower/Tower";
 import { towerStoryMap } from "../Tower/Tower.stories.data";
 import { Enemy } from "./Enemy";
-import type { TEnemyType } from "./Enemy.type";
-
-const armoredType: TEnemyType = "rootkit";
 
 const meta = {
   title: "Game/Enemy",
@@ -86,7 +83,7 @@ export const HealthBars: Story = {
       <Enemy {...args} x={160} health={0.7} />
       <Enemy {...args} x={240} health={0.35} />
       <Enemy {...args} x={320} health={0.1} />
-      <Enemy {...args} type={armoredType} x={400} health={0.5} />
+      <Enemy {...args} type="rootkit" x={400} health={0.5} />
     </>
   ),
 };

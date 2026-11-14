@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import { game } from "@/content/game";
 
 import { countFiles } from "../../logic/matchHud";
@@ -18,6 +20,7 @@ export function useMatchHeader({
   onSoundChange,
   onSettingsOpenChange,
 }: IMatchHeaderProps) {
+  const settingsMenuId = useId();
   const copy = game.header;
   const counts = countFiles(files);
   return {
@@ -41,6 +44,7 @@ export function useMatchHeader({
     speedOptions: SPEEDS.map((value) => ({ value, text: copy.controls.speeds[value] })),
     soundLabel: copy.controls.sound,
     soundIcon: sound ? ("sound" as const) : ("sound-off" as const),
+    settingsMenuId,
     settingsLabel: copy.controls.settings,
     togglePause: () => onPausedChange(!paused),
     toggleSound: () => onSoundChange(!sound),

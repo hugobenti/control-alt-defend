@@ -13,13 +13,11 @@ export const game: IGameContent = {
     antivirus: "Fast single shots",
     debugger: "Ramping beam, beats armor",
   },
-  towerState: { selected: "selected", boosted: "boosted", version: "version" },
+  towerState: { selected: "selected", boosted: "boosted" },
   tower: (type, version, boosted, selected) =>
     `${game.towerNames[type]} v${version}.0${boosted ? `, ${game.towerState.boosted}` : ""}${selected ? `, ${game.towerState.selected}` : ""}`,
   range: (type) => `${game.towerNames[type]} range`,
   boostEdge: "Firewall boost connection",
-  shot: "Antivirus shot",
-  beam: "Debugger beam",
   enemyNames: { worm: "Worm", rootkit: "Rootkit" },
   enemyState: { carrier: "carrying a file", armored: "armored", health: "health" },
   enemy: (type, healthPercent, carrier) =>
@@ -49,7 +47,6 @@ export const game: IGameContent = {
     next: (value) => `→ ${value}`,
   },
   files: {
-    states: { safe: "in the core", carried: "carried", dropped: "dropped", leaked: "leaked" },
     summary: (counts) =>
       `${counts.safe} in the core, ${counts.carried} carried, ${counts.dropped} dropped, ${counts.leaked} leaked`,
   },

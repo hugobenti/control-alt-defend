@@ -107,8 +107,12 @@ export const SettingsKeyboard: Story = {
     await expect(canvas.getByText("Paused")).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Resume" })).toBeInTheDocument();
     const gear = canvas.getByRole("button", { name: "Settings" });
+    await expect(gear).toHaveAttribute("aria-expanded", "false");
+    await expect(gear).not.toHaveAttribute("aria-pressed");
     await userEvent.click(gear);
+    await expect(gear).toHaveAttribute("aria-expanded", "true");
     const dialog = canvas.getByRole("dialog", { name: "Settings" });
+    await expect(gear).toHaveAttribute("aria-controls", dialog.id);
     await waitFor(() => expect(dialog.contains(document.activeElement)).toBe(true));
     await userEvent.click(within(dialog).getByRole("switch", { name: "Sound effects" }));
     await expect(within(dialog).getByRole("switch", { name: "Sound effects" })).toHaveAttribute(
@@ -122,6 +126,7 @@ export const SettingsKeyboard: Story = {
     );
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(canvas.queryByRole("dialog")).toBeNull());
+    await expect(gear).toHaveAttribute("aria-expanded", "false");
     await expect(gear).toHaveFocus();
   },
 };

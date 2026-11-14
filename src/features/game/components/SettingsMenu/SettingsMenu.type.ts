@@ -1,6 +1,7 @@
 export type TGameSpeed = "1" | "2";
 
 export interface ISettingsMenuProps {
+  id?: string;
   open: boolean;
   onClose: () => void;
   sound: boolean;

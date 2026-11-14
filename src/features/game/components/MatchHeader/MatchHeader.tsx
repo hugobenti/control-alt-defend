@@ -83,10 +83,12 @@ export function MatchHeader(props: IMatchHeaderProps) {
           <IconButton
             icon="gear"
             label={view.settingsLabel}
-            pressed={settingsOpen}
+            expanded={settingsOpen}
+            controls={view.settingsMenuId}
             onClick={view.toggleSettings}
           />
           <SettingsMenu
+            id={view.settingsMenuId}
             open={settingsOpen}
             onClose={view.closeSettings}
             sound={sound}

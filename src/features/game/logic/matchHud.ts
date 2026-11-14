@@ -1,4 +1,4 @@
-import type { TFileState } from "../components/FilePips/FilePips.type";
+import type { TFileState } from "./matchHud.type";
 
 /** Seconds as m:ss; partial seconds round up so the clock never shows 0:00 early. */
 export function formatClock(seconds: number): string {
