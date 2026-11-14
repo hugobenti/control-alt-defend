@@ -37,4 +37,29 @@ describe("match store", () => {
     store.advance(0);
     expect(listener).not.toHaveBeenCalled();
   });
+
+  it("publishes events from early ticks of a batch once, without replaying them next batch", () => {
+    const initialState = initial();
+    const recoveredFile = {
+      ...initialState.files[0]!,
+      status: "dropped" as const,
+      pos: { x: 480, y: 320 },
+    };
+    const store = createMatchStore({
+      ...initialState,
+      files: [recoveredFile, ...initialState.files.slice(1)],
+    });
+    const snapshots: { tick: number; events: typeof initialState.events }[] = [];
+    store.subscribe(() =>
+      snapshots.push({
+        tick: store.getState().tick,
+        events: store.getState().events,
+      }),
+    );
+    store.advance(3);
+    expect(snapshots).toEqual([{ tick: 3, events: [{ kind: "recovered", filesInCore: 8 }] }]);
+    expect(store.getState().files[0]?.status).toBe("core");
+    store.advance(1);
+    expect(snapshots[1]).toEqual({ tick: 4, events: [] });
+  });
 });

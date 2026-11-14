@@ -123,4 +123,29 @@ describe("match view models", () => {
       buildBoardView({ ...initial(), beams: [{ ...beam, chainTo: null }] }, ui).beams,
     ).toHaveLength(1);
   });
+  it.each([
+    ["firewall", "boosts neighbours' damage by 25%.", "boosts neighbours' damage and range."],
+    [
+      "antivirus",
+      "increases damage, fire rate and range.",
+      "adds piercing: each shot also hits the virus behind.",
+    ],
+    [
+      "debugger",
+      "increases beam damage and range.",
+      "the beam chains to one nearby virus at half damage.",
+    ],
+  ] as const)("describes both upgrade tiers accurately for %s", (type, v2Adds, v3Adds) => {
+    const placed = applyCommand(initial(), { kind: "place", type, cell: ui.cursor });
+    const tower = placed.towers[0]!;
+    expect(buildTowerCard(placed, tower.id)?.upgrade).toMatchObject({
+      nextVersion: 2,
+      adds: v2Adds,
+    });
+    const upgraded = { ...placed, towers: [{ ...tower, version: 2 as const }] };
+    expect(buildTowerCard(upgraded, tower.id)?.upgrade).toMatchObject({
+      nextVersion: 3,
+      adds: v3Adds,
+    });
+  });
 });

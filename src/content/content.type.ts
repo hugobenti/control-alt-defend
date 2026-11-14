@@ -68,6 +68,7 @@ export interface IGameContent {
       string
     >;
     targetsValue: string;
+    addsV2: Record<TTowerType, string>;
     adds: Record<TTowerType, string>;
     perSecond: (n: number) => string;
     pulseValue: (damage: number, pulses: number) => string;

@@ -204,7 +204,7 @@ export function buildTowerCard(
             cost,
             ...(state.bits < cost ? { missingBits: cost - state.bits } : {}),
             nextVersion: nextVersion!,
-            adds: game.card.adds[tower.type],
+            adds: tower.version === 1 ? game.card.addsV2[tower.type] : game.card.adds[tower.type],
           },
     sellRefund: sellRefund(tower.spent),
   };

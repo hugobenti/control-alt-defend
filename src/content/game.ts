@@ -54,6 +54,11 @@ export const game: IGameContent = {
       boostV3: "+50% damage, +1 range",
     },
     targetsValue: "Carriers first",
+    addsV2: {
+      firewall: "boosts neighbours' damage by 25%.",
+      antivirus: "increases damage, fire rate and range.",
+      debugger: "increases beam damage and range.",
+    },
     adds: {
       firewall: "boosts neighbours' damage and range.",
       antivirus: "adds piercing: each shot also hits the virus behind.",
