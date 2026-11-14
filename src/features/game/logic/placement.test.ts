@@ -105,5 +105,15 @@ describe("placement", () => {
       x: 220,
       y: 100,
     });
+    expect(paths[0]).toContainEqual({ x: 140, y: 180 });
+    const rerouted = routePreview(homePc, homeGrid, { c: 3, r: 4 })[0]!;
+    expect(rerouted).not.toEqual(paths[0]);
+    expect(rerouted).not.toContainEqual({ x: 140, y: 180 });
+    expect(rerouted.length).toBeGreaterThan(1);
+    const end = rerouted.at(-1)!;
+    expect(end.x).toBeGreaterThan(rect.x);
+    expect(end.x).toBeLessThan(rect.x + rect.w);
+    expect(end.y).toBeGreaterThan(rect.y);
+    expect(end.y).toBeLessThan(rect.y + rect.h);
   });
 });

@@ -49,6 +49,19 @@ describe("steering", () => {
     });
   });
 
+  it("normalizes large headings and turns the short way across the angle wrap", () => {
+    const pos = { x: 0, y: 0 };
+    const targetAt = (degrees: number) => ({
+      x: Math.cos((degrees * Math.PI) / 180) * 100,
+      y: Math.sin((degrees * Math.PI) / 180) * 100,
+    });
+    expect(moveToward(pos, 700, targetAt(-20), 0, 540, 1 / 60).heading).toBeCloseTo(-20);
+    expect(moveToward(pos, -700, targetAt(20), 0, 540, 1 / 60).heading).toBeCloseTo(20);
+    expect(moveToward(pos, 179, targetAt(-179), 0, 540, 1 / 60).heading).toBeCloseTo(-179);
+    expect(moveToward(pos, -179, targetAt(179), 0, 540, 1 / 60).heading).toBeCloseTo(179);
+    expect(moveToward(pos, 700, pos, 0, 540, 1 / 60).heading).toBeCloseTo(-20);
+  });
+
   it("pushes discs outside walls and board edges without moving free discs", () => {
     const grid = withBlocked(empty, [{ c: 2, r: 2 }]);
     expect(resolveCollision(grid, { x: 85, y: 100 }, 10).x).toBe(70);

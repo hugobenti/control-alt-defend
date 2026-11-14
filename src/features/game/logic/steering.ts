@@ -61,6 +61,11 @@ export function nextWaypoint(
   return { x: cellCenter(path[0]!.c), y: cellCenter(path[0]!.r) };
 }
 
+function normalizeHeading(degrees: number): number {
+  const wrapped = (((degrees % 360) + 540) % 360) - 180;
+  return wrapped === -180 ? 180 : wrapped;
+}
+
 export function moveToward(
   pos: IPoint,
   headingDeg: number,
@@ -72,11 +77,11 @@ export function moveToward(
   const dx = target.x - pos.x;
   const dy = target.y - pos.y;
   const distance = Math.hypot(dx, dy);
-  if (distance === 0) return { pos, heading: headingDeg };
+  if (distance === 0) return { pos, heading: normalizeHeading(headingDeg) };
   const desired = (Math.atan2(dy, dx) * 180) / Math.PI;
-  const change = ((desired - headingDeg + 540) % 360) - 180;
+  const change = ((((desired - headingDeg) % 360) + 540) % 360) - 180;
   const limit = turnRateDeg * dtS;
-  const heading = headingDeg + Math.max(-limit, Math.min(change, limit));
+  const heading = normalizeHeading(headingDeg + Math.max(-limit, Math.min(change, limit)));
   const step = Math.min(speedUnitsPerS * dtS, distance);
   if (step === distance && Math.abs(change) <= limit) return { pos: target, heading };
   const radians = (heading * Math.PI) / 180;
