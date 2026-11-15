@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { game } from "./game";
 import { site } from "./site";
 import { statusPages } from "./statusPages";
 
@@ -23,6 +24,11 @@ export const siteMetadata: Metadata = {
 
 export const homeMetadata: Metadata = {
   alternates: { canonical: "/" },
+};
+
+export const playMetadata: Metadata = {
+  title: game.sandbox.title,
+  alternates: { canonical: "/play" },
 };
 
 export const notFoundMetadata: Metadata = {

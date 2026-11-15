@@ -32,7 +32,15 @@ export interface IGameContent {
   board: string;
   cursor: (c: number, r: number) => string;
   gameOver: { title: string; text: (files: number) => string; restart: string };
-  screen: { build: string; selected: string; levelName: string };
+  screen: { build: string; selected: string; levelName: string; selectNone: string };
+  boardInput: { label: string; instructions: string };
+  announce: {
+    stolen: (filesInCore: number) => string;
+    leaked: (leaked: number, total: number) => string;
+    recovered: (filesInCore: number) => string;
+    gameOver: string;
+    maxVersion: string;
+  };
   sandbox: {
     title: string;
     status: string;
