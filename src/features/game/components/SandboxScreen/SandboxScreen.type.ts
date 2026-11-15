@@ -1,4 +1,4 @@
-import type { MouseEvent, PointerEvent, RefObject } from "react";
+import type { MouseEvent, PointerEvent, RefCallback, RefObject } from "react";
 
 import type { ILiveRegionState } from "@/features/shared/components/LiveRegion/LiveRegion.type";
 
@@ -42,6 +42,8 @@ export interface IMatchKeyHandlers {
   grantBits: () => void;
   activate: () => void;
   togglePause: () => void;
+  settingsOpen: boolean;
+  closeSettings: () => void;
   over: boolean;
 }
 export interface ISandboxScreenView {
@@ -64,7 +66,8 @@ export interface ISandboxScreenView {
   spawnCount: TSpawnCount;
   ports: { value: string; text: string }[];
   liveRegion: ILiveRegionState;
-  boardInput: IBoardInput;
+  boardRef: RefCallback<HTMLDivElement>;
+  boardInput: Omit<IBoardInput, "ref">;
   instructionsId: string;
   moveCursor: (cell: ICell) => void;
   pickTower: (type: TTowerType) => void;

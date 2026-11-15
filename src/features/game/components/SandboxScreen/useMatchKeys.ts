@@ -46,7 +46,8 @@ export function useMatchKeys(
           current.pickTower("debugger");
           break;
         case "Escape":
-          current.cancel();
+          if (current.settingsOpen) current.closeSettings();
+          else current.cancel();
           break;
         case "u":
         case "U":

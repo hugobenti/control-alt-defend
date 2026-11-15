@@ -29,10 +29,15 @@ export const PauseButton: Story = {
 export const SpawnButton: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    canvas.getByRole("application", { name: "Board" }).focus();
+    await userEvent.keyboard("2");
     canvas.getByRole("button", { name: /^Spawn Worm/ }).focus();
     await userEvent.keyboard("{Enter}");
-    await waitFor(() => expect(canvas.getByRole("img", { name: /^Worm, / })).toBeInTheDocument());
-    await expect(canvas.queryByRole("img", { name: /Antivirus v1\.0/ })).not.toBeInTheDocument();
+    await waitFor(() => expect(canvas.getAllByRole("img", { name: /^Worm, / })).toHaveLength(1));
+    await expect(canvas.getByRole("img", { name: "Valid placement" })).toBeInTheDocument();
+    await expect(
+      canvas.getByRole("img", { name: "Antivirus v1.0" }).closest('[aria-label="Valid placement"]'),
+    ).toBeInTheDocument();
   },
 };
 
@@ -59,6 +64,32 @@ export const SettingsEscape: Story = {
     board.focus();
     await userEvent.keyboard("{Escape}");
     await expect(canvas.queryByRole("img", { name: "Valid placement" })).not.toBeInTheDocument();
+  },
+};
+
+export const SettingsEscapeOutside: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const board = canvas.getByRole("application", { name: "Board" });
+    board.focus();
+    await userEvent.keyboard("2");
+    await userEvent.click(canvas.getByRole("button", { name: "Settings" }));
+    board.focus();
+    await userEvent.keyboard("{Escape}");
+    await expect(canvas.queryByRole("dialog", { name: "Settings" })).not.toBeInTheDocument();
+    await expect(canvas.getByRole("img", { name: "Valid placement" })).toBeInTheDocument();
+  },
+};
+
+export const RestartFromSettings: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const board = canvas.getByRole("application", { name: "Board" });
+    await userEvent.click(canvas.getByRole("button", { name: "Settings" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Restart level" }));
+    await expect(board).toHaveFocus();
+    await userEvent.keyboard(" ");
+    await expect(canvas.getByRole("button", { name: "Resume" })).toBeInTheDocument();
   },
 };
 

@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useLiveRegion } from "@/features/shared/components/LiveRegion/useLiveRegion";
@@ -44,6 +44,7 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   const [defaultSpeed, setDefaultSpeed] = useState<TGameSpeed>("1");
   const [sound, setSound] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [restartCount, setRestartCount] = useState(0);
   const [spawnPort, setSpawnPort] = useState("J1");
   const [spawnCount, setSpawnCount] = useState<TSpawnCount>("1");
   const instructionsId = useId();
@@ -51,9 +52,16 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   const lastAnnouncedEvents = useRef(state.events);
 
   useEffect(() => {
-    if (lastAnnouncedEvents.current === state.events) return;
+    const previous = lastAnnouncedEvents.current;
+    if (previous === state.events) return;
+    const firstNew =
+      previous.length <= state.events.length &&
+      previous.every((event, index) => event === state.events[index])
+        ? previous.length
+        : 0;
     lastAnnouncedEvents.current = state.events;
     const messages = state.events
+      .slice(firstNew)
       .map(announcementFor)
       .filter((message): message is string => message !== null);
     if (messages.length) liveRegion.announce(messages.join(" "));
@@ -95,12 +103,18 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   const grantBits = () => store.dispatch({ kind: "grantBits" });
   const togglePause = () => setPaused((value) => !value);
   const toggleSpeed = () => setSpeed((value) => (value === "1" ? "2" : "1"));
-  const boardInput = useBoardInput({
+  const { ref: boardRef, ...boardInput } = useBoardInput({
     map,
     onCell: moveCursor,
     onActivate: activate,
     onCancel: cancel,
   });
+  const setBoardRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      boardRef.current = node;
+    },
+    [boardRef],
+  );
   useMatchKeys(
     {
       map,
@@ -115,9 +129,11 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
       grantBits,
       activate,
       togglePause,
+      settingsOpen,
+      closeSettings: () => setSettingsOpen(false),
       over: state.status === "over",
     },
-    boardInput.ref,
+    boardRef,
   );
   const restart = () => {
     store.dispatch({ kind: "restart" });
@@ -126,8 +142,11 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
     setPlacing(null);
     setSelectedTowerId(null);
     setSettingsOpen(false);
-    boardInput.ref.current?.focus();
+    setRestartCount((count) => count + 1);
   };
+  useEffect(() => {
+    if (restartCount > 0) boardRef.current?.focus();
+  }, [restartCount, boardRef]);
   const boardView = buildBoardView(state, { cursor, placing, selectedTowerId });
   return {
     map,
@@ -152,6 +171,7 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
     spawnCount,
     ports: map.ports.map((port) => ({ value: port.id, text: port.id })),
     liveRegion,
+    boardRef: setBoardRef,
     boardInput,
     instructionsId,
     moveCursor,

@@ -51,9 +51,14 @@ describe("useSandboxScreen", () => {
       frame(1000 / 20);
     });
     expect(result.current.tick).toBe(tick);
+    act(() => result.current.setDefaultSpeed("2"));
+    act(() => result.current.setSpeed("2"));
     act(() => result.current.restart());
     expect(result.current.bits).toBe(1000);
     expect(result.current.boardView.towers).toHaveLength(0);
+    expect(result.current.paused).toBe(false);
+    expect(result.current.speed).toBe(result.current.defaultSpeed);
+    expect(result.current.speed).toBe("2");
   });
 
   it("announces refused placement without advancing the tick", () => {
@@ -66,6 +71,24 @@ describe("useSandboxScreen", () => {
     const tick = result.current.tick;
     act(() => result.current.activate());
     expect(result.current.tick).toBe(tick);
+    expect(result.current.liveRegion.message).toBe("Can't build on ports, parts or the Core");
+  });
+
+  it("does not re-announce earlier refusals while paused or after a successful placement", () => {
+    clock();
+    const { result } = renderHook(() => useSandboxScreen(initial()));
+    act(() => result.current.togglePause());
+    act(() => result.current.pickTower("antivirus"));
+    act(() => result.current.activate({ c: 0, r: 2 }));
+    expect(result.current.liveRegion.message).toBe("Can't build on ports, parts or the Core");
+    const firstSlot = result.current.liveRegion.slot;
+    act(() => result.current.activate({ c: 0, r: 2 }));
+    expect(result.current.liveRegion.message).toBe("Can't build on ports, parts or the Core");
+    expect(result.current.liveRegion.slot).not.toBe(firstSlot);
+    const secondSlot = result.current.liveRegion.slot;
+    act(() => result.current.activate({ c: 6, r: 6 }));
+    expect(result.current.boardView.towers).toHaveLength(1);
+    expect(result.current.liveRegion.slot).toBe(secondSlot);
     expect(result.current.liveRegion.message).toBe("Can't build on ports, parts or the Core");
   });
 });

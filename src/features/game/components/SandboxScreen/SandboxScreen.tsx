@@ -25,7 +25,7 @@ import type { ISandboxScreenProps } from "./SandboxScreen.type";
 import { useSandboxScreen } from "./useSandboxScreen";
 
 export function SandboxScreen({ initialState }: ISandboxScreenProps) {
-  const view = useSandboxScreen(initialState);
+  const { boardRef, ...view } = useSandboxScreen(initialState);
   return (
     <main className={styles.base}>
       <h1 className={styles.headingHidden}>{game.sandbox.title}</h1>
@@ -49,47 +49,52 @@ export function SandboxScreen({ initialState }: ISandboxScreenProps) {
       />
       <div className={styles.body}>
         <div
-          ref={view.boardInput.ref}
+          ref={boardRef}
           role="application"
           tabIndex={0}
           aria-label={game.boardInput.label}
           aria-describedby={view.instructionsId}
           className={styles.board}
-          onPointerMove={view.boardInput.onPointerMove}
-          onClick={view.boardInput.onClick}
-          onContextMenu={view.boardInput.onContextMenu}
         >
           <p id={view.instructionsId} className={styles.headingHidden}>
             {game.boardInput.instructions}
           </p>
-          <Board
-            map={view.map}
-            files={view.boardView.files}
-            filesInCore={view.boardView.filesInCore}
+          <div
+            role="presentation"
+            className={styles.boardDrawing}
+            onPointerMove={view.boardInput.onPointerMove}
+            onPointerUp={view.boardInput.onClick}
+            onContextMenu={view.boardInput.onContextMenu}
           >
-            <RoutePreview routes={view.boardView.routePreview} />
-            {view.boardView.rangeRing && <RangeRing {...view.boardView.rangeRing} />}
-            {view.boardView.boostEdges.map((edge, index) => (
-              <BoostEdge key={index} {...edge} />
-            ))}
-            {view.boardView.towers.map((tower, index) => (
-              <Tower key={index} {...tower} />
-            ))}
-            {view.boardView.droppedFiles.map((file) => (
-              <FileToken key={file.id} state="dropped" x={file.x} y={file.y} />
-            ))}
-            {view.boardView.enemies.map((enemy) => (
-              <Enemy key={enemy.id} {...enemy} />
-            ))}
-            {view.boardView.shots.map((shot, index) => (
-              <Shot key={index} {...shot} />
-            ))}
-            {view.boardView.beams.map((beam, index) => (
-              <Beam key={index} {...beam} />
-            ))}
-            {view.boardView.ghost && <PlacementGhost {...view.boardView.ghost} />}
-            <BoardCursor {...view.cursor} />
-          </Board>
+            <Board
+              map={view.map}
+              files={view.boardView.files}
+              filesInCore={view.boardView.filesInCore}
+            >
+              <RoutePreview routes={view.boardView.routePreview} />
+              {view.boardView.rangeRing && <RangeRing {...view.boardView.rangeRing} />}
+              {view.boardView.boostEdges.map((edge, index) => (
+                <BoostEdge key={index} {...edge} />
+              ))}
+              {view.boardView.towers.map((tower, index) => (
+                <Tower key={index} {...tower} />
+              ))}
+              {view.boardView.droppedFiles.map((file) => (
+                <FileToken key={file.id} state="dropped" x={file.x} y={file.y} />
+              ))}
+              {view.boardView.enemies.map((enemy) => (
+                <Enemy key={enemy.id} {...enemy} />
+              ))}
+              {view.boardView.shots.map((shot, index) => (
+                <Shot key={index} {...shot} />
+              ))}
+              {view.boardView.beams.map((beam, index) => (
+                <Beam key={index} {...beam} />
+              ))}
+              {view.boardView.ghost && <PlacementGhost {...view.boardView.ghost} />}
+              <BoardCursor {...view.cursor} />
+            </Board>
+          </div>
         </div>
         <aside className={styles.side}>
           <section aria-labelledby="sandbox-build-heading">

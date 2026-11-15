@@ -229,19 +229,9 @@ export default defineConfig([
     rules: { ...jsxA11y.flatConfigs.strict.rules },
   },
   {
-    // The board's application role has one document-level keyboard handler; a local
-    // handler would process board key events twice. Pointer activation is paired
-    // with that handler, and Tab remains native.
+    // A named board application is keyboard-focusable without trapping Tab.
     files: ["src/features/game/components/SandboxScreen/SandboxScreen.tsx"],
-    rules: {
-      "jsx-a11y/click-events-have-key-events": "off",
-      "jsx-a11y/no-static-element-interactions": "off",
-      "jsx-a11y/no-noninteractive-element-interactions": "off",
-      // This component passes the hook's ref through to JSX, without reading .current.
-      // The rule treats the containing view object as a ref and flags all its fields.
-      "react-hooks/refs": "off",
-      "jsx-a11y/no-noninteractive-tabindex": ["error", { roles: ["application"] }],
-    },
+    rules: { "jsx-a11y/no-noninteractive-tabindex": ["error", { roles: ["application"] }] },
   },
   {
     files: ["src/**/*.{ts,tsx}"],
