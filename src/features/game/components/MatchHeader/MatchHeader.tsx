@@ -8,7 +8,6 @@ import { Stat } from "@/features/shared/components/Stat/Stat";
 import { cx } from "@/features/shared/utils/cx";
 
 import { FilePips } from "../FilePips/FilePips";
-import { NextWave } from "../NextWave/NextWave";
 import { SettingsMenu } from "../SettingsMenu/SettingsMenu";
 import { matchHeader } from "./MatchHeader.style";
 import type { IMatchHeaderProps } from "./MatchHeader.type";
@@ -17,8 +16,7 @@ import { useMatchHeader } from "./useMatchHeader";
 export function MatchHeader(props: IMatchHeaderProps) {
   const {
     level,
-    wave,
-    nextWave,
+    progress,
     files,
     paused,
     speed,
@@ -28,7 +26,6 @@ export function MatchHeader(props: IMatchHeaderProps) {
     onSpeedChange,
     onSoundChange,
     onDefaultSpeedChange,
-    onStartNow,
     onRestart,
     onQuit,
     className,
@@ -52,10 +49,7 @@ export function MatchHeader(props: IMatchHeaderProps) {
         <strong className={matchHeader.levelName}>{level.name}</strong>
       </div>
       {paused && <Pill className={matchHeader.pill}>{view.pausedLabel}</Pill>}
-      <div className={matchHeader.wave}>
-        <Stat label={view.waveLabel} value={view.waveValue} total={view.waveTotal} />
-        <NextWave {...nextWave} wave={wave.current} onStartNow={onStartNow} />
-      </div>
+      <div className={matchHeader.progress}>{progress}</div>
       <div className={matchHeader.files} title={view.fileSummary}>
         <Stat label={view.filesLabel} value={view.filesValue} total={view.filesTotal} />
         <FilePips files={files} />

@@ -2,6 +2,11 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { useState } from "react";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 
+import { game } from "@/content/game";
+import { Stat } from "@/features/shared/components/Stat/Stat";
+
+import { NextWave } from "../NextWave/NextWave";
+import { SandboxStatus } from "../SandboxStatus/SandboxStatus";
 import type { TGameSpeed } from "../SettingsMenu/SettingsMenu.type";
 import { MatchHeader } from "./MatchHeader";
 import type { IMatchHeaderProps } from "./MatchHeader.type";
@@ -11,16 +16,22 @@ const meta = {
   component: MatchHeader,
   args: {
     level: { number: 1, name: "Home PC" },
-    wave: { current: 7, total: 20 },
-    nextWave: {
-      phase: "break",
-      preview: [
-        { type: "worm", count: 6 },
-        { type: "rootkit", count: 2 },
-      ],
-      secondsLeft: 12,
-      earlyBonus: 6,
-    },
+    progress: (
+      <>
+        <Stat label={game.header.wave} value="7" total="20" />
+        <NextWave
+          phase="break"
+          wave={7}
+          preview={[
+            { type: "worm", count: 6 },
+            { type: "rootkit", count: 2 },
+          ]}
+          secondsLeft={12}
+          earlyBonus={6}
+          onStartNow={fn()}
+        />
+      </>
+    ),
     files: ["safe", "safe", "safe", "safe", "safe", "carried", "dropped", "leaked"],
     bits: 214,
     paused: false,
@@ -33,7 +44,6 @@ const meta = {
     onSoundChange: fn(),
     onSettingsOpenChange: fn(),
     onDefaultSpeedChange: fn(),
-    onStartNow: fn(),
     onRestart: fn(),
     onQuit: fn(),
   },
@@ -57,8 +67,6 @@ export const BuildBreak: Story = {
       canvas.getByText("5 in the core, 1 carried, 1 dropped, 1 leaked"),
     ).toBeInTheDocument();
     await expect(canvas.getByText("214")).toBeInTheDocument();
-    await userEvent.click(canvas.getByRole("button", { name: /Start now/ }));
-    await expect(args.onStartNow).toHaveBeenCalledTimes(1);
     await userEvent.click(canvas.getByRole("button", { name: "Pause" }));
     await expect(args.onPausedChange).toHaveBeenCalledWith(true);
     await userEvent.click(canvas.getByRole("button", { name: "2×" }));
@@ -68,7 +76,12 @@ export const BuildBreak: Story = {
 
 export const WaveRunning: Story = {
   args: {
-    nextWave: { phase: "running", preview: [], virusesLeft: 9 },
+    progress: (
+      <>
+        <Stat label={game.header.wave} value="7" total="20" />
+        <NextWave phase="running" wave={7} preview={[]} virusesLeft={9} onStartNow={fn()} />
+      </>
+    ),
     speed: "2",
   },
   play: async ({ canvasElement }) => {
@@ -165,14 +178,13 @@ export const SettingsActions: Story = {
     const dialog = within(canvasElement).getByRole("dialog", { name: "Settings" });
     await userEvent.click(within(dialog).getByRole("button", { name: "Restart level" }));
     await expect(args.onRestart).toHaveBeenCalledTimes(1);
-    await userEvent.click(within(dialog).getByRole("button", { name: "Quit to level select" }));
+    await userEvent.click(within(dialog).getByRole("button", { name: "Quit to title" }));
     await expect(args.onQuit).toHaveBeenCalledTimes(1);
   },
 };
 
 export const LargeNumbers: Story = {
   args: {
-    wave: { current: 30, total: 30 },
     bits: 99999,
     files: [
       "safe",
@@ -188,15 +200,22 @@ export const LargeNumbers: Story = {
       "leaked",
       "leaked",
     ],
-    nextWave: {
-      phase: "break",
-      preview: [
-        { type: "worm", count: 12 },
-        { type: "rootkit", count: 8 },
-      ],
-      secondsLeft: 59,
-      earlyBonus: 120,
-    },
+    progress: (
+      <>
+        <Stat label={game.header.wave} value="30" total="30" />
+        <NextWave
+          phase="break"
+          wave={30}
+          preview={[
+            { type: "worm", count: 12 },
+            { type: "rootkit", count: 8 },
+          ]}
+          secondsLeft={59}
+          earlyBonus={120}
+          onStartNow={fn()}
+        />
+      </>
+    ),
   },
   play: async ({ canvasElement }) => {
     const header = within(canvasElement).getByRole("banner", { name: "Match" });
@@ -212,5 +231,15 @@ export const PausedLargeNumbers: Story = {
     const header = within(canvasElement).getByRole("banner", { name: "Match" });
     await expect(within(header).getByText("Paused")).toBeVisible();
     await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
+  },
+};
+
+export const Sandbox: Story = {
+  args: { progress: <SandboxStatus enemiesOnBoard={3} /> },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Sandbox")).toBeInTheDocument();
+    await expect(canvas.getByText("Viruses")).toBeInTheDocument();
+    await expect(canvas.getByText("3")).toBeInTheDocument();
   },
 };

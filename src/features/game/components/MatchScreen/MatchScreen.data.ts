@@ -3,21 +3,12 @@ import { game } from "@/content/game";
 import type { IBuildItemProps } from "../BuildItem/BuildItem.type";
 import type { IEnemyProps } from "../Enemy/Enemy.type";
 import type { IMatchHeaderProps } from "../MatchHeader/MatchHeader.type";
+import type { INextWaveProps } from "../NextWave/NextWave.type";
 import type { ITowerCardProps } from "../TowerCard/TowerCard.type";
 import type { ITowerProps } from "../Tower/Tower.type";
 
 export const matchHeader = {
   level: { number: 1, name: game.screen.levelName },
-  wave: { current: 7, total: 20 },
-  nextWave: {
-    phase: "break",
-    preview: [
-      { type: "worm", count: 6 },
-      { type: "rootkit", count: 2 },
-    ],
-    secondsLeft: 12,
-    earlyBonus: 6,
-  },
   files: ["safe", "safe", "safe", "safe", "safe", "carried", "dropped", "leaked"],
   bits: 214,
   paused: false,
@@ -32,10 +23,26 @@ export const matchHeader = {
   | "onSoundChange"
   | "onSettingsOpenChange"
   | "onDefaultSpeedChange"
-  | "onStartNow"
   | "onRestart"
   | "onQuit"
+  | "progress"
 >;
+
+export const matchProgress = {
+  wave: { current: 7, total: 20 },
+  nextWave: {
+    phase: "break",
+    preview: [
+      { type: "worm", count: 6 },
+      { type: "rootkit", count: 2 },
+    ],
+    secondsLeft: 12,
+    earlyBonus: 6,
+  },
+} satisfies {
+  wave: { current: number; total: number };
+  nextWave: Omit<INextWaveProps, "wave" | "onStartNow">;
+};
 
 export const buildItems = [
   { type: "firewall", cost: 10, shortcut: "1", state: "available" },

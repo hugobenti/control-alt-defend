@@ -6,7 +6,7 @@ export const matchHeader = {
   level: "min-w-0 truncate border-l border-line pl-3 font-sans text-[13px] text-muted",
   pill: "shrink-0 whitespace-nowrap",
   levelName: "font-bold text-fg",
-  wave: "ml-auto flex shrink-0 items-center gap-2",
+  progress: "ml-auto flex shrink-0 items-center gap-2",
   files: "flex shrink-0 items-center gap-2",
   bits: "flex shrink-0 items-center gap-1.5 text-data",
   bitsValue: "font-mono text-lg font-bold tabular-nums",

@@ -1,11 +1,11 @@
+import type { ReactNode } from "react";
+
 import type { TFileState } from "../../logic/matchHud.type";
-import type { INextWaveProps } from "../NextWave/NextWave.type";
 import type { TGameSpeed } from "../SettingsMenu/SettingsMenu.type";
 
 export interface IMatchHeaderProps {
   level: { number: number; name: string };
-  wave: { current: number; total: number };
-  nextWave: Omit<INextWaveProps, "wave" | "onStartNow" | "className">;
+  progress: ReactNode;
   files: TFileState[];
   bits: number;
   paused: boolean;
@@ -18,7 +18,6 @@ export interface IMatchHeaderProps {
   onSoundChange: (sound: boolean) => void;
   onSettingsOpenChange: (open: boolean) => void;
   onDefaultSpeedChange: (speed: TGameSpeed) => void;
-  onStartNow: () => void;
   onRestart: () => void;
   onQuit: () => void;
   className?: string;
