@@ -22,7 +22,6 @@ describe("match view models", () => {
       offset: { x: 0, y: 0 },
       hitUntilTick: 2,
       touchedEmptyCore: false,
-      goal: "core" as const,
     };
     const view = buildBoardView({ ...state, enemies: [enemy] }, ui);
     expect(view.enemies[0]).toMatchObject({
@@ -60,6 +59,29 @@ describe("match view models", () => {
     expect(valid.ghost?.valid).toBe(true);
     expect(valid.routePreview).toHaveLength(2);
     expect(buildBoardView(state, ui).routePreview).toEqual([]);
+  });
+
+  it("shows the same refusal as the placement command for a small worm overlapping the cell", () => {
+    const state = initial();
+    const worm = {
+      id: 99,
+      type: "worm" as const,
+      small: true,
+      pos: { x: 284, y: 260 },
+      heading: 0,
+      health: 12,
+      maxHealth: 12,
+      carrying: null,
+      offset: { x: 0, y: 0 },
+      hitUntilTick: 0,
+      touchedEmptyCore: false,
+    };
+    const occupied = { ...state, enemies: [worm] };
+    const ghost = buildBoardView(occupied, { ...ui, placing: "firewall" }).ghost;
+    const after = applyCommand(occupied, { kind: "place", type: "firewall", cell: ui.cursor });
+    expect(ghost).toMatchObject({ valid: false, reason: "A virus is in the way" });
+    expect(after.events.at(-1)).toEqual({ kind: "refused", reason: "overlapsEnemy" });
+    expect(after.towers).toHaveLength(0);
   });
 
   it("derives affordable and selected build items", () => {
@@ -103,13 +125,12 @@ describe("match view models", () => {
     });
     expect(buildTowerCard(state, strong!.id)?.stats).toContainEqual({
       label: "Boosting",
-      value: "1 towers",
+      value: "1 tower",
     });
   });
 
   it("renders a chained beam only during the pulse that contains chainTo", () => {
     const beam = {
-      towerId: 1,
       from: { x: 20, y: 20 },
       to: { x: 60, y: 20 },
       ramp: 1,

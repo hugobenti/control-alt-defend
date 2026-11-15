@@ -26,7 +26,6 @@ const enemy = (
   offset: { x: 0, y: 0 },
   hitUntilTick: 0,
   touchedEmptyCore: false,
-  goal: "core",
   ...changes,
 });
 const parked = (state: IMatchState, count: number) => {
@@ -39,7 +38,7 @@ describe("combat", () => {
     const state = place(base(), "antivirus");
     const tower = state.towers[0]!;
     const near = enemy(2, { x: 260, y: 220 });
-    const far = enemy(3, { x: 300, y: 220 }, { carrying: 0, goal: "exit" });
+    const far = enemy(3, { x: 300, y: 220 }, { carrying: 0 });
     const other = enemy(1, { x: 260, y: 300 });
     const fields = {
       ...state.fields,
@@ -170,20 +169,17 @@ describe("combat", () => {
 
   it("drops a carrier's file at its death position", () => {
     const initial = place(base(), "antivirus");
-    const carrier = enemy(10, { x: 300, y: 260 }, { carrying: 0, goal: "exit", health: 10 });
+    const carrier = enemy(10, { x: 300, y: 260 }, { carrying: 0, health: 10 });
     const state = stepCombat(
       recomputeFields({
         ...initial,
         enemies: [carrier],
-        files: initial.files.map((file) =>
-          file.id === 0 ? { ...file, status: "carried", carrierId: 10 } : file,
-        ),
+        files: initial.files.map((file) => (file.id === 0 ? { ...file, status: "carried" } : file)),
       }),
     );
     expect(state.files[0]).toMatchObject({
       status: "dropped",
       pos: { x: 300, y: 260 },
-      carrierId: null,
     });
     expect(state.events).toContainEqual({ kind: "dropped" });
   });
@@ -191,18 +187,12 @@ describe("combat", () => {
   it("pushes split halves and a dropped file out of a nearby Firewall", () => {
     let initial = place(base(), "firewall", 7, 6);
     initial = place(initial, "antivirus", 5, 6);
-    const carrier = enemy(
-      10,
-      { x: 270, y: 260 },
-      { carrying: 0, goal: "exit", health: 10, heading: 90 },
-    );
+    const carrier = enemy(10, { x: 270, y: 260 }, { carrying: 0, health: 10, heading: 90 });
     const state = stepCombat(
       recomputeFields({
         ...initial,
         enemies: [carrier],
-        files: initial.files.map((file) =>
-          file.id === 0 ? { ...file, status: "carried", carrierId: 10 } : file,
-        ),
+        files: initial.files.map((file) => (file.id === 0 ? { ...file, status: "carried" } : file)),
       }),
     );
     const file = state.files[0]!;
@@ -219,18 +209,12 @@ describe("combat", () => {
   it("drops a carrier pressed inside a wall into an open cell", () => {
     let initial = place(base(), "firewall", 7, 6);
     initial = place(initial, "antivirus", 5, 6);
-    const carrier = enemy(
-      10,
-      { x: 285, y: 260 },
-      { type: "rootkit", health: 4, carrying: 0, goal: "exit" },
-    );
+    const carrier = enemy(10, { x: 285, y: 260 }, { type: "rootkit", health: 4, carrying: 0 });
     const state = stepCombat(
       recomputeFields({
         ...initial,
         enemies: [carrier],
-        files: initial.files.map((file) =>
-          file.id === 0 ? { ...file, status: "carried", carrierId: 10 } : file,
-        ),
+        files: initial.files.map((file) => (file.id === 0 ? { ...file, status: "carried" } : file)),
       }),
     );
     expect(state.files[0]!.pos!.x).toBe(274 - 1e-6);

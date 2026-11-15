@@ -25,7 +25,6 @@ export function dropFile(state: IMatchState, enemy: IEnemyState): IMatchState {
           ...file,
           status: "dropped" as const,
           pos: enemy.pos,
-          carrierId: null,
           heading: enemy.heading,
         }
       : file,
@@ -68,7 +67,6 @@ export function stepFiles(state: IMatchState): IMatchState {
         ...file,
         status: "core" as const,
         pos: null,
-        carrierId: null,
         heading: motion.heading,
       };
     }

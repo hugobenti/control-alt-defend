@@ -29,104 +29,106 @@ export function SandboxScreen({ initialState }: ISandboxScreenProps) {
   return (
     <main className={styles.base}>
       <h1 className={styles.headingHidden}>{game.sandbox.title}</h1>
-      <MatchHeader
-        level={{ number: 1, name: game.screen.levelName }}
-        progress={<SandboxStatus enemiesOnBoard={view.boardView.enemies.length} />}
-        files={view.files}
-        bits={view.bits}
-        paused={view.paused}
-        speed={view.speed}
-        defaultSpeed={view.defaultSpeed}
-        sound={view.sound}
-        settingsOpen={view.settingsOpen}
-        onPausedChange={view.setPaused}
-        onSpeedChange={view.setSpeed}
-        onSoundChange={view.setSound}
-        onSettingsOpenChange={view.setSettingsOpen}
-        onDefaultSpeedChange={view.setDefaultSpeed}
-        onRestart={view.restart}
-        onQuit={view.quit}
-      />
-      <div className={styles.body}>
-        <div
-          ref={boardRef}
-          role="application"
-          tabIndex={0}
-          aria-label={game.boardInput.label}
-          aria-describedby={view.instructionsId}
-          className={styles.board}
-        >
-          <p id={view.instructionsId} className={styles.headingHidden}>
-            {game.boardInput.instructions}
-          </p>
+      <div className={styles.body} inert={view.status === "over"}>
+        <MatchHeader
+          level={{ number: 1, name: game.screen.levelName }}
+          progress={<SandboxStatus enemiesOnBoard={view.boardView.enemies.length} />}
+          files={view.files}
+          bits={view.bits}
+          paused={view.paused}
+          speed={view.speed}
+          defaultSpeed={view.defaultSpeed}
+          sound={view.sound}
+          settingsOpen={view.settingsOpen}
+          onPausedChange={view.setPaused}
+          onSpeedChange={view.setSpeed}
+          onSoundChange={view.setSound}
+          onSettingsOpenChange={view.setSettingsOpen}
+          onDefaultSpeedChange={view.setDefaultSpeed}
+          onRestart={view.restart}
+          onQuit={view.quit}
+        />
+        <div className={styles.playArea}>
           <div
-            role="presentation"
-            className={styles.boardDrawing}
-            onPointerMove={view.boardInput.onPointerMove}
-            onPointerUp={view.boardInput.onClick}
-            onContextMenu={view.boardInput.onContextMenu}
+            ref={boardRef}
+            role="application"
+            tabIndex={0}
+            aria-label={game.boardInput.label}
+            aria-describedby={view.instructionsId}
+            className={styles.board}
           >
-            <Board
-              map={view.map}
-              files={view.boardView.files}
-              filesInCore={view.boardView.filesInCore}
+            <p id={view.instructionsId} className={styles.headingHidden}>
+              {game.boardInput.instructions}
+            </p>
+            <div
+              role="presentation"
+              className={styles.boardDrawing}
+              onPointerMove={view.boardInput.onPointerMove}
+              onPointerUp={view.boardInput.onPointerUp}
+              onContextMenu={view.boardInput.onContextMenu}
             >
-              <RoutePreview routes={view.boardView.routePreview} />
-              {view.boardView.rangeRing && <RangeRing {...view.boardView.rangeRing} />}
-              {view.boardView.boostEdges.map((edge, index) => (
-                <BoostEdge key={index} {...edge} />
-              ))}
-              {view.boardView.towers.map((tower, index) => (
-                <Tower key={index} {...tower} />
-              ))}
-              {view.boardView.droppedFiles.map((file) => (
-                <FileToken key={file.id} state="dropped" x={file.x} y={file.y} />
-              ))}
-              {view.boardView.enemies.map((enemy) => (
-                <Enemy key={enemy.id} {...enemy} />
-              ))}
-              {view.boardView.shots.map((shot, index) => (
-                <Shot key={index} {...shot} />
-              ))}
-              {view.boardView.beams.map((beam, index) => (
-                <Beam key={index} {...beam} />
-              ))}
-              {view.boardView.ghost && <PlacementGhost {...view.boardView.ghost} />}
-              <BoardCursor {...view.cursor} />
-            </Board>
-          </div>
-        </div>
-        <aside className={styles.side}>
-          <section aria-labelledby="sandbox-build-heading">
-            <h2 id="sandbox-build-heading" className={styles.heading}>
-              {game.screen.build}
-            </h2>
-            <div className={styles.build}>
-              {view.buildItems.map((item) => (
-                <BuildItem key={item.type} {...item} />
-              ))}
+              <Board
+                map={view.map}
+                files={view.boardView.files}
+                filesInCore={view.boardView.filesInCore}
+              >
+                <RoutePreview routes={view.boardView.routePreview} />
+                {view.boardView.rangeRing && <RangeRing {...view.boardView.rangeRing} />}
+                {view.boardView.boostEdges.map((edge, index) => (
+                  <BoostEdge key={index} {...edge} />
+                ))}
+                {view.boardView.towers.map((tower, index) => (
+                  <Tower key={index} {...tower} />
+                ))}
+                {view.boardView.droppedFiles.map((file) => (
+                  <FileToken key={file.id} state="dropped" x={file.x} y={file.y} />
+                ))}
+                {view.boardView.enemies.map((enemy) => (
+                  <Enemy key={enemy.id} {...enemy} />
+                ))}
+                {view.boardView.shots.map((shot, index) => (
+                  <Shot key={index} {...shot} />
+                ))}
+                {view.boardView.beams.map((beam, index) => (
+                  <Beam key={index} {...beam} />
+                ))}
+                {view.boardView.ghost && <PlacementGhost {...view.boardView.ghost} />}
+                <BoardCursor {...view.cursor} />
+              </Board>
             </div>
-          </section>
-          <section aria-labelledby="sandbox-selected-heading">
-            <h2 id="sandbox-selected-heading" className={styles.heading}>
-              {game.screen.selected}
-            </h2>
-            {view.towerCard ? (
-              <TowerCard {...view.towerCard} onUpgrade={view.upgrade} onSell={view.sell} />
-            ) : (
-              <p className={styles.empty}>{game.screen.selectNone}</p>
-            )}
-          </section>
-          <SandboxControls
-            port={view.spawnPort}
-            ports={view.ports}
-            count={view.spawnCount}
-            onPortChange={view.setSpawnPort}
-            onCountChange={view.setSpawnCount}
-            onSpawn={view.spawn}
-            onGrantBits={view.grantBits}
-          />
-        </aside>
+          </div>
+          <aside className={styles.side}>
+            <section aria-labelledby={view.buildHeadingId}>
+              <h2 id={view.buildHeadingId} className={styles.heading}>
+                {game.screen.build}
+              </h2>
+              <div className={styles.build}>
+                {view.buildItems.map((item) => (
+                  <BuildItem key={item.type} {...item} />
+                ))}
+              </div>
+            </section>
+            <section aria-labelledby={view.selectedHeadingId}>
+              <h2 id={view.selectedHeadingId} className={styles.heading}>
+                {game.screen.selected}
+              </h2>
+              {view.towerCard ? (
+                <TowerCard {...view.towerCard} onUpgrade={view.upgrade} onSell={view.sell} />
+              ) : (
+                <p className={styles.empty}>{game.screen.selectNone}</p>
+              )}
+            </section>
+            <SandboxControls
+              port={view.spawnPort}
+              ports={view.ports}
+              count={view.spawnCount}
+              onPortChange={view.setSpawnPort}
+              onCountChange={view.setSpawnCount}
+              onSpawn={view.spawn}
+              onGrantBits={view.grantBits}
+            />
+          </aside>
+        </div>
       </div>
       <GameOverOverlay
         open={view.status === "over"}

@@ -38,7 +38,6 @@ test("contains the board and maps pointer movement and clicks to the drawn cell"
       const countBox = await panel.getByRole("group", { name: "Count" }).boundingBox();
       expect(portBox!.width).toBeLessThan(panelBox!.width / 2);
       expect(countBox!.width).toBeLessThan(panelBox!.width / 2);
-      await panel.screenshot({ path: "/tmp/sandbox-side-panel.png" });
     }
     const area = await application.boundingBox();
     const drawing = await svg.boundingBox();

@@ -1,4 +1,4 @@
-import { game } from "../../../content/game";
+import { game } from "@/content/game";
 import type { TMatchEvent } from "./match.type";
 
 export function announcementFor(event: TMatchEvent): string | null {

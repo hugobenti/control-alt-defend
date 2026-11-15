@@ -1,6 +1,6 @@
 import { balance, TICK_S } from "./balance.data";
 import { effectiveStats } from "./boost";
-import { enemyStats } from "./enemies";
+import { enemyStats } from "./enemyStats";
 import { dropFile } from "./files";
 import { CELL, cellCenter } from "./geometry";
 import { cellIndex, cellOf } from "./grid";
@@ -144,7 +144,7 @@ export function stepCombat(state: IMatchState): IMatchState {
         }
       }
     }
-    beams.push({ towerId: tower.id, from, to: target.pos, ramp, chainTo });
+    beams.push({ from, to: target.pos, ramp, chainTo });
     towers.push({ ...tower, beamTargetId: target.id, beamTicks, aimAt: target.pos });
   }
 
@@ -188,7 +188,6 @@ export function stepCombat(state: IMatchState): IMatchState {
           health: balance.enemies.wormSmall.health,
           maxHealth: balance.enemies.wormSmall.health,
           carrying: null,
-          goal: "core",
           touchedEmptyCore: false,
           offset: { x: x.value, y: y.value },
           hitUntilTick: 0,

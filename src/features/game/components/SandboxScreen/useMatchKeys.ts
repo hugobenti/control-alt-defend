@@ -13,7 +13,7 @@ export function useMatchKeys(
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const current = latest.current;
-      if (current.over || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      if (current.over || event.altKey || event.ctrlKey || event.metaKey) return;
       const target = event.target;
       if (target instanceof Element && target.closest('[role="dialog"]')) return;
       const onBoard = target === boardRef.current;

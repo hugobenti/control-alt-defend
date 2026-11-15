@@ -25,7 +25,7 @@ describe("simulation ticks", () => {
     const state = base();
     const files = state.files.map((file) =>
       file.id === 0
-        ? { ...file, status: "carried" as const, carrierId: 10 }
+        ? { ...file, status: "carried" as const }
         : { ...file, status: "leaked" as const },
     );
     const enemy = {
@@ -40,7 +40,6 @@ describe("simulation ticks", () => {
       offset: { x: 0, y: 0 },
       hitUntilTick: 0,
       touchedEmptyCore: false,
-      goal: "exit" as const,
     };
     let result: IMatchState = { ...state, files, enemies: [enemy] };
     for (let i = 0; i < 10 && result.files[0]!.status === "carried"; i++) result = step(result);

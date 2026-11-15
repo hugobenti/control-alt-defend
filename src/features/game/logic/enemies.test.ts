@@ -6,7 +6,8 @@ import { filesInCore } from "./files";
 import { discOverlapsCell } from "./grid";
 import { applyCommand, createMatch, recomputeFields } from "./match";
 import type { IEnemyState, IMatchState } from "./match.type";
-import { enemyGoal, enemyStats, goalField, spawnDue, stepEnemies } from "./enemies";
+import { enemyGoal, goalField, spawnDue, stepEnemies } from "./enemies";
+import { enemyStats } from "./enemyStats";
 import { runTicks, step } from "./step";
 
 const base = () => createMatch({ map: homePc, seed: 7, startBits: 1000, files: 8 });
@@ -28,7 +29,6 @@ describe("enemy lifecycle", () => {
       heading: 0,
       health: 30,
       maxHealth: 30,
-      goal: "core",
     });
     expect([100, 140]).toContain(spawned.enemies[0]!.pos.y);
     expect(spawned.seed).not.toBe(state.seed);
@@ -58,7 +58,7 @@ describe("enemy lifecycle", () => {
     expect(state.enemies[0]?.carrying).not.toBeNull();
     expect(filesInCore(state)).toBe(7);
     expect(state.events).toContainEqual({ kind: "stolen", filesInCore: 7 });
-    expect(state.enemies[0]?.goal).toBe("exit");
+    expect(enemyGoal(state, state.enemies[0]!)).toBe("exit");
   });
 
   it("leaks a carried file at the nearest port and removes its carrier", () => {
@@ -66,10 +66,8 @@ describe("enemy lifecycle", () => {
     const enemy = state.enemies[0]!;
     state = {
       ...state,
-      enemies: [{ ...enemy, heading: 0, carrying: 0, goal: "exit" }],
-      files: state.files.map((file) =>
-        file.id === 0 ? { ...file, status: "carried", carrierId: enemy.id } : file,
-      ),
+      enemies: [{ ...enemy, heading: 0, carrying: 0 }],
+      files: state.files.map((file) => (file.id === 0 ? { ...file, status: "carried" } : file)),
     };
     const after = runTicks(state, 60);
     expect(after.enemies[0]?.pos.x ?? 940).toBeGreaterThan(880);

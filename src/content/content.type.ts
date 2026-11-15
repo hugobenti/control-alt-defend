@@ -24,10 +24,16 @@ export interface IStatusPagesContent {
   notFound: { metaTitle: string; h1: string; text: string; home: string };
 }
 
-import type { TEnemyType } from "../features/game/components/Enemy/Enemy.type";
-
-import type { TTowerType } from "../features/game/components/Tower/Tower.type";
-import type { TPlacementRefusal } from "../features/game/logic/placement.type";
+type TContentEnemy = "worm" | "rootkit";
+type TContentTower = "firewall" | "antivirus" | "debugger";
+type TContentPlacementRefusal =
+  | "keepOut"
+  | "occupied"
+  | "blocksRoute"
+  | "trapsPiece"
+  | "overlapsEnemy"
+  | "overlapsFile"
+  | "notEnoughBits";
 
 /** Board labels and the names of rendered game pieces. */
 export interface IGameContent {
@@ -50,9 +56,9 @@ export interface IGameContent {
     controls: string;
     spawnAt: string;
     count: string;
-    spawn: Record<TEnemyType, string>;
+    spawn: Record<TContentEnemy, string>;
     grantBits: string;
-    keys: Record<TEnemyType | "bits", string>;
+    keys: Record<TContentEnemy | "bits", string>;
   };
   coreLabel: string;
   core: (filesInCore: number, files: number) => string;
@@ -72,7 +78,7 @@ export interface IGameContent {
   enemyNames: Record<"worm" | "rootkit", string>;
   enemyState: Record<"carrier" | "armored" | "health", string>;
   enemy: (type: "worm" | "rootkit", healthPercent: number, carrier: boolean) => string;
-  placement: { valid: string; invalid: string; reasons: Record<TPlacementRefusal, string> };
+  placement: { valid: string; invalid: string; reasons: Record<TContentPlacementRefusal, string> };
   needBits: (missingBits: number) => string;
   build: {
     placingHint: string;
@@ -93,8 +99,8 @@ export interface IGameContent {
       string
     >;
     targetsValue: string;
-    addsV2: Record<TTowerType, string>;
-    adds: Record<TTowerType, string>;
+    addsV2: Record<TContentTower, string>;
+    adds: Record<TContentTower, string>;
     perSecond: (n: number) => string;
     pulseValue: (damage: number, pulses: number) => string;
     upgradeTo: (version: number) => string;

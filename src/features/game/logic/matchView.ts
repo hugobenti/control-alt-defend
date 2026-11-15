@@ -1,34 +1,18 @@
-import { game } from "../../../content/game";
+import { game } from "@/content/game";
 import type { IBuildItemProps } from "../components/BuildItem/BuildItem.type";
 import type { ITowerCardProps, ITowerCardStat } from "../components/TowerCard/TowerCard.type";
 import type { TTowerType, TVersion } from "../components/Tower/Tower.type";
-import { balance } from "./balance.data";
 import { boostEdges, boostFor, effectiveStats } from "./boost";
 import { buildCost, sellRefund, upgradeCost } from "./economy";
+import { placementRefusal } from "./match";
 import type { IMatchState, ITowerState } from "./match.type";
 import type { IBoardUi, IBoardView } from "./matchView.type";
-import { checkPlacement, routePreview } from "./placement";
+import { routePreview } from "./placement";
 
 export function buildBoardView(state: IMatchState, ui: IBoardUi): IBoardView {
   const dropped = state.files.filter((file) => file.status === "dropped" && file.pos !== null);
   const droppedFiles = dropped.map((file) => ({ id: file.id, x: file.pos!.x, y: file.pos!.y }));
-  const placement =
-    ui.placing === null
-      ? null
-      : checkPlacement({
-          map: state.options.map,
-          grid: state.grid,
-          cell: ui.cursor,
-          enemies: state.enemies.map((enemy) => ({
-            pos: enemy.pos,
-            radius: enemy.small
-              ? balance.enemies.wormSmall.radius
-              : balance.enemies[enemy.type].radius,
-          })),
-          droppedFiles: dropped.map((file) => file.pos!),
-          bits: state.bits,
-          cost: buildCost(ui.placing),
-        });
+  const placement = ui.placing === null ? null : placementRefusal(state, ui.placing, ui.cursor);
   const ghost =
     ui.placing === null
       ? null

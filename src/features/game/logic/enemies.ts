@@ -1,17 +1,11 @@
 import { balance, TICK_S } from "./balance.data";
-import type { IEnemyStats } from "./balance.type";
+import { enemyStats } from "./enemyStats";
 import { filesInCore } from "./files";
 import { CELL, cellCenter } from "./geometry";
 import { cellIndex, cellOf, coreRect, discTouchesRect, portCells } from "./grid";
 import type { IEnemyState, IMatchState, TEnemyGoal } from "./match.type";
 import { nextRandom, randomRange } from "./rng";
 import { moveToward, nextWaypoint, resolveCollision } from "./steering";
-
-export function enemyStats(enemy: IEnemyState): IEnemyStats {
-  return enemy.type === "worm" && enemy.small
-    ? balance.enemies.wormSmall
-    : balance.enemies[enemy.type];
-}
 
 export function spawnDue(state: IMatchState): IMatchState {
   let seed = state.seed;
@@ -53,7 +47,6 @@ export function spawnDue(state: IMatchState): IMatchState {
       offset: { x: horizontal.value, y: vertical.value },
       hitUntilTick: 0,
       touchedEmptyCore: false,
-      goal: "core",
     });
   }
   return { ...state, enemies, pendingSpawns, seed, nextId };
@@ -127,7 +120,7 @@ export function stepEnemies(state: IMatchState): IMatchState {
         )
       : { pos: enemy.pos, heading: enemy.heading };
     const pos = resolveCollision(state.grid, motion.pos, enemyStats(enemy).radius);
-    let updated: IEnemyState = { ...enemy, pos, heading: motion.heading, goal };
+    let updated: IEnemyState = { ...enemy, pos, heading: motion.heading };
 
     if (
       updated.carrying === null &&
@@ -136,11 +129,9 @@ export function stepEnemies(state: IMatchState): IMatchState {
       const file = files.filter((item) => item.status === "core").sort((a, b) => a.id - b.id)[0];
       if (file) {
         files = files.map((item) =>
-          item.id === file.id
-            ? ({ ...item, status: "carried", carrierId: enemy.id } as const)
-            : item,
+          item.id === file.id ? ({ ...item, status: "carried" } as const) : item,
         );
-        updated = { ...updated, carrying: file.id, goal: "exit" };
+        updated = { ...updated, carrying: file.id };
         events = [...events, { kind: "stolen", filesInCore: filesInCore({ ...state, files }) }];
       } else updated = { ...updated, touchedEmptyCore: true };
     }
@@ -156,14 +147,12 @@ export function stepEnemies(state: IMatchState): IMatchState {
         .sort((a, b) => a.id - b.id)[0];
       if (file) {
         files = files.map((item) =>
-          item.id === file.id
-            ? ({ ...item, status: "carried", carrierId: enemy.id, pos: null } as const)
-            : item,
+          item.id === file.id ? ({ ...item, status: "carried", pos: null } as const) : item,
         );
         const toFile = { ...fields.toFile };
         delete toFile[file.id];
         fields = { ...fields, toFile };
-        updated = { ...updated, carrying: file.id, goal: "exit" };
+        updated = { ...updated, carrying: file.id };
       }
     }
     const atExit = state.options.map.ports.some((port) =>
@@ -176,9 +165,7 @@ export function stepEnemies(state: IMatchState): IMatchState {
     if (atExit && updated.carrying !== null) {
       const carriedId = updated.carrying;
       files = files.map((file) =>
-        file.id === carriedId
-          ? ({ ...file, status: "leaked", carrierId: null, pos: null } as const)
-          : file,
+        file.id === carriedId ? ({ ...file, status: "leaked", pos: null } as const) : file,
       );
       events = [
         ...events,
