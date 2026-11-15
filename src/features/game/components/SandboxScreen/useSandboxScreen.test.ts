@@ -52,7 +52,8 @@ describe("useSandboxScreen", () => {
     });
     expect(result.current.tick).toBe(tick);
     act(() => result.current.setDefaultSpeed("2"));
-    act(() => result.current.setSpeed("2"));
+    act(() => result.current.setSpeed("1"));
+    expect(result.current.speed).toBe("1");
     act(() => result.current.restart());
     expect(result.current.bits).toBe(1000);
     expect(result.current.boardView.towers).toHaveLength(0);

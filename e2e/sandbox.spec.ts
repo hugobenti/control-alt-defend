@@ -57,3 +57,20 @@ test("contains the board and maps pointer movement and clicks to the drawn cell"
     await page.reload();
   }
 });
+
+test("right-click cancels placement without building a tower", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/play");
+  const board = page.getByRole("application", { name: "Board" });
+  const rect = await board.getByRole("group", { name: "Home PC board" }).boundingBox();
+  expect(rect).not.toBeNull();
+  const scale = Math.min(rect!.width / 992, rect!.height / 672);
+  const x = rect!.x + (rect!.width - 992 * scale) / 2 + (6 * 40 + 36) * scale;
+  const y = rect!.y + (rect!.height - 672 * scale) / 2 + (6 * 40 + 36) * scale;
+  await page.getByRole("button", { name: /Antivirus/ }).click();
+  await expect(board.getByRole("img", { name: "Valid placement" })).toBeVisible();
+  await page.mouse.click(x, y, { button: "right" });
+  await expect(board.getByRole("img", { name: "Valid placement" })).toHaveCount(0);
+  await expect(board.getByRole("img", { name: "Antivirus v1.0" })).toHaveCount(0);
+  await expect(page.locator("header").getByText("1000", { exact: true })).toBeVisible();
+});
