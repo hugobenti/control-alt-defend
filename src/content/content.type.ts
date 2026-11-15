@@ -15,6 +15,8 @@ export interface ISiteContent {
 export interface IHomeContent {
   h1: string;
   lead: string;
+  play: string;
+  playHref: "/play";
 }
 
 /** Copy for the 404 page. */
