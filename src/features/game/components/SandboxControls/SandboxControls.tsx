@@ -9,12 +9,14 @@ export function SandboxControls(props: ISandboxControlsProps) {
   const { port, ports, count, onPortChange, onCountChange, onGrantBits } = props;
   const view = useSandboxControls(props);
   return (
-    <section aria-labelledby="sandbox-controls-heading" className={sandboxControls.base}>
-      <h2 id="sandbox-controls-heading" className={sandboxControls.heading}>
+    <section aria-labelledby={view.headingId} className={sandboxControls.base}>
+      <h2 id={view.headingId} className={sandboxControls.heading}>
         {view.controls}
       </h2>
       <div className={sandboxControls.group}>
-        <span className={sandboxControls.label}>{view.spawnAt}</span>
+        <span aria-hidden="true" className={sandboxControls.label}>
+          {view.spawnAt}
+        </span>
         <SegmentedControl
           label={view.spawnAt}
           options={ports}
@@ -23,7 +25,9 @@ export function SandboxControls(props: ISandboxControlsProps) {
         />
       </div>
       <div className={sandboxControls.group}>
-        <span className={sandboxControls.label}>{view.count}</span>
+        <span aria-hidden="true" className={sandboxControls.label}>
+          {view.count}
+        </span>
         <SegmentedControl
           label={view.count}
           options={view.counts}

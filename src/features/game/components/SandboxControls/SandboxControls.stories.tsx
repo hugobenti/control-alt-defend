@@ -28,6 +28,8 @@ export const Default: Story = {
     const section = canvas.getByRole("region", { name: "Sandbox" });
     await expect(within(section).getByRole("group", { name: "Spawn at" })).toBeInTheDocument();
     await expect(within(section).getByRole("group", { name: "Count" })).toBeInTheDocument();
+    await expect(within(section).getByText("Spawn at")).toHaveAttribute("aria-hidden", "true");
+    await expect(within(section).getByText("Count")).toHaveAttribute("aria-hidden", "true");
     await userEvent.click(within(section).getByRole("button", { name: /Spawn Worm/ }));
     await expect(args.onSpawn).toHaveBeenCalledWith("worm");
     await userEvent.click(within(section).getByRole("button", { name: "J2" }));
@@ -48,5 +50,27 @@ export const KeyboardOrder: Story = {
       await userEvent.tab();
       await expect(canvas.getByRole("button", { name })).toHaveFocus();
     }
+  },
+};
+
+export const RepeatedSections: Story = {
+  render: (args) => (
+    <>
+      <SandboxControls {...args} />
+      <div hidden>
+        <SandboxControls {...args} />
+      </div>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const firstSection = canvas.getByRole("region", { name: "Sandbox" });
+    const secondSection = canvasElement.querySelector("div[hidden] section");
+    const firstHeading = within(firstSection).getByRole("heading", { name: "Sandbox" });
+    const secondHeading = secondSection?.querySelector("h2");
+    await expect(secondHeading).toBeTruthy();
+    await expect(firstHeading.id).not.toBe(secondHeading?.id);
+    await expect(firstSection).toHaveAttribute("aria-labelledby", firstHeading.id);
+    await expect(secondSection).toHaveAttribute("aria-labelledby", secondHeading?.id);
   },
 };
