@@ -11,7 +11,6 @@ import type {
   IMatchState,
   IPendingSpawn,
   IShotState,
-  TEnemyGoal,
   TFileStatus,
   TMatchStatus,
 } from "./match.type";
@@ -27,7 +26,6 @@ describe("match", () => {
     expectTypeOf<IMatchState["shots"][number]>().toEqualTypeOf<IShotState>();
     expectTypeOf<IMatchState["beams"][number]>().toEqualTypeOf<IBeamState>();
     expectTypeOf<IMatchState["pendingSpawns"][number]>().toEqualTypeOf<IPendingSpawn>();
-    expectTypeOf<IEnemyState["goal"]>().toEqualTypeOf<TEnemyGoal>();
     expectTypeOf<IFileState["status"]>().toEqualTypeOf<TFileStatus>();
     expectTypeOf<IMatchState["status"]>().toEqualTypeOf<TMatchStatus>();
   });
@@ -39,7 +37,6 @@ describe("match", () => {
         id,
         status: "core",
         pos: null,
-        carrierId: null,
         heading: 0,
       })),
     );
@@ -90,7 +87,6 @@ describe("match", () => {
       offset: { x: 0, y: 0 },
       hitUntilTick: 0,
       touchedEmptyCore: false,
-      goal: "core",
     };
     const command = { kind: "place" as const, type: "antivirus" as const, cell };
     const overlap = applyCommand({ ...start, enemies: [worm] }, command);

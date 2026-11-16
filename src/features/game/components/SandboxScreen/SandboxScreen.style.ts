@@ -1,7 +1,8 @@
 export const sandboxScreen = {
-  base: "grid h-dvh grid-rows-[auto_minmax(0,1fr)] overflow-hidden bg-bg",
+  base: "h-dvh overflow-hidden bg-bg",
   headingHidden: "sr-only",
-  body: "grid min-h-0 grid-cols-[minmax(0,1fr)_320px]",
+  body: "grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)]",
+  playArea: "grid min-h-0 grid-cols-[minmax(0,1fr)_320px]",
   board:
     "min-h-0 min-w-0 bg-bg outline-none focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus",
   boardDrawing: "h-full w-full [&>svg]:h-full [&>svg]:w-full",

@@ -31,7 +31,6 @@ export interface IEnemyState {
   offset: IPoint;
   hitUntilTick: number;
   touchedEmptyCore: boolean;
-  goal: TEnemyGoal;
 }
 
 export type TFileStatus = "core" | "carried" | "dropped" | "leaked";
@@ -39,7 +38,6 @@ export interface IFileState {
   id: number;
   status: TFileStatus;
   pos: IPoint | null;
-  carrierId: number | null;
   heading: number;
 }
 
@@ -50,7 +48,6 @@ export interface IShotState {
 }
 
 export interface IBeamState {
-  towerId: number;
   from: IPoint;
   to: IPoint;
   ramp: number;

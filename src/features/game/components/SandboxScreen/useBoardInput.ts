@@ -21,7 +21,7 @@ export function useBoardInput({
       );
       if (cell) onCell(cell);
     },
-    onClick(event) {
+    onPointerUp(event) {
       if (event.button !== 0) return;
       const cell = pointToCell(
         event.clientX,

@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const section = canvas.getByRole("region", { name: "Sandbox" });
+    const section = canvas.getByRole("region", { name: "Spawn" });
     await expect(within(section).getByRole("group", { name: "Spawn at" })).toBeInTheDocument();
     await expect(within(section).getByRole("group", { name: "Count" })).toBeInTheDocument();
     await expect(within(section).getByText("Spawn at")).toHaveAttribute("aria-hidden", "true");
@@ -64,9 +64,9 @@ export const RepeatedSections: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const firstSection = canvas.getByRole("region", { name: "Sandbox" });
+    const firstSection = canvas.getByRole("region", { name: "Spawn" });
     const secondSection = canvasElement.querySelector("div[hidden] section");
-    const firstHeading = within(firstSection).getByRole("heading", { name: "Sandbox" });
+    const firstHeading = within(firstSection).getByRole("heading", { name: "Spawn" });
     const secondHeading = secondSection?.querySelector("h2");
     await expect(secondHeading).toBeTruthy();
     await expect(firstHeading.id).not.toBe(secondHeading?.id);

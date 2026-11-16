@@ -99,7 +99,6 @@ const doomed = {
   files: ending.files.map((file, index) => ({
     ...file,
     status: index === 7 ? ("carried" as const) : ("leaked" as const),
-    carrierId: index === 7 ? 1 : null,
   })),
   enemies: [
     {
@@ -114,7 +113,6 @@ const doomed = {
       offset: { x: 0, y: 0 },
       hitUntilTick: 0,
       touchedEmptyCore: false,
-      goal: "exit" as const,
     },
   ],
 };
@@ -125,6 +123,14 @@ export const GameOver: Story = {
     const canvas = within(canvasElement);
     const dialog = await canvas.findByRole("dialog", { name: "Game over" }, { timeout: 2000 });
     const restart = within(dialog).getByRole("button", { name: "Restart" });
+    await expect(restart).toHaveFocus();
+    await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect(restart).toHaveFocus();
+    await userEvent.keyboard("{Tab}");
+    await expect(restart).toHaveFocus();
+    const background = canvas.getByRole("button", { name: /\+1000 bits/, hidden: true });
+    await expect(background.closest("[inert]")).not.toBeNull();
+    background.focus();
     await expect(restart).toHaveFocus();
     await userEvent.click(restart);
     await expect(canvas.getByRole("application", { name: "Board" })).toHaveFocus();

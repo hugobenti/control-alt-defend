@@ -25,12 +25,9 @@ function carrierAt(pos: { x: number; y: number }): IMatchState {
         offset: { x: 0, y: 0 },
         hitUntilTick: 0,
         touchedEmptyCore: false,
-        goal: "exit",
       },
     ],
-    files: state.files.map((file) =>
-      file.id === 0 ? { ...file, status: "carried", carrierId: 10 } : file,
-    ),
+    files: state.files.map((file) => (file.id === 0 ? { ...file, status: "carried" } : file)),
   };
 }
 
@@ -41,7 +38,6 @@ describe("files", () => {
     expect(result.files[0]).toMatchObject({
       status: "dropped",
       pos: { x: 300, y: 260 },
-      carrierId: null,
       heading: 35,
     });
     expect(result.fields.toFile[0]).toBeDefined();

@@ -313,19 +313,21 @@ store, level select, campaign levels, saved progress, sound playback, How to pla
   Debugger) available, every version upgradable in place (v1.0 → v3.0) with bits.
 - **Decided:** no waves. Enemies appear only from sandbox spawn controls: one button per enemy type (Worm, Rootkit),
   a port picker (J1 / J2) and a count (1 / 5). Keyboard accessible like every HUD control.
+- **Call:** the sandbox's side-panel spawn controls are headed "Spawn", distinct from the page's "Sandbox" heading.
 - **Call:** the header's wave area shows a sandbox state (a "Sandbox" badge and the number of viruses on the board)
   instead of wave and next-wave information. The header takes that area as a slot so the campaign can put the wave
   preview back.
 - **Decided:** bits start at a generous amount (**Call:** 1000); costs, upgrade costs, the 70% sell refund and kill
   rewards work as in section 7; a sandbox "+1000 bits" button exists.
 - **Decided:** the Core holds 8 files. Steal, carry, drop, drift home, pick up and leak work as in section 6. When
-  all 8 have leaked the game shows a game-over overlay with Restart; Restart is also in the settings menu.
+  all 8 have leaked the game shows a game-over overlay with Restart; Restart is also in the settings menu. The overlay
+  is modal: the match header, board and spawn/build controls are inert until Restart returns to play.
 - **Decided:** pause, 1× / 2×, settings popover. **Call:** the sound toggle is visual-only until sound effects exist;
   "Quit" in settings returns to the title page.
 - **Decided:** keyboard play as in section 11. **Call (bindings):** arrows move the board cursor; `1` `2` `3` pick
   Firewall / Antivirus / Debugger; `Enter` places or selects; `Escape` cancels or deselects; `U` upgrades; `S` sells;
   `Space` pauses; `F` toggles speed; `W` / `R` spawn a Worm / Rootkit; `B` adds bits. The board lists them in its
-  accessible description.
+  accessible description. Shifted digit keys also select towers on keyboard layouts such as AZERTY.
 - **Call (pathing details):** routes come from an 8-direction distance field on the cell grid; a diagonal step is
   only allowed when both cells it cuts between are open, which is what makes corner-touching towers a wall. Enemies
   steer toward the farthest cell center on their route that they can see in a straight line (so they take direct

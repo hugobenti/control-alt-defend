@@ -45,12 +45,12 @@ describe("useSandboxScreen", () => {
     });
     expect(result.current.boardView.enemies).toHaveLength(1);
     act(() => result.current.togglePause());
-    const tick = result.current.tick;
+    const enemiesBeforePause = result.current.boardView.enemies;
     act(() => {
       frame(1000 / 30);
       frame(1000 / 20);
     });
-    expect(result.current.tick).toBe(tick);
+    expect(result.current.boardView.enemies).toEqual(enemiesBeforePause);
     act(() => result.current.setDefaultSpeed("2"));
     act(() => result.current.setSpeed("1"));
     expect(result.current.speed).toBe("1");
@@ -62,16 +62,15 @@ describe("useSandboxScreen", () => {
     expect(result.current.speed).toBe("2");
   });
 
-  it("announces refused placement without advancing the tick", () => {
+  it("announces refused placement without building a tower", () => {
     clock();
     const { result } = renderHook(() => useSandboxScreen(initial()));
     act(() => {
       result.current.pickTower("antivirus");
       result.current.moveCursor({ c: 0, r: 2 });
     });
-    const tick = result.current.tick;
     act(() => result.current.activate());
-    expect(result.current.tick).toBe(tick);
+    expect(result.current.boardView.towers).toHaveLength(0);
     expect(result.current.liveRegion.message).toBe("Can't build on ports, parts or the Core");
   });
 
@@ -91,5 +90,28 @@ describe("useSandboxScreen", () => {
     expect(result.current.boardView.towers).toHaveLength(1);
     expect(result.current.liveRegion.slot).toBe(secondSlot);
     expect(result.current.liveRegion.message).toBe("Can't build on ports, parts or the Core");
+  });
+
+  it("selects Antivirus with a shifted digit key", () => {
+    clock();
+    const { result } = renderHook(() => useSandboxScreen(initial()));
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "2", shiftKey: true, bubbles: true }),
+      );
+    });
+    expect(result.current.placing).toBe("antivirus");
+  });
+
+  it("does not rerender when the cursor remains in the same cell", () => {
+    clock();
+    let renders = 0;
+    const { result } = renderHook(() => {
+      renders++;
+      return useSandboxScreen(initial());
+    });
+    const previous = renders;
+    act(() => result.current.moveCursor({ c: 6, r: 6 }));
+    expect(renders).toBe(previous);
   });
 });

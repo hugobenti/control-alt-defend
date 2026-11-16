@@ -1,9 +1,11 @@
+import type { TTowerType } from "../components/Tower/Tower.type";
 import type { ILevelMap } from "../level/level.type";
 import { balance, TICK_S } from "./balance.data";
 import { computeDistanceField } from "./distanceField";
+import { enemyStats } from "./enemyStats";
 import { buildCost, sellRefund, upgradeCost } from "./economy";
 import { buildStaticGrid, cellOf, coreCells, portCells, withBlocked, withoutBlocked } from "./grid";
-import type { IGrid } from "./grid.type";
+import type { ICell, IGrid } from "./grid.type";
 import type {
   IFields,
   IFileState,
@@ -13,6 +15,28 @@ import type {
   TMatchEvent,
 } from "./match.type";
 import { checkPlacement } from "./placement";
+import type { TPlacementRefusal } from "./placement.type";
+
+export function placementRefusal(
+  state: IMatchState,
+  type: TTowerType,
+  cell: ICell,
+): TPlacementRefusal | null {
+  return checkPlacement({
+    map: state.options.map,
+    grid: state.grid,
+    cell,
+    cost: buildCost(type),
+    bits: state.bits,
+    enemies: state.enemies.map((enemy) => ({
+      pos: enemy.pos,
+      radius: enemyStats(enemy).radius,
+    })),
+    droppedFiles: state.files.flatMap((file) =>
+      file.status === "dropped" && file.pos ? [file.pos] : [],
+    ),
+  });
+}
 
 function fieldsFor(grid: IGrid, map: ILevelMap, files: IFileState[]): IFields {
   const toFile: IFields["toFile"] = {};
@@ -41,7 +65,6 @@ export function createMatch(options: IMatchOptions): IMatchState {
     id,
     status: "core",
     pos: null,
-    carrierId: null,
     heading: 0,
   }));
   const state: IMatchState = {
@@ -84,23 +107,7 @@ export function applyCommand(state: IMatchState, command: TMatchCommand): IMatch
   }
   if (command.kind === "place") {
     const cost = buildCost(command.type);
-    const refusal = checkPlacement({
-      map: state.options.map,
-      grid: state.grid,
-      cell: command.cell,
-      cost,
-      bits: state.bits,
-      enemies: state.enemies.map((enemy) => ({
-        pos: enemy.pos,
-        radius:
-          enemy.type === "worm" && enemy.small
-            ? balance.enemies.wormSmall.radius
-            : balance.enemies[enemy.type].radius,
-      })),
-      droppedFiles: state.files.flatMap((file) =>
-        file.status === "dropped" && file.pos ? [file.pos] : [],
-      ),
-    });
+    const refusal = placementRefusal(state, command.type, command.cell);
     if (refusal)
       return { ...state, events: [...state.events, { kind: "refused", reason: refusal }] };
     const towerId = state.nextId;

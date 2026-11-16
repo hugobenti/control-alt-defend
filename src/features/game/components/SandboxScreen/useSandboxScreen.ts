@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useLiveRegion } from "@/features/shared/components/LiveRegion/useLiveRegion";
@@ -36,7 +36,7 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
     ),
   );
   const state = useMatchStore(store);
-  const [cursor, moveCursor] = useState<ICell>({ c: 6, r: 6 });
+  const [cursor, setCursor] = useState<ICell>({ c: 6, r: 6 });
   const [placing, setPlacing] = useState<TTowerType | null>(null);
   const [selectedTowerId, setSelectedTowerId] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
@@ -48,6 +48,8 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   const [spawnPort, setSpawnPort] = useState("J1");
   const [spawnCount, setSpawnCount] = useState<TSpawnCount>("1");
   const instructionsId = useId();
+  const buildHeadingId = useId();
+  const selectedHeadingId = useId();
   const liveRegion = useLiveRegion();
   const lastAnnouncedEvents = useRef(state.events);
 
@@ -69,6 +71,8 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
 
   useGameLoop(store, !paused && state.status === "playing", Number(speed) as 1 | 2);
   const map = state.options.map;
+  const moveCursor = (cell: ICell) =>
+    setCursor((current) => (current.c === cell.c && current.r === cell.r ? current : cell));
   const activate = (cell: ICell = cursor) => {
     moveCursor(cell);
     if (placing) {
@@ -109,12 +113,6 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
     onActivate: activate,
     onCancel: cancel,
   });
-  const setBoardRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      boardRef.current = node;
-    },
-    [boardRef],
-  );
   useMatchKeys(
     {
       map,
@@ -151,7 +149,6 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   return {
     map,
     bits: state.bits,
-    tick: state.tick,
     status: state.status,
     cursor,
     placing,
@@ -171,7 +168,9 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
     spawnCount,
     ports: map.ports.map((port) => ({ value: port.id, text: port.id })),
     liveRegion,
-    boardRef: setBoardRef,
+    boardRef,
+    buildHeadingId,
+    selectedHeadingId,
     boardInput,
     instructionsId,
     moveCursor,
