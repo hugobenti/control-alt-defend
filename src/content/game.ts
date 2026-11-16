@@ -22,7 +22,19 @@ export const game: IGameContent = {
   enemyState: { carrier: "carrying a file", armored: "armored", health: "health" },
   enemy: (type, healthPercent, carrier) =>
     `${game.enemyNames[type]}, ${healthPercent}% ${game.enemyState.health}${type === "rootkit" ? `, ${game.enemyState.armored}` : ""}${carrier ? `, ${game.enemyState.carrier}` : ""}`,
-  placement: { valid: "Valid placement", invalid: "Refused placement" },
+  placement: {
+    valid: "Valid placement",
+    invalid: "Refused placement",
+    reasons: {
+      keepOut: "Can't build on ports, parts or the Core",
+      occupied: "Already built here",
+      blocksRoute: "Would block a port's route to the Core",
+      trapsPiece: "Would trap a file or a virus",
+      overlapsEnemy: "A virus is in the way",
+      overlapsFile: "A dropped file is in the way",
+      notEnoughBits: "Not enough bits",
+    },
+  },
   needBits: (missingBits) => `Need ${missingBits} more bits`,
   build: {
     placingHint: "Click a cell · Esc cancels",
@@ -30,6 +42,30 @@ export const game: IGameContent = {
     cost: (bits) => `${bits} bits`,
   },
   card: {
+    stats: {
+      damage: "Damage",
+      fireRate: "Fire rate",
+      pulse: "Pulse",
+      range: "Range",
+      targets: "Targets",
+      kills: "Kills",
+      boostNone: "—",
+      boostV2: "+25% damage",
+      boostV3: "+50% damage, +1 range",
+    },
+    targetsValue: "Carriers first",
+    addsV2: {
+      firewall: "boosts neighbours' damage by 25%.",
+      antivirus: "increases damage, fire rate and range.",
+      debugger: "increases beam damage and range.",
+    },
+    adds: {
+      firewall: "boosts neighbours' damage and range.",
+      antivirus: "adds piercing: each shot also hits the virus behind.",
+      debugger: "the beam chains to one nearby virus at half damage.",
+    },
+    perSecond: (n) => `${n} /s`,
+    pulseValue: (damage, pulses) => `${damage} × ${pulses} /s`,
     upgradeTo: (version) => `Upgrade to v${version}.0`,
     withCost: (label, bits) => `${label} · ${bits}`,
     locked: (version) => `v${version}.0 is locked.`,

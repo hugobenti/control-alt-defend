@@ -22,6 +22,9 @@ export interface IStatusPagesContent {
   notFound: { metaTitle: string; h1: string; text: string; home: string };
 }
 
+import type { TTowerType } from "../features/game/components/Tower/Tower.type";
+import type { TPlacementRefusal } from "../features/game/logic/placement.type";
+
 /** Board labels and the names of rendered game pieces. */
 export interface IGameContent {
   board: string;
@@ -44,7 +47,7 @@ export interface IGameContent {
   enemyNames: Record<"worm" | "rootkit", string>;
   enemyState: Record<"carrier" | "armored" | "health", string>;
   enemy: (type: "worm" | "rootkit", healthPercent: number, carrier: boolean) => string;
-  placement: { valid: string; invalid: string };
+  placement: { valid: string; invalid: string; reasons: Record<TPlacementRefusal, string> };
   needBits: (missingBits: number) => string;
   build: {
     placingHint: string;
@@ -52,6 +55,23 @@ export interface IGameContent {
     cost: (bits: number) => string;
   };
   card: {
+    stats: Record<
+      | "damage"
+      | "fireRate"
+      | "pulse"
+      | "range"
+      | "targets"
+      | "kills"
+      | "boostNone"
+      | "boostV2"
+      | "boostV3",
+      string
+    >;
+    targetsValue: string;
+    addsV2: Record<TTowerType, string>;
+    adds: Record<TTowerType, string>;
+    perSecond: (n: number) => string;
+    pulseValue: (damage: number, pulses: number) => string;
     upgradeTo: (version: number) => string;
     withCost: (label: string, bits: number) => string;
     locked: (version: number) => string;
