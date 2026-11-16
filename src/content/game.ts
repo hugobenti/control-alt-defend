@@ -2,6 +2,12 @@ import type { IGameContent } from "./content.type";
 
 export const game: IGameContent = {
   board: "Home PC board",
+  cursor: (c, r) => `Cell ${c}, ${r}`,
+  gameOver: {
+    title: "Game over",
+    text: (files) => `All ${files} files leaked.`,
+    restart: "Restart",
+  },
   screen: { build: "Build", selected: "Selected", levelName: "Home PC" },
   coreLabel: "CORE",
   core: (filesInCore, files) => `Core, ${filesInCore} of ${files} files`,
