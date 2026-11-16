@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 
 test("builds a tower, spawns a worm, and pauses from the board", async ({ page }) => {
-  await page.goto("/play");
+  await page.goto("/");
+  await page.getByRole("link", { name: "Play" }).click();
+  await expect(page).toHaveURL(/\/play$/);
   await page.getByRole("button", { name: /Antivirus/ }).click();
   const board = page.getByRole("application", { name: "Board" });
   await board.focus();

@@ -305,9 +305,9 @@ checked when the game loads; a map where a port has no route to the Core is reje
 ### Sandbox mode (first playable)
 
 **Decided:** before any campaign level, the game ships a sandbox for testing the mechanics. It is the only "level" in
-the first playable and lives at its own route (`/play`), reached from a home page that shows only the title and a
-Play button. Out of scope for the first playable: Upgrade lab, keys, store, level select, campaign levels, saved
-progress, sound playback, How to play.
+the first playable and lives at its own route (`/play`), reached from a home page with the brand title, the existing
+one-sentence lead and a Play link styled as the primary button. Out of scope for the first playable: Upgrade lab, keys,
+store, level select, campaign levels, saved progress, sound playback, How to play.
 
 - **Decided:** the Home PC map (section "Campaign"), every tower of the first release (Firewall, Antivirus,
   Debugger) available, every version upgradable in place (v1.0 → v3.0) with bits.
