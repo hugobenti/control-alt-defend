@@ -10,7 +10,6 @@ const SPEEDS: TGameSpeed[] = ["1", "2"];
 
 export function useMatchHeader({
   level,
-  wave,
   files,
   bits,
   paused,
@@ -29,9 +28,6 @@ export function useMatchHeader({
     levelPrefix: copy.level(level.number),
     levelTitle: `${copy.level(level.number)}${level.name}`,
     pausedLabel: copy.paused,
-    waveLabel: copy.wave,
-    waveValue: String(wave.current),
-    waveTotal: String(wave.total),
     filesLabel: copy.files,
     filesValue: String(counts.notLeaked),
     filesTotal: String(counts.total),

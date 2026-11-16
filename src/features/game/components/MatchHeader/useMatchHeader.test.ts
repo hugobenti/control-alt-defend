@@ -7,8 +7,7 @@ import { useMatchHeader } from "./useMatchHeader";
 const noop = () => {};
 const base: IMatchHeaderProps = {
   level: { number: 1, name: "Home PC" },
-  wave: { current: 7, total: 20 },
-  nextWave: { phase: "break", preview: [{ type: "worm", count: 6 }], secondsLeft: 12 },
+  progress: null,
   files: ["safe", "safe", "safe", "safe", "safe", "carried", "dropped", "leaked"],
   bits: 214,
   paused: false,
@@ -21,7 +20,6 @@ const base: IMatchHeaderProps = {
   onSoundChange: noop,
   onSettingsOpenChange: noop,
   onDefaultSpeedChange: noop,
-  onStartNow: noop,
   onRestart: noop,
   onQuit: noop,
 };
@@ -38,12 +36,10 @@ describe("match header view model", () => {
     expect(result.filesTotal).toBe("8");
   });
 
-  it("formats level, wave and bits", () => {
-    const result = view({ bits: 99999, wave: { current: 30, total: 30 } });
+  it("formats level and bits", () => {
+    const result = view({ bits: 99999 });
     expect(result.levelPrefix).toBe("Level 1 · ");
     expect(result.levelTitle).toBe("Level 1 · Home PC");
-    expect(result.waveValue).toBe("30");
-    expect(result.waveTotal).toBe("30");
     expect(result.bitsText).toBe("99999");
   });
 

@@ -22,6 +22,8 @@ export interface IStatusPagesContent {
   notFound: { metaTitle: string; h1: string; text: string; home: string };
 }
 
+import type { TEnemyType } from "../features/game/components/Enemy/Enemy.type";
+
 import type { TTowerType } from "../features/game/components/Tower/Tower.type";
 import type { TPlacementRefusal } from "../features/game/logic/placement.type";
 
@@ -31,6 +33,17 @@ export interface IGameContent {
   cursor: (c: number, r: number) => string;
   gameOver: { title: string; text: (files: number) => string; restart: string };
   screen: { build: string; selected: string; levelName: string };
+  sandbox: {
+    title: string;
+    status: string;
+    viruses: string;
+    controls: string;
+    spawnAt: string;
+    count: string;
+    spawn: Record<TEnemyType, string>;
+    grantBits: string;
+    keys: Record<TEnemyType | "bits", string>;
+  };
   coreLabel: string;
   core: (filesInCore: number, files: number) => string;
   port: (label: string) => string;

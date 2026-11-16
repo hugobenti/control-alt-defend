@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, fn, within } from "storybook/test";
 
 import { game } from "@/content/game";
+import { Stat } from "@/features/shared/components/Stat/Stat";
 
 import { homePc } from "../../level/homePc.data";
 import { Beam } from "../Beam/Beam";
@@ -11,6 +12,7 @@ import { BuildItem } from "../BuildItem/BuildItem";
 import { Enemy } from "../Enemy/Enemy";
 import { FileToken } from "../FileToken/FileToken";
 import { MatchHeader } from "../MatchHeader/MatchHeader";
+import { NextWave } from "../NextWave/NextWave";
 import { RangeRing } from "../RangeRing/RangeRing";
 import { Shot } from "../Shot/Shot";
 import { TowerCard } from "../TowerCard/TowerCard";
@@ -21,6 +23,7 @@ import {
   buildItems,
   enemies,
   matchHeader,
+  matchProgress,
   selectedTower,
   shots,
   towers,
@@ -36,12 +39,25 @@ export const HomePcMidWave: Story = {
     <div className={matchScreen.base}>
       <MatchHeader
         {...matchHeader}
+        progress={
+          <>
+            <Stat
+              label={game.header.wave}
+              value={String(matchProgress.wave.current)}
+              total={String(matchProgress.wave.total)}
+            />
+            <NextWave
+              {...matchProgress.nextWave}
+              wave={matchProgress.wave.current}
+              onStartNow={fn()}
+            />
+          </>
+        }
         onPausedChange={fn()}
         onSpeedChange={fn()}
         onSoundChange={fn()}
         onSettingsOpenChange={fn()}
         onDefaultSpeedChange={fn()}
-        onStartNow={fn()}
         onRestart={fn()}
         onQuit={fn()}
       />
