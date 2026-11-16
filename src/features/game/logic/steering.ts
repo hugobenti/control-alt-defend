@@ -91,6 +91,8 @@ export function moveToward(
   };
 }
 
+const COLLISION_CLEARANCE = 1e-6;
+
 export function resolveCollision(grid: IGrid, pos: IPoint, radius: number): IPoint {
   let x = Math.max(radius, Math.min(cellOrigin(grid.cols) - radius, pos.x));
   let y = Math.max(radius, Math.min(cellOrigin(grid.rows) - radius, pos.y));
@@ -112,11 +114,17 @@ export function resolveCollision(grid: IGrid, pos: IPoint, radius: number): IPoi
         const top = cellOrigin(r);
         const closestX = Math.max(left, Math.min(x, left + CELL));
         const closestY = Math.max(top, Math.min(y, top + CELL));
-        const horizontal = x < left + CELL / 2 ? left - radius : left + CELL + radius;
-        const vertical = y < top + CELL / 2 ? top - radius : top + CELL + radius;
+        const horizontal =
+          x < left + CELL / 2
+            ? left - radius - COLLISION_CLEARANCE
+            : left + CELL + radius + COLLISION_CLEARANCE;
+        const vertical =
+          y < top + CELL / 2
+            ? top - radius - COLLISION_CLEARANCE
+            : top + CELL + radius + COLLISION_CLEARANCE;
         const dx = x - closestX;
         const dy = y - closestY;
-        if (dx * dx + dy * dy >= radius * radius && (dx !== 0 || dy !== 0)) continue;
+        if (dx * dx + dy * dy > radius * radius && (dx !== 0 || dy !== 0)) continue;
         if (Math.abs(horizontal - x) <= Math.abs(vertical - y)) x = horizontal;
         else y = vertical;
         x = Math.max(radius, Math.min(cellOrigin(grid.cols) - radius, x));
