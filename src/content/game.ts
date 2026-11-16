@@ -8,7 +8,24 @@ export const game: IGameContent = {
     text: (files) => `All ${files} files leaked.`,
     restart: "Restart",
   },
-  screen: { build: "Build", selected: "Selected", levelName: "Home PC" },
+  screen: {
+    build: "Build",
+    selected: "Selected",
+    levelName: "Home PC",
+    selectNone: "Select a tower on the board.",
+  },
+  boardInput: {
+    label: "Board",
+    instructions:
+      "Arrow keys move the cursor. 1, 2, 3 pick a tower; Enter places it; Escape cancels. U upgrades and S sells the selected tower. Space pauses. F toggles speed. W and R spawn a Worm or a Rootkit; B adds bits.",
+  },
+  announce: {
+    stolen: (n) => `File stolen. ${n} files in the core.`,
+    leaked: (k, n) => `File leaked. ${k} of ${n} files lost.`,
+    recovered: (n) => `File recovered. ${n} files in the core.`,
+    gameOver: "Game over: every file leaked.",
+    maxVersion: "Max version reached.",
+  },
   sandbox: {
     title: "Sandbox",
     status: "Sandbox",

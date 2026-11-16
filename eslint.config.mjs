@@ -229,6 +229,11 @@ export default defineConfig([
     rules: { ...jsxA11y.flatConfigs.strict.rules },
   },
   {
+    // A named board application is keyboard-focusable without trapping Tab.
+    files: ["src/features/game/components/SandboxScreen/SandboxScreen.tsx"],
+    rules: { "jsx-a11y/no-noninteractive-tabindex": ["error", { roles: ["application"] }] },
+  },
+  {
     files: ["src/**/*.{ts,tsx}"],
     ignores: ["src/**/*.test.{ts,tsx}"],
     plugins: { "design-tokens": designTokensPlugin },
