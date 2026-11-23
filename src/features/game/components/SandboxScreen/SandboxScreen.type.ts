@@ -19,13 +19,14 @@ export interface ISandboxScreenProps {
 }
 export interface IBoardInputHandlers {
   map: ILevelMap;
-  onCell: (cell: ICell) => void;
+  onCell: (cell: ICell | null) => void;
   onActivate: (cell: ICell) => void;
   onCancel: () => void;
 }
 export interface IBoardInput {
   ref: RefObject<HTMLDivElement | null>;
   onPointerMove: (event: PointerEvent<HTMLDivElement>) => void;
+  onPointerLeave: () => void;
   onPointerUp: (event: PointerEvent<HTMLDivElement>) => void;
   onContextMenu: (event: MouseEvent<HTMLDivElement>) => void;
 }
@@ -33,6 +34,8 @@ export interface IMatchKeyHandlers {
   map: ILevelMap;
   cursor: ICell;
   moveCursor: (cell: ICell) => void;
+  onPointerOutside: () => void;
+  onKeyboardInput: () => void;
   pickTower: (tower: TTowerType) => void;
   cancel: () => void;
   upgrade: () => void;
@@ -51,6 +54,8 @@ export interface ISandboxScreenView {
   bits: number;
   status: IMatchState["status"];
   cursor: ICell;
+  showCursor: boolean;
+  actionable: boolean;
   placing: TTowerType | null;
   files: TFileState[];
   boardView: IBoardView;

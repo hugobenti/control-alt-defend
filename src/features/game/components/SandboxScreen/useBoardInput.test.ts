@@ -26,3 +26,28 @@ it("ignores a right-button pointer up and lets contextmenu cancel placement", ()
   expect(preventDefault).toHaveBeenCalledOnce();
   expect(onCancel).toHaveBeenCalledOnce();
 });
+
+it("clears pointer hover on board leave and outside its playable cells", () => {
+  const onCell = vi.fn();
+  const { result } = renderHook(() =>
+    useBoardInput({ map: homePc, onCell, onActivate: vi.fn(), onCancel: vi.fn() }),
+  );
+  const currentTarget = {
+    getBoundingClientRect: () => ({ left: 0, top: 0, width: 992, height: 672 }),
+  };
+  result.current.onPointerMove({
+    clientX: 276,
+    clientY: 276,
+    currentTarget,
+  } as unknown as PointerEvent<HTMLDivElement>);
+  expect(onCell).toHaveBeenLastCalledWith({ c: 6, r: 6 });
+  result.current.onPointerMove({
+    clientX: 2,
+    clientY: 2,
+    currentTarget,
+  } as unknown as PointerEvent<HTMLDivElement>);
+  expect(onCell).toHaveBeenLastCalledWith(null);
+  result.current.onPointerLeave();
+  expect(onCell).toHaveBeenLastCalledWith(null);
+  expect(onCell).toHaveBeenCalledTimes(3);
+});

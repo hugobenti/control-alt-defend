@@ -1,4 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
+import type { PointerEvent } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn() }) }));
 
@@ -101,6 +102,75 @@ describe("useSandboxScreen", () => {
       );
     });
     expect(result.current.placing).toBe("antivirus");
+  });
+
+  it("restores the keyboard cursor on empty cells and hides it on pointer movement", () => {
+    clock();
+    const { result } = renderHook(() => useSandboxScreen(initial()));
+    expect(result.current.showCursor).toBe(false);
+    act(() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" })));
+    expect(result.current.cursor).toEqual({ c: 7, r: 6 });
+    expect(result.current.showCursor).toBe(true);
+    act(() =>
+      result.current.boardInput.onPointerMove({
+        clientX: 476,
+        clientY: 316,
+        currentTarget: {
+          getBoundingClientRect: () => ({ left: 0, top: 0, width: 992, height: 672 }),
+        },
+      } as unknown as PointerEvent<HTMLDivElement>),
+    );
+    expect(result.current.cursor).toEqual({ c: 11, r: 7 });
+    expect(result.current.showCursor).toBe(false);
+    expect(result.current.actionable).toBe(false);
+  });
+
+  it("makes only a placed tower actionable and clears its cursor when the pointer exits", () => {
+    clock();
+    const { result } = renderHook(() => useSandboxScreen(initial()));
+    act(() => result.current.pickTower("antivirus"));
+    act(() => result.current.activate({ c: 6, r: 6 }));
+    act(() => result.current.cancel());
+    act(() => {
+      result.current.boardInput.onPointerMove({
+        clientX: 276,
+        clientY: 276,
+        currentTarget: {
+          getBoundingClientRect: () => ({ left: 0, top: 0, width: 992, height: 672 }),
+        },
+      } as unknown as PointerEvent<HTMLDivElement>);
+    });
+    expect(result.current.actionable).toBe(true);
+    expect(result.current.showCursor).toBe(true);
+    act(() => result.current.boardInput.onPointerLeave());
+    expect(result.current.actionable).toBe(false);
+    expect(result.current.showCursor).toBe(false);
+  });
+
+  it("hides a keyboard placement preview after a pointer action off the board", () => {
+    clock();
+    const { result } = renderHook(() => useSandboxScreen(initial()));
+    act(() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" })));
+    act(() => result.current.pickTower("antivirus"));
+    expect(result.current.boardView.ghost).not.toBeNull();
+    act(() => document.body.dispatchEvent(new Event("pointerdown", { bubbles: true })));
+    expect(result.current.boardView.ghost).toBeNull();
+    expect(result.current.boardView.rangeRing).toBeNull();
+    act(() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" })));
+    expect(result.current.boardView.ghost).not.toBeNull();
+    act(() => document.body.dispatchEvent(new Event("pointermove", { bubbles: true })));
+    expect(result.current.boardView.ghost).toBeNull();
+  });
+
+  it("ignores modifier-only keys when choosing keyboard modality", () => {
+    clock();
+    const { result } = renderHook(() => useSandboxScreen(initial()));
+    act(() => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));
+      document.body.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Shift", shiftKey: true }));
+    });
+    expect(result.current.showCursor).toBe(false);
   });
 
   it("does not rerender when the cursor remains in the same cell", () => {

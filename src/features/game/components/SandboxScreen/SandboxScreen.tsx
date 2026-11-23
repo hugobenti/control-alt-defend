@@ -1,5 +1,6 @@
 "use client";
 
+import { cx } from "@/features/shared/utils/cx";
 import { game } from "@/content/game";
 import { LiveRegion } from "@/features/shared/components/LiveRegion/LiveRegion";
 
@@ -62,8 +63,9 @@ export function SandboxScreen({ initialState }: ISandboxScreenProps) {
             </p>
             <div
               role="presentation"
-              className={styles.boardDrawing}
+              className={cx(styles.boardDrawing, view.actionable && styles.actionable)}
               onPointerMove={view.boardInput.onPointerMove}
+              onPointerLeave={view.boardInput.onPointerLeave}
               onPointerUp={view.boardInput.onPointerUp}
               onContextMenu={view.boardInput.onContextMenu}
             >
@@ -93,7 +95,7 @@ export function SandboxScreen({ initialState }: ISandboxScreenProps) {
                   <Beam key={index} {...beam} />
                 ))}
                 {view.boardView.ghost && <PlacementGhost {...view.boardView.ghost} />}
-                <BoardCursor {...view.cursor} />
+                {view.showCursor && <BoardCursor {...view.cursor} />}
               </Board>
             </div>
           </div>
