@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { boardSize, cellCenter, cellOrigin, pointToCell } from "./geometry";
+import { boardSize, cellCenter, cellOrigin, moveBoardCursor, pointToCell } from "./geometry";
 
 import { homePc } from "../level/homePc.data";
 
@@ -21,6 +21,19 @@ describe("board geometry", () => {
     const rect = { left: 0, top: 0, width: 992, height: 672 };
     expect(pointToCell(496, 336, rect, homePc)).toEqual({ c: 12, r: 8 });
     expect(pointToCell(4, 4, rect, homePc)).toBeNull();
+  });
+  it("does not select cut-out cells but selects their neighboring board cells", () => {
+    const rect = { left: 0, top: 0, width: 992, height: 672 };
+    expect(pointToCell(836, 36, rect, homePc)).toBeNull();
+    expect(pointToCell(36, 556, rect, homePc)).toBeNull();
+    expect(pointToCell(796, 36, rect, homePc)).toEqual({ c: 19, r: 0 });
+    expect(pointToCell(36, 516, rect, homePc)).toEqual({ c: 0, r: 12 });
+  });
+  it("keeps keyboard movement on its current cell when the next cell is void", () => {
+    expect(moveBoardCursor({ c: 19, r: 1 }, 1, 0, homePc)).toEqual({ c: 19, r: 1 });
+    expect(moveBoardCursor({ c: 3, r: 12 }, 0, 1, homePc)).toEqual({ c: 3, r: 12 });
+    expect(moveBoardCursor({ c: 19, r: 1 }, 0, 1, homePc)).toEqual({ c: 19, r: 2 });
+    expect(moveBoardCursor({ c: 0, r: 0 }, -1, 0, homePc)).toEqual({ c: 0, r: 0 });
   });
 
   it("excludes SVG letterboxing when the element aspect ratio differs from its viewBox", () => {

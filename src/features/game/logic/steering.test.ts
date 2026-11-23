@@ -70,4 +70,13 @@ describe("steering", () => {
     expect(resolveCollision(grid, { x: 20, y: 20 }, 10)).toEqual({ x: 20, y: 20 });
     expect(resolveCollision(grid, { x: 2, y: 100 }, 10).x).toBe(10);
   });
+  it("pushes an enemy off a void cell just like an outside edge", () => {
+    const grid = buildStaticGrid({
+      ...tinyMap,
+      voids: [{ c: 0, r: 0, w: 1, h: 1 }],
+    });
+    const pushed = resolveCollision(grid, { x: 44, y: 20 }, 10);
+    expect(discOverlapsCell(pushed, 10, { c: 0, r: 0 })).toBe(false);
+    expect(hasLineOfSight(grid, { x: 20, y: 60 }, { x: 60, y: 20 }, 7, null)).toBe(false);
+  });
 });

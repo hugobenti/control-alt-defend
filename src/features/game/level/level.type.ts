@@ -22,6 +22,7 @@ export interface ITrace {
 export interface ILevelMap {
   cols: number;
   rows: number;
+  voids: { c: number; r: number; w: number; h: number }[];
   core: { c: number; r: number };
   ports: IPort[];
   obstacles: IObstacle[];

@@ -7,7 +7,7 @@ const meta = {
   component: Obstacle,
   decorators: [
     (Story) => (
-      <svg viewBox="-8 -12 160 130" className="w-64 bg-board">
+      <svg viewBox="-8 -12 200 190" className="w-64 bg-board">
         <Story />
       </svg>
     ),
@@ -21,6 +21,9 @@ export const Chip: Story = {
 };
 export const Capacitor: Story = {
   args: { obstacle: { kind: "capacitor", c: 0, r: 0, w: 1, h: 1, label: "C1" } },
+};
+export const CapacitorBank: Story = {
+  args: { obstacle: { kind: "capacitor", c: 0, r: 0, w: 1, h: 4, label: "C1–C4" } },
 };
 export const Resistor: Story = {
   args: { obstacle: { kind: "resistor", c: 0, r: 0, w: 2, h: 1, label: "R1" } },

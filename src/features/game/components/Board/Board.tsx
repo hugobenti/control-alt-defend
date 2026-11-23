@@ -23,20 +23,15 @@ export function Board({ map, files, filesInCore, children, className }: IBoardPr
         className={cx(board.base, className)}
       >
         <GameDefs ids={ids} />
-        <rect {...layout.frame} rx="12" className={board.frame} aria-hidden="true" />
-        <rect
-          width={layout.width}
-          height={layout.height}
-          className={board.surface}
-          aria-hidden="true"
-        />
-        <rect
-          width={layout.width}
-          height={layout.height}
-          fill={layout.dotsFill}
-          aria-hidden="true"
-        />
-        <g aria-hidden="true">
+        <defs>
+          <clipPath id={layout.clipId}>
+            <path d={layout.outline} />
+          </clipPath>
+        </defs>
+        <path d={layout.outline} className={board.outline} aria-hidden="true" />
+        <path d={layout.outline} className={board.surface} aria-hidden="true" />
+        <path d={layout.outline} fill={layout.dotsFill} aria-hidden="true" />
+        <g aria-hidden="true" clipPath={layout.clipFill}>
           {map.traces.map((trace) => (
             <g key={trace.d} data-trace>
               <path d={trace.d} className={board.trace} />

@@ -38,10 +38,19 @@ export function Obstacle({ obstacle }: IObstacleProps) {
       )}
       {obstacle.kind === "capacitor" && (
         <>
-          <circle cx="20" cy="20" r="16" className={styles.capacitor} />
-          <path d="M20 4 A16 16 0 0 1 20 36" className={styles.capArc} />
-          <path d="M12 20h8 M16 16v8" className={styles.capMark} />
-          <text x="2" y="-4" className={styles.label}>
+          {shape.capacitors.map((cap) => (
+            <g key={cap.transform} transform={cap.transform}>
+              <circle r="16" className={styles.capacitor} />
+              <path d="M0 -16 A16 16 0 0 1 0 16" className={styles.capArc} />
+              <path d="M-8 0h8 M-4 -4v8" className={styles.capMark} />
+            </g>
+          ))}
+          <text
+            x={shape.capacitorLabel.x}
+            y={shape.capacitorLabel.y}
+            textAnchor="start"
+            className={styles.label}
+          >
             {obstacle.label}
           </text>
         </>

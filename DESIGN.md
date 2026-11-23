@@ -158,6 +158,11 @@ The 21 semantic tokens above are defined once in `src/app/globals.css`; use thei
 
 The MatchScreen story composes a 1312px-wide framed reference surface: one top header above a two-column row. The left column caps at 992px and its SVG board scales to fill the available column; the right panel takes the remaining ~320px with 16px padding and 18px between the build menu and selected-tower card. The Home PC map is 24 × 16 cells; one cell measures 40 SVG units, with a 16-unit border on each side (`viewBox="-16 -16 992 672"`). The story depicts the approved desktop composition, not an implemented responsive game screen; the product's target is desktop (minimum 1024 × 640).
 
+The Home PC outline omits the top-right 4 × 3 and bottom-left 4 × 3 cell corners, without changing the SVG viewBox.
+The 16-unit frame runs along the shaped outline; beyond it the notches show the screen background. Solder-mask surface, dot pattern and copper traces never cover voids, and an interior void is drawn as a hole.
+The C1–C4 and C5–C8 capacitor banks are four adjacent one-cell parts each, forming walk/build-blocking walls;
+their silkscreen labels sit beside the banks on board cells.
+
 ## Elevation & Depth
 
 Tonal layers and fine borders organize the playable board and adjacent panel; ordinary controls and the selected-tower card stay flat. Popovers alone float above these surfaces with a deep, soft shadow (`shadow-popover`: `0 16px 40px -12px rgb(0 0 0 / 0.8)`). Glowing board effects use the per-board SVG glow filter: shots, beams and boosted connections remain legible over dark solder mask. Do not turn the glow into a wash that obscures enemy health or files.

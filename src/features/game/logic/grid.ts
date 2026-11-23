@@ -72,6 +72,15 @@ export function buildStaticGrid(map: ILevelMap): IGrid {
     keepOut: new Uint8Array(size),
     core: new Uint8Array(size),
   };
+  for (const voidArea of map.voids) {
+    for (let r = voidArea.r; r < voidArea.r + voidArea.h; r++) {
+      for (let c = voidArea.c; c < voidArea.c + voidArea.w; c++) {
+        const index = cellIndex(grid, { c, r });
+        grid.blocked[index] = 1;
+        grid.keepOut[index] = 1;
+      }
+    }
+  }
   for (const obstacle of map.obstacles) {
     for (let r = obstacle.r; r < obstacle.r + obstacle.h; r++) {
       for (let c = obstacle.c; c < obstacle.c + obstacle.w; c++) {

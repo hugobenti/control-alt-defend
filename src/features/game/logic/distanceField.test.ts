@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { computeDistanceField, descend, pathCells } from "./distanceField";
 import { buildStaticGrid, cellIndex, coreCells, withBlocked, withoutBlocked } from "./grid";
 import { tinyMap } from "./testMaps";
+import { homePc } from "../level/homePc.data";
 
 const empty = withoutBlocked(buildStaticGrid(tinyMap), coreCells(tinyMap));
 const source = { c: 0, r: 0 };
@@ -45,5 +46,31 @@ describe("8-connected distance field", () => {
       c: 4,
       r: 4,
     });
+  });
+  it("routes both Home PC ports to the Core and the nearest exit around banks", () => {
+    const grid = buildStaticGrid(homePc);
+    const toCore = computeDistanceField(grid, coreCells(homePc));
+    const exits = [
+      { c: 0, r: 2 },
+      { c: 0, r: 3 },
+      { c: 23, r: 12 },
+      { c: 23, r: 13 },
+    ];
+    const toExit = computeDistanceField(grid, exits);
+    for (const port of [exits[0]!, exits[2]!]) {
+      expect(toCore[cellIndex(grid, port)]).toBeLessThan(Infinity);
+      const route = pathCells(toCore, grid, port, 384);
+      expect(route.length).toBeGreaterThan(0);
+      expect(
+        route.every(
+          (cell) =>
+            grid.blocked[cellIndex(grid, cell)] === 0 || grid.core[cellIndex(grid, cell)] === 1,
+        ),
+      ).toBe(true);
+    }
+    expect(pathCells(toExit, grid, { c: 3, r: 5 }, 384).at(-1)).toEqual({ c: 0, r: 3 });
+    expect(pathCells(toExit, grid, { c: 20, r: 11 }, 384).at(-1)).toEqual({ c: 23, r: 12 });
+    expect(toExit[cellIndex(grid, { c: 8, r: 1 })]).toBe(Infinity);
+    expect(toCore[cellIndex(grid, { c: 20, r: 0 })]).toBe(Infinity);
   });
 });
