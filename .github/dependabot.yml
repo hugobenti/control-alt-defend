@@ -13,6 +13,13 @@ updates:
         update-types: [minor, patch]
       major:
         update-types: [major]
+    ignore:
+      # typescript-eslint (via eslint-config-next) caps typescript at <6.1; TS 7 crashes `pnpm lint`. Drop when it supports 7.
+      - dependency-name: typescript
+        versions: [">=7"]
+      # Types track the Node major in .nvmrc; bump both together by hand.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
