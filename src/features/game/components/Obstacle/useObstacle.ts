@@ -17,6 +17,16 @@ export function useObstacle({ c, r, w, h, kind }: IObstacleProps["obstacle"]) {
     crystalInsetWidth: width - 20,
     resistorEndX: width - 10,
     resistorWidth: width - 18,
+    capacitors:
+      kind === "capacitor"
+        ? Array.from({ length: Math.max(w, h) }, (_, i) => {
+            const x = CELL / 2 + (w > 1 ? i * CELL : 0);
+            const y = CELL / 2 + (h > 1 ? i * CELL : 0);
+            return { x, y, transform: `translate(${x} ${y})` };
+          })
+        : [],
+    capacitorLabel:
+      w > 1 || h > 1 ? { x: w > 1 ? 2 : width + 4, y: h > 1 ? 24 : height + 14 } : { x: 2, y: -4 },
     legs:
       kind === "chip"
         ? Array.from({ length: legCount }, (_, i) => ({

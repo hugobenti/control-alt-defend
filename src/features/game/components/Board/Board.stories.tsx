@@ -17,7 +17,7 @@ export const HomePc: Story = {
     await expect(board).toHaveAttribute("viewBox", "-16 -16 992 672");
     await expect(board).not.toHaveAttribute("width");
     await expect(board).not.toHaveAttribute("height");
-    await expect(board.querySelectorAll("[data-trace]")).toHaveLength(8);
+    await expect(board.querySelectorAll("[data-trace]")).toHaveLength(7);
   },
 };
 

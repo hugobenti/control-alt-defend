@@ -38,6 +38,23 @@ describe("static grid", () => {
     ]);
     expect(Array.from(grid.core).reduce((sum, value) => sum + value, 0)).toBe(4);
   });
+  it("keeps void and capacitor-bank cells out of walking and building", () => {
+    for (const [c, r] of [
+      [20, 0],
+      [23, 2],
+      [0, 13],
+      [3, 15],
+      [8, 1],
+      [8, 4],
+      [19, 9],
+      [19, 12],
+    ] as const) {
+      expect(has(grid.blocked, c, r)).toBe(true);
+      expect(has(grid.keepOut, c, r)).toBe(true);
+    }
+    expect(has(grid.blocked, 19, 2)).toBe(false);
+    expect(has(grid.blocked, 4, 15)).toBe(false);
+  });
 
   it("marks both port cells, both inside cells, obstacles and core as unbuildable", () => {
     for (const [c, r] of [

@@ -27,6 +27,10 @@ describe("placement", () => {
       { c: 1, r: 2 },
       { c: 23, r: 12 },
       { c: 4, r: 9 },
+      { c: 20, r: 0 },
+      { c: 0, r: 15 },
+      { c: 8, r: 2 },
+      { c: 19, r: 11 },
     ]) {
       expect(checkPlacement({ ...homeInput, cell })).toBe("keepOut");
     }

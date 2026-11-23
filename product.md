@@ -114,6 +114,8 @@ flowchart LR
 - **Decided:** towers sit on a grid; enemies do not. The grid exists only for building.
 - The board is a grid of square cells drawn as a dark circuit board with glowing traces.
 - Board size is set per level (section 9). **Call:** around 24 × 16 cells on the first level.
+- A level may cut rectangular groups of void cells out of that grid. Those cells have no board surface and cannot
+  be built on or walked through; the outline, not the enclosing rectangle, is the playable field.
 - Every tower occupies exactly one cell (**Call**: keeps maze building simple and precise).
 - Distances in this document ("within 3 cells") are measured in cell widths, straight line, from the center of the
   enemy or tower.
@@ -129,7 +131,7 @@ flowchart LR
 - Viruses enter through **ports** on the edges of the board. Each port is a gap in the board's border. How many
   ports a level has, and where they are, is set per level.
 - Every port is both an entrance and an exit.
-- The Core cells, port cells, the cell directly inside each port and the level's obstacles can never be built on.
+- The Core cells, port cells, the cell directly inside each port, obstacles and void cells can never be built on.
 
 ### Pathing rules
 
@@ -139,7 +141,7 @@ flowchart LR
   touch at a corner form a closed wall; enemies can't slip between them.
 - **Call:** each enemy keeps a small personal offset from the ideal route, so a group spreads across the open
   space instead of marching in single file. Enemies may overlap each other; they never push one another.
-- Enemies never pass through towers, obstacles, the board border or the Core.
+- Enemies never pass through towers, obstacles, void cells, the board border or the Core.
 - Viruses without a file walk the shortest open route from where they are to the Core.
 - A carrier walks the shortest open route to the nearest exit port (nearest by path length, not straight-line
   distance).
@@ -263,9 +265,9 @@ number of data files to protect.
 
 A level defines:
 
-- **Map:** board size and shape, where the Core sits, and **Call:** fixed obstacles (circuit-board hardware such as
-  chips and capacitors) that block both building and walking. Obstacles make every map play differently before the
-  first tower is placed.
+- **Map:** board size and shape (rectangular `voids` cut out of the playable field), where the Core sits, and
+  **Call:** fixed obstacles (circuit-board hardware such as chips and capacitor banks) that block both building
+  and walking. Obstacles make every map play differently before the first tower is placed.
 - **Ports:** how many, and where on the border.
 - **Files:** how many the Core holds at the start.
 - **Waves:** how many, and the composition of each (section "Waves" below).
@@ -422,6 +424,9 @@ The whole game can be played with the keyboard alone.
   drawn as edge connectors. Every color has one job: cyan, green and steel are the player's towers (Antivirus,
   Debugger, Firewall), pink and violet are threats (Worm, Rootkit), yellow is data (files, bits, costs), red only
   means loss or a refused action.
+- The board surface, dotted grid and frame follow each map's outline; cutouts expose the dark frame rather than
+  another playable cell. Capacitor banks repeat the existing capacitor art once per occupied cell, with a
+  silkscreen label on an adjacent board cell.
 - **Decided (approved mockup):** Chakra Petch for display and names, B612 for interface text, B612 Mono for numbers
   and board labels.
 - Towers and enemies are simple, bold geometric icons that stay recognizable at small sizes.

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { moveBoardCursor } from "../../logic/geometry";
 
 import type { IMatchKeyHandlers } from "./SandboxScreen.type";
 
@@ -19,22 +20,16 @@ export function useMatchKeys(
       const onBoard = target === boardRef.current;
       switch (event.key) {
         case "ArrowUp":
-          current.moveCursor({ ...current.cursor, r: Math.max(0, current.cursor.r - 1) });
+          current.moveCursor(moveBoardCursor(current.cursor, 0, -1, current.map));
           break;
         case "ArrowDown":
-          current.moveCursor({
-            ...current.cursor,
-            r: Math.min(current.map.rows - 1, current.cursor.r + 1),
-          });
+          current.moveCursor(moveBoardCursor(current.cursor, 0, 1, current.map));
           break;
         case "ArrowLeft":
-          current.moveCursor({ ...current.cursor, c: Math.max(0, current.cursor.c - 1) });
+          current.moveCursor(moveBoardCursor(current.cursor, -1, 0, current.map));
           break;
         case "ArrowRight":
-          current.moveCursor({
-            ...current.cursor,
-            c: Math.min(current.map.cols - 1, current.cursor.c + 1),
-          });
+          current.moveCursor(moveBoardCursor(current.cursor, 1, 0, current.map));
           break;
         case "1":
           current.pickTower("firewall");

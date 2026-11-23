@@ -23,20 +23,15 @@ export function Board({ map, files, filesInCore, children, className }: IBoardPr
         className={cx(board.base, className)}
       >
         <GameDefs ids={ids} />
+        <defs>
+          <clipPath id={layout.clipId}>
+            <path d={layout.outline} />
+          </clipPath>
+        </defs>
         <rect {...layout.frame} rx="12" className={board.frame} aria-hidden="true" />
-        <rect
-          width={layout.width}
-          height={layout.height}
-          className={board.surface}
-          aria-hidden="true"
-        />
-        <rect
-          width={layout.width}
-          height={layout.height}
-          fill={layout.dotsFill}
-          aria-hidden="true"
-        />
-        <g aria-hidden="true">
+        <path d={layout.outline} className={board.surface} aria-hidden="true" />
+        <path d={layout.outline} fill={layout.dotsFill} aria-hidden="true" />
+        <g aria-hidden="true" clipPath={layout.clipFill}>
           {map.traces.map((trace) => (
             <g key={trace.d} data-trace>
               <path d={trace.d} className={board.trace} />
@@ -46,6 +41,17 @@ export function Board({ map, files, filesInCore, children, className }: IBoardPr
             </g>
           ))}
         </g>
+        {layout.voidAreas.map((area) => (
+          <rect
+            key={area.key}
+            x={area.x}
+            y={area.y}
+            width={area.width}
+            height={area.height}
+            className={board.frame}
+            aria-hidden="true"
+          />
+        ))}
         <g aria-hidden="true">
           {map.obstacles.map((obstacle) => (
             <Obstacle key={obstacle.label} obstacle={obstacle} />
