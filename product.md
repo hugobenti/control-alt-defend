@@ -206,7 +206,7 @@ Bits rules:
 | Tower      | Role                          | What it does (v1.0)                                                                                                                                                                                               | v3.0 extra (Call)                                             | Cost tier |
 | ---------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | --------- |
 | Firewall   | Maze wall and booster         | Blocks a cell. Does not attack. **Decided:** from v2.0 it boosts the towers next to it; v3.0 boosts more (section "Firewall boost" below).                                                                        | Boost also adds range                                         | Very low  |
-| Antivirus  | Basic damage                  | Fires single projectiles at a steady rate. Medium range.                                                                                                                                                          | Projectiles pierce through to a second enemy behind the first | Low       |
+| Antivirus  | Basic damage                  | Fires single projectiles at a steady rate. Medium range. Hits resolve when fired; the glowing shot and short trail fly from the tower to the target over game ticks, pausing with the game.                       | Projectiles pierce through to a second enemy behind the first | Low       |
 | Scanner    | Detection                     | Deals no damage. Makes Spyware in its range visible to every tower and exposes Trojans in its range early (section 10).                                                                                           | Enemies in its range take extra damage from all sources       | Medium    |
 | Quarantine | Crowd control and area damage | Slows every enemy in its range. From v2.0 (Call) it also deals light damage over time to every enemy in its range: the main answer to swarms.                                                                     | Enemies that enter its range are briefly frozen in place once | Medium    |
 | Debugger   | Single-target, anti-armor     | Holds a continuous beam on one enemy; damage grows the longer the beam stays on the same target and resets when it switches. Strongest answer to armor and bosses.                                                | Beam chains to one nearby enemy at reduced damage             | High      |
@@ -411,7 +411,7 @@ The whole game can be played with the keyboard alone.
 - Important events are announced to screen readers through a live region: wave start, file stolen, file leaked,
   tower locked, level won or lost.
 - `prefers-reduced-motion`: no screen shake, no glitch distortion, no particle bursts; hits and deaths use short
-  opacity fades instead. Gameplay is identical.
+  opacity fades instead. Antivirus shots stay at the tower and fade instead of travelling. Gameplay is identical.
 - All text and UI colors meet WCAG 2.2 AA contrast, as the template's token tests require.
 
 ## 12. Look and sound

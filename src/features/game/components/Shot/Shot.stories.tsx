@@ -8,7 +8,7 @@ import { Shot } from "./Shot";
 const meta = {
   title: "Game/Shot",
   component: Shot,
-  args: { from: { x: 200, y: 100 }, to: { x: 245, y: 70 } },
+  args: { from: { x: 200, y: 100 }, to: { x: 245, y: 70 }, progress: 0, reducedOpacity: 1 },
   decorators: [
     (Story) => (
       <Board map={towerStoryMap}>
@@ -20,4 +20,6 @@ const meta = {
 } satisfies Meta<typeof Shot>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-export const AntivirusFiring: Story = {};
+export const JustFired: Story = {};
+export const MidFlight: Story = { args: { progress: 0.5 } };
+export const Impact: Story = { args: { progress: 1 } };

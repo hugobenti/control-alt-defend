@@ -46,7 +46,9 @@ describe("sandbox balance", () => {
       lookaheadCells: 8,
       offsetMax: 8,
       splitOffset: 10,
-      shotTicks: 6,
+      shotSpeed: 800,
+      impactTicks: 4,
+      reducedShotFadeTicks: 8,
       hitTicks: 8,
     });
     expect(balance.economy).toEqual({ sellRefund: 0.7, startBits: 1000, grantBits: 1000 });

@@ -36,6 +36,37 @@ describe("match view models", () => {
     expect(enemy.health).toBe(15);
   });
 
+  it("advances shots from ticks, holds impact across skipped ticks, and uses stable distinct IDs", () => {
+    const state = initial();
+    const shot = {
+      from: { x: 260, y: 260 },
+      to: { x: 340, y: 260 },
+      firedTick: 6,
+      arriveTick: 11,
+      untilTick: 15,
+    };
+    const second = { ...shot, firedTick: 7, arriveTick: 12, untilTick: 16 };
+    const at = (tick: number) => buildBoardView({ ...state, tick, shots: [shot] }, ui).shots[0];
+    const before = at(6)!;
+    expect(before).toMatchObject({ from: shot.from, to: shot.to, progress: 0, reducedOpacity: 1 });
+    expect(at(6)).toEqual(before);
+    expect(at(8)).toMatchObject({ id: before.id, progress: 0.4, reducedOpacity: 0.75 });
+    expect(at(11)).toMatchObject({ id: before.id, progress: 1, reducedOpacity: 0.375 });
+    expect(at(13)).toMatchObject({ id: before.id, progress: 1, reducedOpacity: 0.125 });
+    expect(at(14)).toMatchObject({ id: before.id, progress: 1, reducedOpacity: 0 });
+    expect(at(15)).toBeUndefined();
+    const concurrent = buildBoardView({ ...state, tick: 8, shots: [shot, second] }, ui).shots;
+    expect(concurrent[0]!.id).toBe(before.id);
+    expect(concurrent[1]!.id).not.toBe(before.id);
+    expect(shot).toEqual({
+      from: { x: 260, y: 260 },
+      to: { x: 340, y: 260 },
+      firedTick: 6,
+      arriveTick: 11,
+      untilTick: 15,
+    });
+  });
+
   it("uses the strongest adjacent Firewall boost for a selected attacking tower", () => {
     let state = initial();
     state = applyCommand(state, { kind: "place", type: "antivirus", cell: { c: 6, r: 6 } });

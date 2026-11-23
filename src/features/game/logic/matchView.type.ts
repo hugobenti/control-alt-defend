@@ -16,7 +16,7 @@ export interface IBoardUi {
 export interface IBoardView {
   towers: ITowerProps[];
   enemies: (IEnemyProps & { id: number })[];
-  shots: IShotProps[];
+  shots: (IShotProps & { id: string })[];
   beams: IBeamProps[];
   boostEdges: IBoostEdgeProps[];
   droppedFiles: { id: number; x: number; y: number }[];

@@ -2,6 +2,7 @@ import { game } from "@/content/game";
 import type { IBuildItemProps } from "../components/BuildItem/BuildItem.type";
 import type { ITowerCardProps, ITowerCardStat } from "../components/TowerCard/TowerCard.type";
 import type { TTowerType, TVersion } from "../components/Tower/Tower.type";
+import { balance } from "./balance.data";
 import { boostEdges, boostFor, effectiveStats } from "./boost";
 import { buildCost, sellRefund, upgradeCost } from "./economy";
 import { placementRefusal } from "./match";
@@ -71,7 +72,16 @@ export function buildBoardView(state: IMatchState, ui: IBoardUi): IBoardView {
     })),
     shots: state.shots
       .filter((shot) => state.tick < shot.untilTick)
-      .map(({ from, to }) => ({ from, to })),
+      .map(({ from, to, firedTick, arriveTick, untilTick }) => ({
+        id: `${from.x}-${from.y}-${untilTick}`,
+        from,
+        to,
+        progress: Math.max(0, Math.min(1, (state.tick - firedTick) / (arriveTick - firedTick))),
+        reducedOpacity: Math.max(
+          0,
+          1 - (state.tick - firedTick) / balance.movement.reducedShotFadeTicks,
+        ),
+      })),
     beams: state.beams.flatMap(({ from, to, chainTo, ramp }) =>
       chainTo === null
         ? [{ from, to, ramp }]

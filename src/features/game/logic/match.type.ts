@@ -44,6 +44,8 @@ export interface IFileState {
 export interface IShotState {
   from: IPoint;
   to: IPoint;
+  firedTick: number;
+  arriveTick: number;
   untilTick: number;
 }
 

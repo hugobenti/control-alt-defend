@@ -86,8 +86,8 @@ export function SandboxScreen({ initialState }: ISandboxScreenProps) {
                 {view.boardView.enemies.map((enemy) => (
                   <Enemy key={enemy.id} {...enemy} />
                 ))}
-                {view.boardView.shots.map((shot, index) => (
-                  <Shot key={index} {...shot} />
+                {view.boardView.shots.map((shot) => (
+                  <Shot key={shot.id} {...shot} />
                 ))}
                 {view.boardView.beams.map((beam, index) => (
                   <Beam key={index} {...beam} />

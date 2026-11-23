@@ -80,7 +80,7 @@ describe("combat", () => {
     expect(state.towers[0]!.kills).toBe(1);
     expect(state.events).toContainEqual({ kind: "killed", type: "worm", reward: 8 });
     expect(state.shots).toHaveLength(1);
-    expect(parked(state, balance.movement.shotTicks).shots).toEqual([]);
+    expect(parked(state, state.shots[0]!.untilTick - state.tick + 1).shots).toEqual([]);
   });
 
   it("pays a small worm's reward without splitting again", () => {
@@ -110,9 +110,29 @@ describe("combat", () => {
     });
     expect(state.enemies.map((item) => item.health)).toEqual([8, 8, 30]);
     expect(state.shots).toEqual([
-      { from: { x: 260, y: 260 }, to: { x: 300, y: 260 }, untilTick: 6 },
+      {
+        from: { x: 260, y: 260 },
+        to: { x: 300, y: 260 },
+        firedTick: 0,
+        arriveTick: 3,
+        untilTick: 7,
+      },
     ]);
     expect(state.towers[0]!.cooldownTicks).toBe(20);
+  });
+
+  it("keeps a max-range visual shot in flight for about 0.18 seconds without delaying the hit", () => {
+    const initial = place(base(), "antivirus");
+    const target = enemy(10, { x: 400, y: 260 });
+    const state = stepCombat({
+      ...initial,
+      towers: [{ ...initial.towers[0]!, version: 3 }],
+      enemies: [target],
+    });
+    expect(state.enemies[0]!.health).toBe(8);
+    expect(state.shots[0]).toMatchObject({ firedTick: 0, arriveTick: 11, untilTick: 15 });
+    expect(parked({ ...state, tick: 1, towers: [] }, 13).shots).toHaveLength(1);
+    expect(parked({ ...state, tick: 1, towers: [] }, 15).shots).toEqual([]);
   });
 
   it("ramps Debugger pulses at beam ticks 0, 15, 30 and reaches 24 at tick 180", () => {
