@@ -14,6 +14,7 @@ import type { ICell } from "../../logic/grid.type";
 import { createMatch } from "../../logic/match";
 import type { IMatchState } from "../../logic/match.type";
 import { buildBoardView, buildBuildItems, buildTowerCard } from "../../logic/matchView";
+import { boardHover } from "../../logic/boardHover";
 import type { TEnemyType } from "../Enemy/Enemy.type";
 import type { TSpawnCount } from "../SandboxControls/SandboxControls.type";
 import type { TGameSpeed } from "../SettingsMenu/SettingsMenu.type";
@@ -37,6 +38,8 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   );
   const state = useMatchStore(store);
   const [cursor, setCursor] = useState<ICell>({ c: 6, r: 6 });
+  const [modality, setModality] = useState<"keyboard" | "pointer">("pointer");
+  const [pointerInside, setPointerInside] = useState(false);
   const [placing, setPlacing] = useState<TTowerType | null>(null);
   const [selectedTowerId, setSelectedTowerId] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
@@ -73,6 +76,11 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   const map = state.options.map;
   const moveCursor = (cell: ICell) =>
     setCursor((current) => (current.c === cell.c && current.r === cell.r ? current : cell));
+  const pointerCell = (cell: ICell | null) => {
+    setModality("pointer");
+    setPointerInside(cell !== null);
+    if (cell) moveCursor(cell);
+  };
   const activate = (cell: ICell = cursor) => {
     moveCursor(cell);
     if (placing) {
@@ -109,8 +117,11 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   const toggleSpeed = () => setSpeed((value) => (value === "1" ? "2" : "1"));
   const { ref: boardRef, ...boardInput } = useBoardInput({
     map,
-    onCell: moveCursor,
-    onActivate: activate,
+    onCell: pointerCell,
+    onActivate: (cell) => {
+      pointerCell(cell);
+      activate(cell);
+    },
     onCancel: cancel,
   });
   useMatchKeys(
@@ -118,6 +129,7 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
       map,
       cursor,
       moveCursor,
+      onKeyboardInput: () => setModality("keyboard"),
       pickTower,
       cancel,
       upgrade,
@@ -145,12 +157,19 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   useEffect(() => {
     if (restartCount > 0) boardRef.current?.focus();
   }, [restartCount, boardRef]);
-  const boardView = buildBoardView(state, { cursor, placing, selectedTowerId });
+  const hover = boardHover(state.towers, cursor, placing, modality, pointerInside);
+  const boardView = buildBoardView(state, {
+    cursor,
+    placing: hover.showPlacement ? placing : null,
+    selectedTowerId,
+  });
   return {
     map,
     bits: state.bits,
     status: state.status,
     cursor,
+    showCursor: hover.showCursor,
+    actionable: hover.actionable,
     placing,
     files: fileStates(state),
     boardView,

@@ -50,6 +50,17 @@ export const BoardTab: Story = {
   },
 };
 
+export const KeyboardCursorOnEmptyCell: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const board = canvas.getByRole("application", { name: "Board" });
+    await expect(canvas.queryByRole("img", { name: "Cell 6, 6" })).not.toBeInTheDocument();
+    board.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(canvas.getByRole("img", { name: "Cell 7, 6" })).toBeInTheDocument();
+  },
+};
+
 export const SettingsEscape: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

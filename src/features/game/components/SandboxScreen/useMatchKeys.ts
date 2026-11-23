@@ -16,6 +16,7 @@ export function useMatchKeys(
       if (current.over || event.altKey || event.ctrlKey || event.metaKey) return;
       const target = event.target;
       if (target instanceof Element && target.closest('[role="dialog"]')) return;
+      current.onKeyboardInput();
       const onBoard = target === boardRef.current;
       switch (event.key) {
         case "ArrowUp":

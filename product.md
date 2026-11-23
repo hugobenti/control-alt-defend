@@ -389,15 +389,19 @@ Notes:
 
 ### Mouse
 
-- Pick a tower in the build menu, hover the board to see a placement preview (tower ghost, range circle, new
-  route), click to place. Right-click or Escape cancels.
-- Click a placed tower to open its info panel.
+- Pick a tower in the build menu, hover any board cell to see a placement preview (valid ghost or refused hatch
+  with a reason, range circle, and new route where valid), then click to place. Right-click or Escape cancels.
+- Outside placement, pointer hover highlights only a placed tower, which can be clicked to open its info panel.
+  The highlight disappears when the pointer leaves the board; empty cells, ports, parts, and the Core do not
+  highlight.
 
 ### Keyboard (required)
 
 The whole game can be played with the keyboard alone.
 
-- A visible board cursor moves cell by cell with the arrow keys.
+- A visible board cursor moves cell by cell with the arrow keys and remains visible on every cell while the
+  keyboard is the latest input, including empty cells and the Core. Pointer movement switches back to pointer
+  hover behavior; pressing a key restores the keyboard cursor.
 - Number keys pick a tower from the build menu; Enter places it at the cursor; Escape cancels.
 - With the cursor on a tower: a key to upgrade, a key to sell (exact bindings are the builder's choice and are
   listed on the How to play screen).

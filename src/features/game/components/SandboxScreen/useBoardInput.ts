@@ -19,7 +19,10 @@ export function useBoardInput({
         event.currentTarget.getBoundingClientRect(),
         map,
       );
-      if (cell) onCell(cell);
+      onCell(cell);
+    },
+    onPointerLeave() {
+      onCell(null);
     },
     onPointerUp(event) {
       if (event.button !== 0) return;
