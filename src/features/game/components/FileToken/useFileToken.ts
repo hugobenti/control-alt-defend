@@ -7,6 +7,5 @@ export function useFileToken({ state, x = 0, y = 0 }: IFileTokenProps, glowId?: 
     transform: `translate(${x} ${y})`,
     glowFilter: glowId ? `url(#${glowId})` : undefined,
     label: game.file[state],
-    dropped: state === "dropped",
   };
 }
