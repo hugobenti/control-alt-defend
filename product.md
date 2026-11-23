@@ -399,7 +399,7 @@ Notes:
 
 The whole game can be played with the keyboard alone.
 
-- A visible board cursor moves cell by cell with the arrow keys.
+- A visible board cursor moves cell by cell with the arrow keys; it never moves onto a cut-out (void) cell.
 - Number keys pick a tower from the build menu; Enter places it at the cursor; Escape cancels.
 - With the cursor on a tower: a key to upgrade, a key to sell (exact bindings are the builder's choice and are
   listed on the How to play screen).
@@ -424,7 +424,7 @@ The whole game can be played with the keyboard alone.
   drawn as edge connectors. Every color has one job: cyan, green and steel are the player's towers (Antivirus,
   Debugger, Firewall), pink and violet are threats (Worm, Rootkit), yellow is data (files, bits, costs), red only
   means loss or a refused action.
-- The board surface, dotted grid and frame follow each map's outline; cutouts expose the dark frame rather than
+- The board surface, dotted grid and frame follow each map's outline; cutouts show no board at all rather than
   another playable cell. Capacitor banks repeat the existing capacitor art once per occupied cell, with a
   silkscreen label on an adjacent board cell.
 - **Decided (approved mockup):** Chakra Petch for display and names, B612 for interface text, B612 Mono for numbers

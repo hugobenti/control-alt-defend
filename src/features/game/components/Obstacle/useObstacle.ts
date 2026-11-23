@@ -19,9 +19,9 @@ export function useObstacle({ c, r, w, h, kind }: IObstacleProps["obstacle"]) {
     resistorWidth: width - 18,
     capacitors:
       kind === "capacitor"
-        ? Array.from({ length: Math.max(w, h) }, (_, i) => {
-            const x = CELL / 2 + (w > 1 ? i * CELL : 0);
-            const y = CELL / 2 + (h > 1 ? i * CELL : 0);
+        ? Array.from({ length: w * h }, (_, i) => {
+            const x = CELL / 2 + (i % w) * CELL;
+            const y = CELL / 2 + Math.floor(i / w) * CELL;
             return { x, y, transform: `translate(${x} ${y})` };
           })
         : [],
