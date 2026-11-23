@@ -13,7 +13,9 @@ describe("simulation ticks", () => {
     const next = step({
       ...state,
       events: [{ kind: "dropped" }],
-      shots: [{ from: { x: 0, y: 0 }, to: { x: 1, y: 1 }, firedTick: 0, untilTick: 0 }],
+      shots: [
+        { from: { x: 0, y: 0 }, to: { x: 1, y: 1 }, firedTick: 0, arriveTick: 0, untilTick: 0 },
+      ],
     });
     expect(next.events).toEqual([]);
     expect(next.shots).toEqual([]);

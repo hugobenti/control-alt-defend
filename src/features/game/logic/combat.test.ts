@@ -110,7 +110,13 @@ describe("combat", () => {
     });
     expect(state.enemies.map((item) => item.health)).toEqual([8, 8, 30]);
     expect(state.shots).toEqual([
-      { from: { x: 260, y: 260 }, to: { x: 300, y: 260 }, firedTick: 0, untilTick: 4 },
+      {
+        from: { x: 260, y: 260 },
+        to: { x: 300, y: 260 },
+        firedTick: 0,
+        arriveTick: 3,
+        untilTick: 7,
+      },
     ]);
     expect(state.towers[0]!.cooldownTicks).toBe(20);
   });
@@ -124,9 +130,9 @@ describe("combat", () => {
       enemies: [target],
     });
     expect(state.enemies[0]!.health).toBe(8);
-    expect(state.shots[0]).toMatchObject({ firedTick: 0, untilTick: 12 });
-    expect(parked({ ...state, tick: 1, towers: [] }, 10).shots).toHaveLength(1);
-    expect(parked({ ...state, tick: 1, towers: [] }, 12).shots).toEqual([]);
+    expect(state.shots[0]).toMatchObject({ firedTick: 0, arriveTick: 11, untilTick: 15 });
+    expect(parked({ ...state, tick: 1, towers: [] }, 13).shots).toHaveLength(1);
+    expect(parked({ ...state, tick: 1, towers: [] }, 15).shots).toEqual([]);
   });
 
   it("ramps Debugger pulses at beam ticks 0, 15, 30 and reaches 24 at tick 180", () => {

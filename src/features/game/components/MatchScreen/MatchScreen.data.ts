@@ -127,8 +127,8 @@ export const enemies = [
 ] satisfies IEnemyProps[];
 
 export const shots = [
-  { from: { x: 314, y: 242 }, to: { x: 330, y: 222 }, progress: 0.5 },
-  { from: { x: 820, y: 486 }, to: { x: 842, y: 520 }, progress: 0.5 },
+  { from: { x: 314, y: 242 }, to: { x: 330, y: 222 }, progress: 0.5, reducedOpacity: 0.75 },
+  { from: { x: 820, y: 486 }, to: { x: 842, y: 520 }, progress: 0.5, reducedOpacity: 0.75 },
 ];
 
 export const beams = [

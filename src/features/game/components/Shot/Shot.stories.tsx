@@ -8,7 +8,7 @@ import { Shot } from "./Shot";
 const meta = {
   title: "Game/Shot",
   component: Shot,
-  args: { from: { x: 200, y: 100 }, to: { x: 245, y: 70 }, progress: 0 },
+  args: { from: { x: 200, y: 100 }, to: { x: 245, y: 70 }, progress: 0, reducedOpacity: 1 },
   decorators: [
     (Story) => (
       <Board map={towerStoryMap}>

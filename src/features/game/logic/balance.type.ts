@@ -34,6 +34,8 @@ export interface IBalance {
     offsetMax: number;
     splitOffset: number;
     shotSpeed: number;
+    impactTicks: number;
+    reducedShotFadeTicks: number;
     hitTicks: number;
   };
   economy: { sellRefund: number; startBits: number; grantBits: number };
