@@ -1,12 +1,6 @@
 import type { ILevelMap } from "../level/level.type";
+import type { IOutlineEdge } from "./boardOutline.type";
 import { CELL, isVoidCell } from "./geometry";
-
-interface IEdge {
-  x: number;
-  y: number;
-  toX: number;
-  toY: number;
-}
 
 /**
  * Walk the exposed cell edges with the playable surface on the right (clockwise on screen).
@@ -17,7 +11,7 @@ interface IEdge {
 export function boardOutline(map: ILevelMap): string {
   const playable = (c: number, r: number) =>
     c >= 0 && c < map.cols && r >= 0 && r < map.rows && !isVoidCell({ c, r }, map);
-  const outgoing = new Map<string, IEdge[]>();
+  const outgoing = new Map<string, IOutlineEdge[]>();
   const add = (x: number, y: number, toX: number, toY: number) => {
     const key = `${x},${y}`;
     const list = outgoing.get(key) ?? [];
@@ -36,14 +30,14 @@ export function boardOutline(map: ILevelMap): string {
     }
   }
 
-  const take = (key: string, from?: IEdge): IEdge | undefined => {
+  const take = (key: string, from?: IOutlineEdge): IOutlineEdge | undefined => {
     const list = outgoing.get(key);
     if (!list || list.length === 0) return undefined;
     let index = 0;
     if (from && list.length > 1) {
       const dx = Math.sign(from.toX - from.x);
       const dy = Math.sign(from.toY - from.y);
-      const turn = (edge: IEdge) =>
+      const turn = (edge: IOutlineEdge) =>
         dx * Math.sign(edge.toY - edge.y) - dy * Math.sign(edge.toX - edge.x);
       list.forEach((edge, i) => {
         if (turn(edge) > turn(list[index]!)) index = i;
