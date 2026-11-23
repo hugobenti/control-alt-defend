@@ -51,14 +51,12 @@ test("contains the board and maps pointer movement and clicks to the drawn cell"
     const x = drawing!.x + (drawing!.width - 992 * scale) / 2 + (6 * 40 + 20 + 16) * scale;
     const y = drawing!.y + (drawing!.height - 672 * scale) / 2 + (6 * 40 + 20 + 16) * scale;
     await page.mouse.move(x, y);
-    await expect(application.getByRole("img", { name: "Cell 6, 6" })).toHaveCount(0);
     await page.getByRole("button", { name: /Antivirus/ }).click();
     await page.mouse.move(x, y);
     await expect(application.getByRole("img", { name: "Valid placement" })).toBeVisible();
     await page.mouse.click(x, y);
     await expect(application.getByRole("img", { name: "Antivirus v1.0" })).toBeVisible();
     await page.getByRole("button", { name: /Antivirus/ }).click();
-    await page.mouse.move(x + 40 * scale, y);
     await page.mouse.move(x, y);
     await expect(application.getByRole("img", { name: "Cell 6, 6" })).toBeVisible();
     await page.reload();
@@ -82,21 +80,21 @@ test("shows pointer cursor only on towers, hides it on leave, and preserves keyb
     const { x, y } = cell(c, r);
     await page.mouse.move(x, y);
   };
-  await moveTo(11, 7);
-  await expect(board.getByRole("img", { name: "Cell 11, 7" })).toHaveCount(0);
-  await moveTo(6, 6);
-  await expect(board.getByRole("img", { name: "Cell 6, 6" })).toHaveCount(0);
   await page.getByRole("button", { name: /Antivirus/ }).click();
   await moveTo(11, 7);
   await expect(board.getByRole("img", { name: /Refused placement/ })).toBeVisible();
-  await expect(board.getByRole("img", { name: "Cell 11, 7" })).toHaveCount(0);
+  await expect(board.getByRole("img", { name: /^Cell / })).toHaveCount(0);
   await moveTo(6, 6);
   await expect(board.getByRole("img", { name: "Valid placement" })).toBeVisible();
   const towerCell = cell(6, 6);
   await page.mouse.click(towerCell.x, towerCell.y);
   await page.getByRole("button", { name: /Antivirus/ }).click();
+  await moveTo(6, 6);
+  await expect(board.getByRole("img", { name: "Cell 6, 6" })).toBeVisible();
   await moveTo(11, 7);
-  await expect(board.getByRole("img", { name: "Cell 11, 7" })).toHaveCount(0);
+  await expect(board.getByRole("img", { name: /^Cell / })).toHaveCount(0);
+  await moveTo(7, 6);
+  await expect(board.getByRole("img", { name: /^Cell / })).toHaveCount(0);
   await moveTo(6, 6);
   await expect(board.getByRole("img", { name: "Cell 6, 6" })).toBeVisible();
   await page.mouse.move(0, 0);
@@ -104,6 +102,12 @@ test("shows pointer cursor only on towers, hides it on leave, and preserves keyb
   await board.focus();
   await board.press("ArrowRight");
   await expect(board.getByRole("img", { name: "Cell 7, 6" })).toBeVisible();
+  await page.getByRole("button", { name: /Antivirus/ }).click();
+  await expect(board.getByRole("img", { name: "Valid placement" })).toHaveCount(0);
+  await expect(board.getByRole("img", { name: /^Cell / })).toHaveCount(0);
+  await board.focus();
+  await board.press("ArrowRight");
+  await expect(board.getByRole("img", { name: "Valid placement" })).toBeVisible();
 });
 
 test("right-click cancels placement without building a tower", async ({ page }) => {

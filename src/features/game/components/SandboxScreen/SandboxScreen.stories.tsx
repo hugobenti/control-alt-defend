@@ -61,6 +61,17 @@ export const KeyboardCursorOnEmptyCell: Story = {
   },
 };
 
+export const KeyboardCursorOnCore: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    canvas.getByRole("application", { name: "Board" }).focus();
+    await userEvent.keyboard(
+      "{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}{ArrowDown}",
+    );
+    await expect(canvas.getByRole("img", { name: "Cell 11, 7" })).toBeInTheDocument();
+  },
+};
+
 export const SettingsEscape: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -71,7 +82,11 @@ export const SettingsEscape: Story = {
     await expect(canvas.getByText("Settings", { selector: "h3" })).toBeInTheDocument();
     await userEvent.keyboard("{Escape}");
     await expect(canvas.queryByText("Settings", { selector: "h3" })).not.toBeInTheDocument();
-    await expect(canvas.getByRole("img", { name: "Valid placement" })).toBeInTheDocument();
+    await expect(canvas.queryByRole("img", { name: "Valid placement" })).not.toBeInTheDocument();
+    await expect(canvas.getByRole("button", { name: /Antivirus/ })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
     board.focus();
     await userEvent.keyboard("{Escape}");
     await expect(canvas.queryByRole("img", { name: "Valid placement" })).not.toBeInTheDocument();

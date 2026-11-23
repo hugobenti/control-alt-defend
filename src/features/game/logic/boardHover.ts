@@ -1,13 +1,14 @@
 import type { TTowerType } from "../components/Tower/Tower.type";
+import type { IBoardHover, TInputModality } from "./boardHover.type";
 import type { ICell } from "./grid.type";
 
 export function boardHover(
   towers: readonly ICell[],
   cell: ICell,
   placing: TTowerType | null,
-  modality: "pointer" | "keyboard",
+  modality: TInputModality,
   pointerInside: boolean,
-) {
+): IBoardHover {
   const keyboard = modality === "keyboard";
   const showPlacement = placing !== null && (keyboard || pointerInside);
   const actionable =

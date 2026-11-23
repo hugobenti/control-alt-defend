@@ -34,6 +34,7 @@ export interface IMatchKeyHandlers {
   map: ILevelMap;
   cursor: ICell;
   moveCursor: (cell: ICell) => void;
+  onPointerOutside: () => void;
   onKeyboardInput: () => void;
   pickTower: (tower: TTowerType) => void;
   cancel: () => void;

@@ -13,7 +13,17 @@ export function useMatchKeys(
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const current = latest.current;
-      if (current.over || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (
+        current.over ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.key === "Shift" ||
+        event.key === "Control" ||
+        event.key === "Alt" ||
+        event.key === "Meta"
+      )
+        return;
       const target = event.target;
       if (target instanceof Element && target.closest('[role="dialog"]')) return;
       current.onKeyboardInput();
@@ -82,7 +92,18 @@ export function useMatchKeys(
           break;
       }
     };
+    const onPointerOutside = (event: PointerEvent) => {
+      const target = event.target;
+      if (target instanceof Node && boardRef.current?.contains(target)) return;
+      latest.current.onPointerOutside();
+    };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerOutside);
+    document.addEventListener("pointermove", onPointerOutside);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerOutside);
+      document.removeEventListener("pointermove", onPointerOutside);
+    };
   }, [boardRef]);
 }

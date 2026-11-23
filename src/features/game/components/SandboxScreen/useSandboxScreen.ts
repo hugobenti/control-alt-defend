@@ -11,6 +11,7 @@ import { announcementFor } from "../../logic/announcements";
 import { balance } from "../../logic/balance.data";
 import { fileStates } from "../../logic/files";
 import type { ICell } from "../../logic/grid.type";
+import type { TInputModality } from "../../logic/boardHover.type";
 import { createMatch } from "../../logic/match";
 import type { IMatchState } from "../../logic/match.type";
 import { buildBoardView, buildBuildItems, buildTowerCard } from "../../logic/matchView";
@@ -38,7 +39,7 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
   );
   const state = useMatchStore(store);
   const [cursor, setCursor] = useState<ICell>({ c: 6, r: 6 });
-  const [modality, setModality] = useState<"keyboard" | "pointer">("pointer");
+  const [modality, setModality] = useState<TInputModality>("pointer");
   const [pointerInside, setPointerInside] = useState(false);
   const [placing, setPlacing] = useState<TTowerType | null>(null);
   const [selectedTowerId, setSelectedTowerId] = useState<number | null>(null);
@@ -129,6 +130,10 @@ export function useSandboxScreen(initialState?: IMatchState): ISandboxScreenView
       map,
       cursor,
       moveCursor,
+      onPointerOutside: () => {
+        setModality("pointer");
+        setPointerInside(false);
+      },
       onKeyboardInput: () => setModality("keyboard"),
       pickTower,
       cancel,
