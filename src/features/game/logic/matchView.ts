@@ -71,7 +71,12 @@ export function buildBoardView(state: IMatchState, ui: IBoardUi): IBoardView {
     })),
     shots: state.shots
       .filter((shot) => state.tick < shot.untilTick)
-      .map(({ from, to }) => ({ from, to })),
+      .map(({ from, to, firedTick, untilTick }) => ({
+        id: `${from.x}-${from.y}-${untilTick}`,
+        from,
+        to,
+        progress: Math.max(0, Math.min(1, (state.tick - firedTick) / (untilTick - firedTick - 1))),
+      })),
     beams: state.beams.flatMap(({ from, to, chainTo, ramp }) =>
       chainTo === null
         ? [{ from, to, ramp }]

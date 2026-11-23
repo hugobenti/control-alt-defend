@@ -82,7 +82,19 @@ export function stepCombat(state: IMatchState): IMatchState {
         continue;
       }
       hit(target, damage);
-      shots.push({ from, to: target.pos, untilTick: state.tick + balance.movement.shotTicks });
+      const shotTicks = Math.max(
+        2,
+        Math.ceil(
+          Math.hypot(target.pos.x - from.x, target.pos.y - from.y) /
+            (balance.movement.shotSpeed * TICK_S),
+        ),
+      );
+      shots.push({
+        from,
+        to: target.pos,
+        firedTick: state.tick,
+        untilTick: state.tick + shotTicks + 1,
+      });
       towers.push({ ...tower, cooldownTicks: Math.round(60 / rate), aimAt: target.pos });
       if (tower.version === 3) {
         const dx = target.pos.x - from.x;

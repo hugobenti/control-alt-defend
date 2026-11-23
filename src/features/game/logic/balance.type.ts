@@ -33,7 +33,7 @@ export interface IBalance {
     lookaheadCells: number;
     offsetMax: number;
     splitOffset: number;
-    shotTicks: number;
+    shotSpeed: number;
     hitTicks: number;
   };
   economy: { sellRefund: number; startBits: number; grantBits: number };

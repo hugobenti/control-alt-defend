@@ -38,7 +38,7 @@ export const balance: IBalance = {
     lookaheadCells: 8,
     offsetMax: 8,
     splitOffset: 10,
-    shotTicks: 6,
+    shotSpeed: 800,
     hitTicks: 8,
   },
   economy: { sellRefund: 0.7, startBits: 1000, grantBits: 1000 },

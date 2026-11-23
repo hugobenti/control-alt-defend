@@ -36,6 +36,26 @@ describe("match view models", () => {
     expect(enemy.health).toBe(15);
   });
 
+  it("advances visual shots by game ticks and assigns stable IDs without changing combat state", () => {
+    const state = initial();
+    const shot = { from: { x: 260, y: 260 }, to: { x: 340, y: 260 }, firedTick: 6, untilTick: 12 };
+    const before = buildBoardView({ ...state, tick: 6, shots: [shot] }, ui).shots[0]!;
+    const paused = buildBoardView({ ...state, tick: 6, shots: [shot] }, ui).shots[0]!;
+    const midway = buildBoardView({ ...state, tick: 8, shots: [shot] }, ui).shots[0]!;
+    const arrival = buildBoardView({ ...state, tick: 11, shots: [shot] }, ui).shots[0]!;
+    expect(before).toEqual({ id: "260-260-12", from: shot.from, to: shot.to, progress: 0 });
+    expect(paused).toEqual(before);
+    expect(midway).toEqual({ ...before, progress: 0.4 });
+    expect(arrival).toEqual({ ...before, progress: 1 });
+    expect(buildBoardView({ ...state, tick: 12, shots: [shot] }, ui).shots).toEqual([]);
+    expect(shot).toEqual({
+      from: { x: 260, y: 260 },
+      to: { x: 340, y: 260 },
+      firedTick: 6,
+      untilTick: 12,
+    });
+  });
+
   it("uses the strongest adjacent Firewall boost for a selected attacking tower", () => {
     let state = initial();
     state = applyCommand(state, { kind: "place", type: "antivirus", cell: { c: 6, r: 6 } });
