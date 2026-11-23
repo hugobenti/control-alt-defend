@@ -1,11 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import type { IEnemyProps } from "./Enemy.type";
-import { useEnemy } from "./useEnemy";
+import { useEnemy, wormOffsets } from "./useEnemy";
 
 const base: IEnemyProps = { type: "worm", x: 100, y: 60, heading: 0, health: 0.3 };
-const offsets = (transforms: readonly string[]) =>
-  transforms.map((transform) => Number.parseFloat(transform.slice(12, -1)));
 
 describe("enemy view model", () => {
   it("sizes the health bar of a full-size enemy against 24 units", () => {
@@ -47,30 +45,37 @@ describe("enemy view model", () => {
   });
 
   it("moves the head first and propagates a sideways wave toward the tail", () => {
-    const headFirst = offsets(useEnemy({ ...base, id: 0, motionTick: 0 }).wormTransforms);
-    const tailLater = offsets(useEnemy({ ...base, id: 0, motionTick: 8 }).wormTransforms);
+    const headFirst = wormOffsets(0, 0);
+    const tailLater = wormOffsets(8, 0);
     expect(headFirst[3]).toBeCloseTo(0);
-    expect(headFirst[0]).toBeGreaterThan(0);
-    expect(tailLater[3]).toBeGreaterThan(0);
+    expect(headFirst[0]).toBeCloseTo(1.4);
+    expect(tailLater[3]).toBeCloseTo(1.4);
     expect(tailLater[0]).toBeCloseTo(0);
   });
 
   it("advances only with simulation ticks and offsets different worms", () => {
-    const first = offsets(useEnemy({ ...base, id: 1, motionTick: 5 }).wormTransforms);
-    expect(offsets(useEnemy({ ...base, id: 1, motionTick: 5 }).wormTransforms)).toEqual(first);
-    expect(offsets(useEnemy({ ...base, id: 1, motionTick: 6 }).wormTransforms)).not.toEqual(first);
-    expect(offsets(useEnemy({ ...base, id: 2, motionTick: 5 }).wormTransforms)).not.toEqual(first);
+    const first = wormOffsets(5, 1);
+    expect(wormOffsets(5, 1)).toEqual(first);
+    expect(wormOffsets(6, 1)).not.toEqual(first);
+    expect(wormOffsets(5, 2)).not.toEqual(first);
+  });
+
+  it("spreads phase by the golden angle for worms with distant IDs", () => {
+    expect(wormOffsets(0, 1000)[3]).toBeCloseTo(-0.29671324, 6);
   });
 
   it("keeps bare art and rootkits still while small worms share the scaled wave", () => {
-    expect(offsets(useEnemy({ ...base, id: 3, motionTick: 5, bare: true }).wormTransforms)).toEqual(
-      [0, 0, 0, 0],
+    expect(useEnemy({ ...base, id: 3, motionTick: 5, bare: true }).wormTransforms).toEqual([
+      "translate(0 0)",
+      "translate(0 0)",
+      "translate(0 0)",
+      "translate(0 0)",
+    ]);
+    expect(useEnemy({ ...base, id: 3, motionTick: 5, type: "rootkit" }).wormTransforms).toEqual(
+      useEnemy({ ...base, id: 3, motionTick: 5, bare: true }).wormTransforms,
     );
-    expect(
-      offsets(useEnemy({ ...base, id: 3, motionTick: 5, type: "rootkit" }).wormTransforms),
-    ).toEqual([0, 0, 0, 0]);
-    expect(
-      offsets(useEnemy({ ...base, id: 3, motionTick: 5, small: true }).wormTransforms),
-    ).toEqual(offsets(useEnemy({ ...base, id: 3, motionTick: 5 }).wormTransforms));
+    expect(useEnemy({ ...base, id: 3, motionTick: 5, small: true }).wormTransforms).toEqual(
+      useEnemy({ ...base, id: 3, motionTick: 5 }).wormTransforms,
+    );
   });
 });

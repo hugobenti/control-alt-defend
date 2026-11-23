@@ -16,6 +16,7 @@ const PLAIN_LAYERS: TEnemyLayerKind[] = ["main"];
 
 const WAVE_PER_TICK = Math.PI / 16;
 const WAVE_AMPLITUDE = 1.4;
+const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 const STILL_WORM = [
   "translate(0 0)",
   "translate(0 0)",
@@ -23,17 +24,12 @@ const STILL_WORM = [
   "translate(0 0)",
 ] as const;
 
-/** Body-frame transforms from tail to head; a quarter-cycle delay separates each segment. */
-function wormTransforms(tick: number, id: number): [string, string, string, string] {
-  const phase = tick * WAVE_PER_TICK + id * 2.4;
+/** Body-frame offsets from tail to head, each separated by a quarter-cycle. */
+export function wormOffsets(tick: number, id: number): [number, number, number, number] {
+  const phase = tick * WAVE_PER_TICK + id * GOLDEN_ANGLE;
   const side = WAVE_AMPLITUDE * Math.sin(phase);
   const otherSide = WAVE_AMPLITUDE * Math.cos(phase);
-  return [
-    `translate(0 ${otherSide})`,
-    `translate(0 ${-side})`,
-    `translate(0 ${-otherSide})`,
-    `translate(0 ${side})`,
-  ];
+  return [otherSide, -side, -otherSide, side];
 }
 
 export function useEnemy(
@@ -57,7 +53,7 @@ export function useEnemy(
   const barTop = small ? SMALL_TOP : FULL_TOP;
   const transforms =
     type === "worm" && !bare && id !== undefined && motionTick !== undefined
-      ? wormTransforms(motionTick, id)
+      ? wormOffsets(motionTick, id).map((offset) => `translate(0 ${offset})`)
       : STILL_WORM;
   return {
     transform: `translate(${x},${y})`,
