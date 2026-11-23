@@ -29,6 +29,9 @@ export const Worm: Story = {
     ).toBeInTheDocument();
   },
 };
+export const WormMidSlither: Story = {
+  args: { id: 0, motionTick: 4 },
+};
 export const WormSplitPair: Story = {
   args: { small: true, health: 0.5 },
   render: (args) => (

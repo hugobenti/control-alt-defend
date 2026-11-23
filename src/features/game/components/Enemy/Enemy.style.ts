@@ -9,6 +9,7 @@ export const enemy = {
   },
   slice:
     "fill-bg [--glitch-opacity:0.9] [--glitch-shift:0px] motion-reduce:hidden opacity-0 motion-safe:animate-[glitch_240ms_linear]",
+  wormSway: "motion-reduce:transform-none",
   wormSegment: { tail: "fill-worm/50", mid: "fill-worm/75", body: "fill-worm", head: "fill-worm" },
   eye: "fill-bg",
   shell: "fill-rootkit/15 stroke-rootkit stroke-[3.2]",

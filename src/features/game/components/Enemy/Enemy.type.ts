@@ -2,6 +2,10 @@ export type TEnemyType = "worm" | "rootkit";
 
 export interface IEnemyProps {
   type: TEnemyType;
+  /** Stable simulation identity for offsetting each worm's slither. */
+  id?: number;
+  /** Simulation tick (not wall time); absent for static illustrations. */
+  motionTick?: number;
   /** Position of the enemy's centre, in board SVG units. */
   x: number;
   y: number;

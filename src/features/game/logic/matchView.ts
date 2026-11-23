@@ -60,6 +60,7 @@ export function buildBoardView(state: IMatchState, ui: IBoardUi): IBoardView {
     })),
     enemies: state.enemies.map((enemy) => ({
       id: enemy.id,
+      motionTick: state.tick,
       type: enemy.type,
       x: enemy.pos.x,
       y: enemy.pos.y,
