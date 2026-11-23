@@ -14,19 +14,58 @@ const FILE_CENTRE_ABOVE_BAR = 10.5;
 const HIT_LAYERS: TEnemyLayerKind[] = ["ghostShift", "ghostLight", "main"];
 const PLAIN_LAYERS: TEnemyLayerKind[] = ["main"];
 
+const WAVE_PER_TICK = Math.PI / 16;
+const WAVE_AMPLITUDE = 1.4;
+const STILL_WORM = [
+  "translate(0 0)",
+  "translate(0 0)",
+  "translate(0 0)",
+  "translate(0 0)",
+] as const;
+
+/** Body-frame transforms from tail to head; a quarter-cycle delay separates each segment. */
+function wormTransforms(tick: number, id: number): [string, string, string, string] {
+  const phase = tick * WAVE_PER_TICK + id * 2.4;
+  const side = WAVE_AMPLITUDE * Math.sin(phase);
+  const otherSide = WAVE_AMPLITUDE * Math.cos(phase);
+  return [
+    `translate(0 ${otherSide})`,
+    `translate(0 ${-side})`,
+    `translate(0 ${-otherSide})`,
+    `translate(0 ${side})`,
+  ];
+}
+
 export function useEnemy(
-  { type, x, y, heading, health, small = false, carrier = false, hit = false }: IEnemyProps,
+  {
+    type,
+    x,
+    y,
+    heading,
+    health,
+    small = false,
+    carrier = false,
+    hit = false,
+    bare = false,
+    id,
+    motionTick,
+  }: IEnemyProps,
   glowId?: string,
 ) {
   const clamped = Math.max(0, Math.min(1, health));
   const barWidth = small ? SMALL_BAR : FULL_BAR;
   const barTop = small ? SMALL_TOP : FULL_TOP;
+  const transforms =
+    type === "worm" && !bare && id !== undefined && motionTick !== undefined
+      ? wormTransforms(motionTick, id)
+      : STILL_WORM;
   return {
     transform: `translate(${x},${y})`,
     bodyTransform: `rotate(${heading}) scale(${small ? SMALL_SCALE : 1})`,
     sliceTransform: `rotate(${heading})`,
     glowFilter: glowId ? `url(#${glowId})` : undefined,
     layers: hit ? HIT_LAYERS : PLAIN_LAYERS,
+    wormTransforms: transforms,
     trackWidth: barWidth,
     barX: -barWidth / 2,
     barY: barTop,

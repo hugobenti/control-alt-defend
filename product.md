@@ -348,16 +348,16 @@ store, level select, campaign levels, saved progress, sound playback, How to pla
 All enemies are viruses. Each has health, speed, a bits reward, and at most one special rule. Numbers are left to
 the builder; the relative values below are the design.
 
-| Virus           | Health      | Speed  | Special rule                                                                                                                                                                                                  |
-| --------------- | ----------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Bug (Call)      | Low         | Normal | None. The basic enemy for early waves.                                                                                                                                                                        |
-| Worm            | Low         | Fast   | Splits into two smaller worms on death. The small ones have less health and do not split again. A carrier worm drops its file like any carrier; the halves can pick it back up.                               |
-| Trojan          | Medium-high | Normal | Disguised as a harmless data packet: towers ignore it until it comes within 3 cells of the Core, or until a Scanner sees it. Once exposed it stays exposed and speeds up briefly.                             |
-| Spyware         | Medium      | Normal | Invisible. Towers can only target it while it is inside a Scanner's range. Drawn as a faint shimmer so the player knows it exists.                                                                            |
-| Rootkit         | Very high   | Slow   | Armor: every hit's damage is reduced by a flat amount, so many weak hits do little and a few strong ones (or the Debugger's ramped beam) do well.                                                             |
-| Ransomware      | Medium      | Normal | Every few seconds it locks the nearest tower within 2 cells. A locked tower stops working for a set time; the player can pay bits to unlock it at once. Killing the Ransomware unlocks every tower it locked. |
-| Botnet          | Very low    | Fast   | Arrives as a swarm of 20 to 30 at once. Single-target towers can't keep up; it tests Quarantine's area damage, slows and Antivirus pierce.                                                                    |
-| Zero-Day (boss) | Huge        | Slow   | When it spawns, it becomes immune to every effect of the tower type you have the most of (ties go to the type with the most bits invested; Firewalls don't count). Its immunity is shown on it.               |
+| Virus           | Health      | Speed  | Special rule                                                                                                                                                                                                                                                                                                   |
+| --------------- | ----------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Bug (Call)      | Low         | Normal | None. The basic enemy for early waves.                                                                                                                                                                                                                                                                         |
+| Worm            | Low         | Fast   | Splits into two smaller worms on death. The small ones have less health and do not split again. A carrier worm drops its file like any carrier; the halves can pick it back up. Its segmented body slithers as it travels, including the smaller halves; the visual sway does not change movement or hitboxes. |
+| Trojan          | Medium-high | Normal | Disguised as a harmless data packet: towers ignore it until it comes within 3 cells of the Core, or until a Scanner sees it. Once exposed it stays exposed and speeds up briefly.                                                                                                                              |
+| Spyware         | Medium      | Normal | Invisible. Towers can only target it while it is inside a Scanner's range. Drawn as a faint shimmer so the player knows it exists.                                                                                                                                                                             |
+| Rootkit         | Very high   | Slow   | Armor: every hit's damage is reduced by a flat amount, so many weak hits do little and a few strong ones (or the Debugger's ramped beam) do well.                                                                                                                                                              |
+| Ransomware      | Medium      | Normal | Every few seconds it locks the nearest tower within 2 cells. A locked tower stops working for a set time; the player can pay bits to unlock it at once. Killing the Ransomware unlocks every tower it locked.                                                                                                  |
+| Botnet          | Very low    | Fast   | Arrives as a swarm of 20 to 30 at once. Single-target towers can't keep up; it tests Quarantine's area damage, slows and Antivirus pierce.                                                                                                                                                                     |
+| Zero-Day (boss) | Huge        | Slow   | When it spawns, it becomes immune to every effect of the tower type you have the most of (ties go to the type with the most bits invested; Firewalls don't count). Its immunity is shown on it.                                                                                                                |
 
 Notes:
 
@@ -410,7 +410,7 @@ The whole game can be played with the keyboard alone.
   blocked icon, a locked tower a padlock, a carrier the file icon.
 - Important events are announced to screen readers through a live region: wave start, file stolen, file leaked,
   tower locked, level won or lost.
-- `prefers-reduced-motion`: no screen shake, no glitch distortion, no particle bursts; hits and deaths use short
+- `prefers-reduced-motion`: no screen shake, no glitch distortion, no particle bursts or worm-body sway; hits and deaths use short
   opacity fades instead. Gameplay is identical.
 - All text and UI colors meet WCAG 2.2 AA contrast, as the template's token tests require.
 

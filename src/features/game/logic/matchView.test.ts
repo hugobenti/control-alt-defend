@@ -36,6 +36,28 @@ describe("match view models", () => {
     expect(enemy.health).toBe(15);
   });
 
+  it("passes the simulation tick and stable identity to each worm's visual pose", () => {
+    const state = initial();
+    const enemy = {
+      id: 42,
+      type: "worm" as const,
+      small: false,
+      pos: { x: 100, y: 140 },
+      heading: 0,
+      health: 30,
+      maxHealth: 30,
+      carrying: null,
+      offset: { x: 0, y: 0 },
+      hitUntilTick: 0,
+      touchedEmptyCore: false,
+    };
+    const view = buildBoardView({ ...state, tick: 32, enemies: [enemy] }, ui);
+    expect(view.enemies[0]).toMatchObject({ id: 42, motionTick: 32 });
+    expect(buildBoardView({ ...state, tick: 32, enemies: [enemy] }, ui).enemies[0]).toEqual(
+      view.enemies[0],
+    );
+  });
+
   it("uses the strongest adjacent Firewall boost for a selected attacking tower", () => {
     let state = initial();
     state = applyCommand(state, { kind: "place", type: "antivirus", cell: { c: 6, r: 6 } });

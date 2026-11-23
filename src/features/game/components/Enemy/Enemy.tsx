@@ -17,13 +17,23 @@ export function Enemy(props: IEnemyProps) {
               {type === "worm" && (
                 <>
                   <g filter={view.glowFilter}>
-                    <circle cx="-11.5" cy="2.2" r="3.4" className={styles.wormSegment.tail} />
-                    <circle cx="-6" cy="-1" r="4.3" className={styles.wormSegment.mid} />
-                    <circle cx="0.3" cy="1" r="5" className={styles.wormSegment.body} />
-                    <circle cx="7.6" cy="-0.4" r="6" className={styles.wormSegment.head} />
+                    <g transform={view.wormTransforms[0]} className={styles.wormSway}>
+                      <circle cx="-11.5" cy="2.2" r="3.4" className={styles.wormSegment.tail} />
+                    </g>
+                    <g transform={view.wormTransforms[1]} className={styles.wormSway}>
+                      <circle cx="-6" cy="-1" r="4.3" className={styles.wormSegment.mid} />
+                    </g>
+                    <g transform={view.wormTransforms[2]} className={styles.wormSway}>
+                      <circle cx="0.3" cy="1" r="5" className={styles.wormSegment.body} />
+                    </g>
+                    <g transform={view.wormTransforms[3]} className={styles.wormSway}>
+                      <circle cx="7.6" cy="-0.4" r="6" className={styles.wormSegment.head} />
+                    </g>
                   </g>
-                  <rect x="9" y="-3.2" width="3.2" height="1.8" rx="0.4" className={styles.eye} />
-                  <rect x="9" y="0.6" width="3.2" height="1.8" rx="0.4" className={styles.eye} />
+                  <g transform={view.wormTransforms[3]} className={styles.wormSway}>
+                    <rect x="9" y="-3.2" width="3.2" height="1.8" rx="0.4" className={styles.eye} />
+                    <rect x="9" y="0.6" width="3.2" height="1.8" rx="0.4" className={styles.eye} />
+                  </g>
                 </>
               )}
               {type === "rootkit" && (
